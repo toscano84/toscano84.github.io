@@ -8,15 +8,7 @@ tags: []
 ---
 First Post!
 
-
-
-
-
-
-
-
-
-
+This post will be about the importing of data from different types of files format...................................................................................................................................................................
 
 
 ```{r First, echo=TRUE, paged.print=TRUE}

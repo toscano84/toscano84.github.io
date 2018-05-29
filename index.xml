@@ -30,7 +30,8 @@ I also enjoy other things, non-data related, like history, tvshows, and literatu
       
       <guid>/2018/05/blog/</guid>
       <description>First Post!
-# R codelibrary(readxl)y &amp;lt;- read_excel(&amp;quot;C:/Users/Diana/Downloads/hugoblog/global_mortality.xlsx&amp;quot;)str(y)## Classes &amp;#39;tbl_df&amp;#39;, &amp;#39;tbl&amp;#39; and &amp;#39;data.frame&amp;#39;: 6156 obs. of 35 variables:## $ country : chr &amp;quot;Afghanistan&amp;quot; &amp;quot;Afghanistan&amp;quot; &amp;quot;Afghanistan&amp;quot; &amp;quot;Afghanistan&amp;quot; ...## $ country_code : chr &amp;quot;AFG&amp;quot; &amp;quot;AFG&amp;quot; &amp;quot;AFG&amp;quot; &amp;quot;AFG&amp;quot; ...## $ year : num 1990 1991 1992 1993 1994 ...## $ Cardiovascular diseases (%) : num 17.6 17.8 18.4 19 19.1 ...## $ Cancers (%) : num 4.</description>
+This post will be about the importing of data from different types of files format……………………………………………………………………………………………………………………………………………….
+# R codelibrary(readxl)y &amp;lt;- read_excel(&amp;quot;C:/Users/Diana/Downloads/hugoblog/global_mortality.xlsx&amp;quot;)str(y)## Classes &amp;#39;tbl_df&amp;#39;, &amp;#39;tbl&amp;#39; and &amp;#39;data.frame&amp;#39;: 6156 obs. of 35 variables:## $ country : chr &amp;quot;Afghanistan&amp;quot; &amp;quot;Afghanistan&amp;quot; &amp;quot;Afghanistan&amp;quot; &amp;quot;Afghanistan&amp;quot; ...## $ country_code : chr &amp;quot;AFG&amp;quot; &amp;quot;AFG&amp;quot; &amp;quot;AFG&amp;quot; &amp;quot;AFG&amp;quot; ...## $ year : num 1990 1991 1992 1993 1994 ...## $ Cardiovascular diseases (%) : num 17.</description>
     </item>
     
   </channel>
