@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on In the World of Data, and something more...</title>
+    <title>Posts on Hugo Toscano</title>
     <link>/post/</link>
-    <description>Recent content in Posts on In the World of Data, and something more...</description>
+    <description>Recent content in Posts on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 29 May 2018 00:00:00 +0000</lastBuildDate>
@@ -12,12 +12,15 @@
     
     
     <item>
-      <title>Hello World</title>
+      <title>About me</title>
       <link>/2018/05/hello-world/</link>
       <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/05/hello-world/</guid>
-      <description>Hello World!!</description>
+      <description>Welcome to the blog!
+I&amp;rsquo;m Hugo, my background is in Psychology, more specifically, the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics(e.g. importing, wrangling, visualization, statistics). Not yet Machine Learning, I&amp;rsquo;m still learning.
+I want to share what I have been learning in R and try to help others to work with it.
+I also enjoy other things, non-data related, like history, tvshows, and literature, which I might blog about it.</description>
     </item>
     
   </channel>
