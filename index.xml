@@ -13,10 +13,10 @@
     
     <item>
       <title>About me</title>
-      <link>/2018/05/hello-world/</link>
+      <link>/2018/05/about-me/</link>
       <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/05/hello-world/</guid>
+      <guid>/2018/05/about-me/</guid>
       <description>Welcome to the blog!
 I&amp;rsquo;m Hugo, my background is in Psychology, more specifically, the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics(e.g. importing, wrangling, visualization, statistics). Not yet Machine Learning, I&amp;rsquo;m still learning.
 I want to share what I have been learning in R and try to help others to work with it.
