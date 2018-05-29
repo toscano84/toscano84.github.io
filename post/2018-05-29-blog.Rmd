@@ -9,6 +9,7 @@ tags: []
 First Post!
 
 ```{r First, echo=TRUE, paged.print=TRUE}
+# R code
 library(readxl)
 y <- read_excel("C:/Users/Diana/Downloads/hugoblog/global_mortality.xlsx")
 str(y)
