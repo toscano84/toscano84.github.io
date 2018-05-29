@@ -1,0 +1,15 @@
+---
+title: Blog
+author: ~
+date: '2018-05-29'
+slug: blog
+categories: []
+tags: []
+---
+First Post!
+
+```{r First, echo=TRUE, paged.print=TRUE}
+library(readxl)
+y <- read_excel("C:/Users/Diana/Downloads/hugoblog/global_mortality.xlsx")
+str(y)
+```

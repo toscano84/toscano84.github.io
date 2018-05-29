@@ -23,5 +23,15 @@ I want to share what I have been learning in R and try to help others to work wi
 I also enjoy other things, non-data related, like history, tvshows, and literature, which I might blog about it.</description>
     </item>
     
+    <item>
+      <title>Blog</title>
+      <link>/2018/05/blog/</link>
+      <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/05/blog/</guid>
+      <description>First Post!
+library(readxl)y &amp;lt;- read_excel(&amp;quot;C:/Users/Diana/Downloads/hugoblog/global_mortality.xlsx&amp;quot;)str(y)## Classes &amp;#39;tbl_df&amp;#39;, &amp;#39;tbl&amp;#39; and &amp;#39;data.frame&amp;#39;: 6156 obs. of 35 variables:## $ country : chr &amp;quot;Afghanistan&amp;quot; &amp;quot;Afghanistan&amp;quot; &amp;quot;Afghanistan&amp;quot; &amp;quot;Afghanistan&amp;quot; ...## $ country_code : chr &amp;quot;AFG&amp;quot; &amp;quot;AFG&amp;quot; &amp;quot;AFG&amp;quot; &amp;quot;AFG&amp;quot; ...## $ year : num 1990 1991 1992 1993 1994 ...## $ Cardiovascular diseases (%) : num 17.6 17.8 18.4 19 19.1 ...## $ Cancers (%) : num 4.03 4.05 4.</description>
+    </item>
+    
   </channel>
 </rss>
