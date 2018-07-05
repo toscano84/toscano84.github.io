@@ -1,0 +1,9 @@
+---
+title: 'Using R to analyse the German Federal Elections - '
+author: ~
+date: '2018-06-29'
+slug: using-r-to-analyse-the-german-federal-elections
+categories: []
+tags: []
+---
+

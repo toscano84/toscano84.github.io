@@ -1,0 +1,453 @@
+---
+title: Using R to analyse the German Federal Election
+author: Hugo Toscano
+date: '2018-07-05'
+slug: using-r-to-analyse-the-german-federal-election
+categories: [ggplot2]
+tags: [R, maps, germany, elections, ggplot2]
+---
+
+As the title of this post implies we will analyze using the statistical programming language R the German Federal Election which took place on 24 September of 2017. It will not be an exhaustive analysis of the results. I'm only interested in visualizing the share of the vote that each party represented in the Parliament (i.e. Bundestag) received in each one of the 16 States of Germany.   
+
+In order to make this visualization possible in R, loading the respective packages is the first step.
+
+
+```{r message=FALSE, warning=FALSE}
+# libraries needed
+
+library(tidyverse) # load packages related to data cleaning (e.g. dplyr) and data visualization(ggplot2)
+library(rgdal) # load shape files
+library(broom) # transform shape files in data frames
+library(readxl) # load excel files
+library(here) # creates a path to the current directory
+library(extrafont) # add new fonts
+```
+Next, we need to get the file with the German Election results.  We can get it from the Federal Returning Officer - https://www.bundeswahlleiter.de/en/bundestagswahlen/2017/ergebnisse.html
+
+After the file is opened in Excel, we save it as .xlsx file in our working directory of R. Then, use the read_excel() function to load the file. We can also use the skip argument, as the first 5 rows of the spreadsheet are unnecessary.
+
+
+```{r}
+# load file
+germany_elections_untidy <- read_excel(here("btw17_kerg.xlsx"), 
+                                       skip = 5) 
+
+# check file
+glimpse(germany_elections_untidy)
+```
+
+In the next step, this file needs to be cleaned. The goal is to have the columns with the German states and the absolute votes and correspondent percentage values of the 6 parties (i.e. CDU/CSU, SPD, FDP, AfD, Die Linke, and Gruenen) represented in the Bundestag.
+Note:  Gruenen is written without the German umlauts (https://learn-german-easily.com/german-umlauts) since it is showing as an error. 
+
+To start the cleaning process, we need to create two vectors. The first one corresponds to even columns from the 20th to the 190th. These columns represent the "Zweitstimmen Endgueltig", that is, the votes of each party that we are interested in maintaining.  The second vector corresponds to the odd columns from the 3rd to the 87th. These columns will be deleted because they represent the votes of  a specific candidate and not of  a party - see German Federal Election System (http://www.spiegel.de/international/germany/german-election-system-explained-a-923243.html)
+
+
+```{r}
+# create two new vectors
+even_columns<-seq(20,190,2) 
+odd_columns<-seq(3,87,2) 
+```
+
+
+Now, it's time to tidy up the data frame. Select the variables of interest and use the slice() function to select the rows which correspond to the 16 States of Germany. Afterwards, rename and delete some columns. Use mutate_at to transform some columns to numeric or character type. Subsequently, use mutate to create new variables like the percentage values for each party in each State. Finally, reorder columns and delete some of them.
+
+
+```{r}
+# clean the German Federal Election data frame
+
+germany_tidy <- germany_elections_untidy %>%
+  # select columns of interest
+  select(1:2, even_columns) %>%
+  # select rows that correspond to the 16 States of Germany
+  slice(c(14, 22, 30, 62, 66, 78, 89, 103, 169, 187, 211, 221, 238, 286, 326, 332)) %>%
+  # rename columns' names - "new name" = "old name"
+  rename(state = Gebiet, CDU = X__14, SPD = X__17, DieLinke = X__20, 
+         Gruenen = X__23, CSU = X__26, FDP = X__29, AfD = X__32, 
+         Piraten = X__35, NPD = X__38, FW = X__41, PMUT = X__44, 
+         ODP = X__47, PArbeit = X__50, BP = X__53, ADV = X__56,
+         PdV = X__59, MLPD = X__62, BS = X__65, SP = X__68, 
+         DR = X__71, ADD = X__74, AMTS = X__77, BergP = X__80, 
+         BG = X__83, DBewe = X__86, DKP = X__89, DMitte = X__92, 
+         Grauen = X__95, UrbaneHipHop = X__98, MPartei = X__101, 
+         MWelt = X__104, PH = X__107, PGesund = X__110, 
+         VPartei = X__113, BCD = X__116, Einheit = X__119, 
+         Violetten = X__122, FamilienP = X__125, 
+         FPDF = X__128, Mieter = X__131, NLiberale = X__134, 
+         UBD = X__137, U = X__140) %>%
+  # delete columns
+  select(-odd_columns) %>%
+  # mutate variables to numeric from the 3rd to the 45th column 
+  mutate_at(vars(3:45), as.numeric) %>%
+  # mutate 1st column to character
+  mutate_at(vars(1), as.character) %>%
+  # create the CDU/CSU variable and all the percentage values of each party for each state 
+  mutate(CDU_CSU = rowSums(.[c("CDU", "CSU")], na.rm = TRUE),
+         CDU_CSU_perc = CDU_CSU / rowSums(.[3:45], na.rm = TRUE) * 100,
+         SPD_perc = SPD / rowSums(.[3:45], na.rm = TRUE) * 100,
+         DieLinke_perc = DieLinke / rowSums(.[3:45], na.rm = TRUE) * 100,
+         Gruenen_perc = Gruenen / rowSums(.[3:45], na.rm = TRUE) * 100,
+         FDP_perc = FDP / rowSums(.[3:45], na.rm = TRUE) * 100,
+         AfD_perc = AfD / rowSums(.[3:45], na.rm = TRUE) * 100) %>%
+  # reorder and delete columns 10 to 45
+  select(Nr, state, CDU_CSU_perc,SPD_perc,
+         DieLinke_perc, Gruenen_perc, FDP_perc, 
+         AfD_perc, CDU_CSU, everything(), -10:-45) 
+```
+
+
+However, we still need to recode the values of the Nr variable as they are not consistent with the values related to the German States within the shapefile of Germany that we have to load right after.
+
+
+```{r}
+# recode variable NR - "old value" = "new value"
+Nr_recode <- c("10" = "11", "9" = "1", "1" = "14", "4" = "4", 
+               "13" = "7", "8" = "0","5" = "9", "6" = "6", "12" = "3", 
+               "7" = "10", "14" = "12", "11" = "2", "15" = "13",
+               "2" = "5", "16" = "15", "3" = "8") 
+
+# assign new values to the Nr variable
+germany_tidy$Nr <- Nr_recode[germany_tidy$Nr] 
+```
+
+
+Thereby, we need to finish the wrangling of the German Federal Election data frame. This is how it looks:
+
+```{r}
+glimpse(germany_tidy)
+```
+
+Nonetheless, our goal is to create a map of Germany with the results of the German Federal Elections and for that, we need to load a shapefile of Germany. Go ahead and download the shapefile and save it in your working directory. After that, use the function readOGR() from the rgdal package to load the file in R.
+
+```{r message=FALSE, warning=FALSE}
+# load shape file
+germany <- readOGR(here(layer = "DEU_adm1.shp"), use_iconv = TRUE, encoding = "UTF-8") 
+
+plot(germany)
+```
+Ok, by now we will have one shapefile with the map of Germany and one data frame with the results of the German Federal Elections. So, they are separated from each other, but we must join them to visualize the elections' results. Therefore, let's prepare the shapefile to join the German Federal election data frame by creating a new variable called germany_states.
+
+```{r}
+# prepare the shapefile with the map of germany to make it possible to join the dataframe of german elections
+germany_states <- germany@data$NAME_1
+germany@data$germany_states <- germany_states 
+```
+
+Next step will be to filter the state variable present in the German Federal election data frame with the correspondent variable created before in the shapefile.
+
+```{r}
+# filter data for germany states
+elections_data <- germany_tidy %>% 
+  filter(state %in% germany_states) 
+```
+
+Now, everything is set to join both datasets, the shapefile and the German Federal Election data frame called elections_data.
+
+Let's join both.
+
+```{r message=FALSE, warning=FALSE}
+# join datasets
+germany@data <- germany@data %>% 
+  left_join(elections_data,by = c("germany_states" = "state")) 
+
+# important step for the indexes to join
+rownames(germany@data) <- germany@data$germany_states 
+
+```
+
+Finally, we must transform the previous object in a data frame.  This is needed since plot shapefiles is not possible, only data frames. With this goal in mind, use the tidy() function from the broom package.
+
+```{r message=FALSE, warning=FALSE}
+# transform the previous object in a dataframe
+germany_dataframe <- tidy(germany) %>% 
+  left_join(., germany@data, by = c("id" = "Nr")) 
+```
+
+Now, the data can be plotted. Here you can see a very basic plot with the share of the coalition CDU/CSU vote (%) in each State of Germany.
+
+
+```{r}
+# plot
+plot_basic_CDU_CSU <- germany_dataframe %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  # we need to add this filter so that the Berlin 
+  # and Bremen results can be mapped and 
+  # distinguished from the Brandeburg and Niedersachsen results, respectively
+  geom_polygon(aes(fill=CDU_CSU_perc), color = "white", 
+               data =filter(germany_dataframe, !NAME_1 %in% c("Berlin", "Bremen"))) + 
+  geom_polygon(aes(fill=CDU_CSU_perc), color = "white", 
+               data =filter(germany_dataframe, NAME_1 %in%  c("Berlin", "Bremen"))) + 
+  theme_minimal() +
+  coord_map()
+
+plot_basic_CDU_CSU
+
+```
+
+But given the power of the ggplot2 package, we can create a better plot than the last one. Let's start by removing this background and create a common theme and legend design for all plots.
+
+```{r}
+# creation of a common theme for all plots
+common_theme <- theme(title = element_text(family = "Cambria", size = 12, hjust = 0.5),
+        plot.title = element_text(family = "Cambria", 
+                                  color = "#22211d", 
+                                  size = 20, 
+                                  hjust = 0),
+        plot.subtitle = element_text(family = "Cambria", 
+                                     face = "italic", 
+                                     color = "#22211d", 
+                                     size = 14, 
+                                     hjust = 0), 
+        plot.caption = element_text(family = "Cambria", 
+                                    color = "#22211d", 
+                                    size = 10, 
+                                    hjust = 0),
+        plot.background = element_rect(fill = "#f5f5f2", 
+                                       color = NA), 
+        panel.background = element_rect(fill = "#f5f5f2", 
+                                        color = NA),
+        legend.background = element_rect(fill = "#f5f5f2", 
+                                         color = NA),
+        legend.text = element_text(family = "Cambria", 
+                                   size = 10),
+        axis.line = element_blank(), 
+        axis.ticks = element_blank(),
+        panel.grid = element_blank(), 
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        legend.position = "right")
+
+# create a common legend design - given that the dependent variable is continous, we'll use guide_colorbar
+guide_legend <- guide_colorbar(
+      direction = "horizontal",
+      barheight = unit(2, units = "mm"),
+      barwidth = unit(50, units = "mm"),
+      draw.ulim = F,
+      title.position = 'top',
+      title.hjust = 0.5,
+      label.hjust = 0.5)
+
+```
+
+
+
+In the following steps, we'll create a plot for each one of the 6 parties represented in the Bundestag. The first one corresponds to the CDU/CSU coalition results.
+Note: The highest percentage values will be black due to the color usually assigned to this coalition.
+
+
+
+
+```{r}
+# plot CDU/CSU results
+plot_CDU_CSU <- germany_dataframe %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill=CDU_CSU_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, 
+                            !NAME_1 %in% c("Berlin", "Bremen"))) + 
+  geom_polygon(aes(fill=CDU_CSU_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, 
+                            NAME_1 %in%  c("Berlin", "Bremen"))) +
+  coord_map() +
+  labs(title = "German Federal Election 2017", 
+       subtitle = "Share of the CDU/CSU Vote (%)", 
+       caption = "Source: Federal Returning Office" ) + 
+  common_theme +
+  scale_fill_gradient2(
+    low = "#F2F2F2",
+    mid= "#A4A4A4",
+    high = "#000000",
+    midpoint = 30.5,
+    name = "Share of Vote (%)",
+    limits = c(22,40), 
+    breaks = c(22, 25, 28, 31, 34, 37, 40),
+    guide = guide_legend) 
+
+plot_CDU_CSU 
+```
+
+The darker the color, the highest the vote percentage. We can see that the CDU/CSU coalition had stronger results in South and West Germany, wheresd in former East Germany had weaker results.
+
+
+
+
+
+Let's now plot the SPD results. In this case, the highest values will be assigned to the party's red color. 
+
+```{r}
+# plot SPD
+plot_SPD <- germany_dataframe %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill=SPD_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, 
+                            !NAME_1 %in% c("Berlin", "Bremen"))) + 
+  geom_polygon(aes(fill=SPD_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, 
+                            NAME_1 %in%  c("Berlin", "Bremen"))) + 
+  coord_map() +
+  labs(title = "German Federal Election 2017", 
+       subtitle = "Share of the SPD Vote (%)", 
+       caption = "Source: Federal Returning Office" ) + 
+  common_theme +
+  scale_fill_gradient2(
+    low = "#FBEFEF",
+    mid= "#F78181",
+    high = "#E3000F",
+    midpoint = 19,
+    name = "Share of Vote (%)",
+    limits = c(10,28), 
+    breaks = c(10, 13, 16, 19, 22, 25, 28),
+    guide = guide_legend) 
+
+plot_SPD
+```
+
+SPD had a historic election loss, and we can easily see why was that the case. Only in the Northwest States it had percentages above 20%. In the South and in former East Germany the results were disastrous.
+
+
+
+Moving on to the next party, FDP, its associated color is yellow. Consequently, a darker yellow will mean a stronger result, while a lighter yellow a weaker one.
+
+```{r}
+# plot FDP
+plot_FDP <- germany_dataframe %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill=FDP_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, 
+                            !NAME_1 %in% c("Berlin", "Bremen"))) + 
+  geom_polygon(aes(fill=FDP_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, 
+                            NAME_1 %in%  c("Berlin", "Bremen"))) + 
+  coord_map() +
+  labs(title = "German Federal Election 2017", 
+       subtitle = "Share of the FDP Vote (%)", 
+       caption = "Source: Federal Returning Office" ) + 
+  common_theme +
+  scale_fill_gradient2(
+    low = "#F5F6CE",
+    mid= "#F3F781",
+    high = "#FFC300",
+    midpoint = 9,
+    name = "Share of Vote (%)",
+    limits = c(6,14), 
+    breaks = c(6, 8, 10, 12, 14),
+    guide = guide_legend) 
+
+plot_FDP 
+```
+The visualization of this map shows a better result in the Western States and the worst performance in the Eastern States.
+
+
+
+The fourth party analyzed will be the Gruenen. As the name implies the party's color is green.
+
+
+```{r}
+plot_Gruenen <- germany_dataframe %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill=Gruenen_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, 
+                            !NAME_1 %in% c("Berlin", "Bremen"))) + 
+  geom_polygon(aes(fill=Gruenen_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, 
+                            NAME_1 %in%  c("Berlin", "Bremen"))) + 
+  coord_map() +
+  labs(title = "German Federal Election 2017", 
+       subtitle = "Share of the Gruenen Vote (%)", 
+       caption = "Source: Federal Returning Office" ) + 
+  common_theme +
+  scale_fill_gradient2(
+    low = "#D8F6CE",
+    mid= "#82FA58",
+    high = "#19A229",
+    midpoint = 8,
+    name = "Share of Vote (%)",
+    limits = c(3,14), 
+    breaks = c(3, 5, 7, 9, 11, 14),
+    guide = guide_legend) 
+
+plot_Gruenen
+```
+The Gruenen party is stronger in Baden-Wuerttemberg State and in the city-states of Hamburg, Bremen, and Berlin.    
+
+
+
+
+
+We still have two parties left to analyze. The Die Linke party will be the next one. Note: Purple is the color of this party.
+
+```{r}
+# Die Linke plot
+plot_DieLinke <- germany_dataframe %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill=DieLinke_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, 
+                            !NAME_1 %in% c("Berlin", "Bremen"))) + 
+  geom_polygon(aes(fill=DieLinke_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, 
+                            NAME_1 %in%  c("Berlin", "Bremen"))) +
+  coord_map() +
+  labs(title = "German Federal Election 2017", 
+       subtitle = "Share of the Die Linke  Vote (%)", 
+       caption = "Source: Federal Returning Office" ) + 
+  common_theme +
+  theme(legend.position = "right") +
+  scale_fill_gradient2(
+    low = "#ECCEF5",
+    mid= "#DA81F5",
+    high = "#B3315D",
+    midpoint = 12.5,
+    name = "Share of Vote (%)",
+    limits = c(6,19), 
+    breaks = c(5, 7, 9, 11, 13, 15, 17, 19),
+    guide = guide_legend) 
+
+plot_DieLinke 
+```
+In this visualization, we can clearly notice how much stronger is Die Linke in the former territories of East Germany.
+
+
+
+Finally, the last party to be assessed is the AFD. Note: Cyan represents the party's color.
+
+```{r}
+# AfD party
+plot_AfD <- germany_dataframe %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill=AfD_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, !NAME_1 %in% c("Berlin", "Bremen"))) + 
+  geom_polygon(aes(fill=AfD_perc), 
+               color = "#7F7F7F", 
+               data =filter(germany_dataframe, NAME_1 %in%  c("Berlin", "Bremen"))) + 
+  coord_map() +
+  labs(title = "German Federal Election 2017", 
+       subtitle = "Share of the AfD Vote (%)", 
+       caption = "Source: Federal Returning Office" ) + 
+  common_theme +
+  scale_fill_gradient2(
+    low = "#EFFBFB",
+    mid= "#A9D0F5",
+    high = "#009DE0",
+    midpoint = 17.5,
+    name = "Share of the AfD Vote(%)",
+    limits = c(7,28), 
+    breaks = c(7, 10, 13, 16, 19, 22, 25, 28),
+    guide = guide_legend)
+
+plot_AfD
+```
+
+Similarly to the Die Linke, though with highest percentages, the AfD party was much stronger in the East. In all of these States, but Berlin, it had almost 20% or above.
+
+
+
+Hope you have enjoyed! This was just a simple analysis using this awesome and powerful statistical language called R. These visualizations can be even better. Your feedback and suggestions are highly appreciated! I am still learning the tricks around R and your inputs will definitely help me improve. Thank you! Talk to you soon!

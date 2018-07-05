@@ -1,0 +1,688 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.41 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Using R to analyse the German Federal Election</title>
+    <meta name="author" content="Hugo Toscano">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+    <meta name="description" content="This blog post is about the last German Federal Election that took place on 24 September of 2017. It will not be an exhaustive analysis about the results. I’m only interested in mapping the share of vote that each party that is represented in Parliament (i.e. Bundestag) had in each one of the 16 German states. The first step is to load the packages that I need to make this mapping possible in R.">
+    <meta property="og:description" content="This blog post is about the last German Federal Election that took place on 24 September of 2017. It will not be an exhaustive analysis about the results. I’m only interested in mapping the share of vote that each party that is represented in Parliament (i.e. Bundestag) had in each one of the 16 German states. The first step is to load the packages that I need to make this mapping possible in R.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Using R to analyse the German Federal Election">
+    <meta property="og:url" content="/2018/06/using-r-to-analyse-the-german-federal-election/">
+    <meta property="og:site_name" content="Hugo Toscano">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo Toscano">
+    <meta name="twitter:description" content="This blog post is about the last German Federal Election that took place on 24 September of 2017. It will not be an exhaustive analysis about the results. I’m only interested in mapping the share of vote that each party that is represented in Parliament (i.e. Bundestag) had in each one of the 16 German states. The first step is to load the packages that I need to make this mapping possible in R.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="http://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">Hugo Toscano</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="http://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="http://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Hugo Toscano</h4>
+        
+          <h5 class="sidebar-profile-bio">Contact: hugo_toscano@outlook.com</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://toscano84.github.io/2018/05/about-me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+      
+      <span class="sidebar-button-desc">About me</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/toscano84">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Using R to analyse the German Federal Election
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-06-29T00:00:00Z">
+        
+  June 29, 2018
+
+      </time>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>This blog post is about the last German Federal Election that took place on 24 September of 2017. It will not be an exhaustive analysis about the results. I’m only interested in mapping the share of vote that each party that is represented in Parliament (i.e. Bundestag) had in each one of the 16 German states. The first step is to load the packages that I need to make this mapping possible in R.</p>
+<pre class="r"><code>library(tidyverse)
+library(rgeos)
+library(rgdal)
+library(sf)
+library(broom)
+library(readxl)
+library(viridis)
+library(cartogram)
+library(maps)
+library(here)</code></pre>
+<p>Next, I need to get the file with the German Election results. You can get it from the Federal Returning Officer - <a href="https://www.bundeswahlleiter.de/en/bundestagswahlen/2017/ergebnisse.html" class="uri">https://www.bundeswahlleiter.de/en/bundestagswahlen/2017/ergebnisse.html</a></p>
+<p>After I opened it in Excel, I saved it as .xlsx file in my working directory of R. Then I wrote this code to load the file.</p>
+<pre class="r"><code>germany_elections_untidy &lt;- read_excel(here(&quot;btw17_kerg.xlsx&quot;), skip = 5) # skip the first five rows of the excel file
+
+head(germany_elections_untidy)</code></pre>
+<pre><code>## # A tibble: 6 x 191
+##      Nr Gebiet  `gehört zu` Wahlberechtigte X__1  X__2  X__3  Wähler X__4 
+##   &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;
+## 1    NA &lt;NA&gt;             NA Erststimmen     &lt;NA&gt;  Zwei~ &lt;NA&gt;  Ersts~ &lt;NA&gt; 
+## 2    NA &lt;NA&gt;             NA Endgültig       Vorp~ Endg~ Vorp~ Endgü~ Vorp~
+## 3     1 Flensb~           1 228471          2269~ 2284~ 2269~ 171914 1627~
+## 4     2 Nordfr~           1 186568          1861~ 1865~ 1861~ 139194 1315~
+## 5     3 Steinb~           1 176636          1767~ 1766~ 1767~ 132017 1264~
+## 6     4 Rendsb~           1 200831          1989~ 2008~ 1989~ 157354 1495~
+## # ... with 182 more variables: X__5 &lt;chr&gt;, X__6 &lt;chr&gt;, Ungültige &lt;chr&gt;,
+## #   X__7 &lt;chr&gt;, X__8 &lt;chr&gt;, X__9 &lt;chr&gt;, Gültige &lt;chr&gt;, X__10 &lt;chr&gt;,
+## #   X__11 &lt;chr&gt;, X__12 &lt;chr&gt;, `Christlich Demokratische Union
+## #   Deutschlands` &lt;chr&gt;, X__13 &lt;chr&gt;, X__14 &lt;chr&gt;, X__15 &lt;chr&gt;,
+## #   `Sozialdemokratische Partei Deutschlands` &lt;chr&gt;, X__16 &lt;chr&gt;,
+## #   X__17 &lt;chr&gt;, X__18 &lt;chr&gt;, `DIE LINKE` &lt;chr&gt;, X__19 &lt;chr&gt;, X__20 &lt;chr&gt;,
+## #   X__21 &lt;chr&gt;, `BÜNDNIS 90/DIE GRÜNEN` &lt;chr&gt;, X__22 &lt;chr&gt;, X__23 &lt;chr&gt;,
+## #   X__24 &lt;chr&gt;, `Christlich-Soziale Union in Bayern e.V.` &lt;chr&gt;,
+## #   X__25 &lt;chr&gt;, X__26 &lt;chr&gt;, X__27 &lt;chr&gt;, `Freie Demokratische
+## #   Partei` &lt;chr&gt;, X__28 &lt;chr&gt;, X__29 &lt;chr&gt;, X__30 &lt;chr&gt;, `Alternative für
+## #   Deutschland` &lt;chr&gt;, X__31 &lt;chr&gt;, X__32 &lt;chr&gt;, X__33 &lt;chr&gt;,
+## #   `Piratenpartei Deutschland` &lt;chr&gt;, X__34 &lt;chr&gt;, X__35 &lt;chr&gt;,
+## #   X__36 &lt;chr&gt;, `Nationaldemokratische Partei Deutschlands` &lt;chr&gt;,
+## #   X__37 &lt;chr&gt;, X__38 &lt;chr&gt;, X__39 &lt;chr&gt;, `FREIE WÄHLER` &lt;chr&gt;,
+## #   X__40 &lt;chr&gt;, X__41 &lt;chr&gt;, X__42 &lt;chr&gt;, `PARTEI MENSCH UMWELT
+## #   TIERSCHUTZ` &lt;chr&gt;, X__43 &lt;chr&gt;, X__44 &lt;chr&gt;, X__45 &lt;chr&gt;,
+## #   `Ökologisch-Demokratische Partei` &lt;chr&gt;, X__46 &lt;chr&gt;, X__47 &lt;chr&gt;,
+## #   X__48 &lt;chr&gt;, `Partei für Arbeit, Rechtsstaat, Tierschutz,
+## #   Elitenförderung und basisdemokratische Initiative` &lt;chr&gt;, X__49 &lt;chr&gt;,
+## #   X__50 &lt;chr&gt;, X__51 &lt;chr&gt;, Bayernpartei &lt;chr&gt;, X__52 &lt;chr&gt;,
+## #   X__53 &lt;chr&gt;, X__54 &lt;chr&gt;, `Ab jetzt...Demokratie durch
+## #   Volksabstimmung` &lt;chr&gt;, X__55 &lt;chr&gt;, X__56 &lt;chr&gt;, X__57 &lt;chr&gt;, `Partei
+## #   der Vernunft` &lt;chr&gt;, X__58 &lt;chr&gt;, X__59 &lt;chr&gt;, X__60 &lt;chr&gt;,
+## #   `Marxistisch-Leninistische Partei Deutschlands` &lt;chr&gt;, X__61 &lt;chr&gt;,
+## #   X__62 &lt;chr&gt;, X__63 &lt;chr&gt;, `Bürgerrechtsbewegung Solidarität` &lt;chr&gt;,
+## #   X__64 &lt;chr&gt;, X__65 &lt;chr&gt;, X__66 &lt;chr&gt;, `Sozialistische
+## #   Gleichheitspartei, Vierte Internationale` &lt;chr&gt;, X__67 &lt;chr&gt;,
+## #   X__68 &lt;chr&gt;, X__69 &lt;chr&gt;, `DIE RECHTE` &lt;chr&gt;, X__70 &lt;chr&gt;,
+## #   X__71 &lt;chr&gt;, X__72 &lt;chr&gt;, `Allianz Deutscher Demokraten` &lt;chr&gt;,
+## #   X__73 &lt;chr&gt;, X__74 &lt;chr&gt;, X__75 &lt;chr&gt;, `Allianz für Menschenrechte,
+## #   Tier- und Naturschutz` &lt;chr&gt;, X__76 &lt;chr&gt;, X__77 &lt;chr&gt;, X__78 &lt;chr&gt;,
+## #   `bergpartei, die überpartei` &lt;chr&gt;, X__79 &lt;chr&gt;, ...</code></pre>
+<p>In the next step, I needed to clean this file. My goal was to have the columns with the German states and the absolute and percentage values of each one of the 6 parties (i.e. CDU/CSU, SPD, FDP, AfD, Die Linke, and Gruene) represented in the Bundestag for each German State.</p>
+<pre class="r"><code>even_columns&lt;-seq(20,190,2)
+odd_columns&lt;-seq(3,87,2)
+
+germany_tidy &lt;- germany_elections_untidy %&gt;%
+  select(1:2, even_columns) %&gt;%
+  slice(c(14, 22, 30, 62, 66, 78, 89, 103, 169, 187, 211, 221, 238, 286, 326, 332)) %&gt;%
+  rename(state = Gebiet, CDU = X__14, SPD = X__17, DieLinke = X__20, 
+         Gruenen = X__23, CSU = X__26, FDP = X__29, AfD = X__32, Piraten = X__35, NPD = X__38, FW = X__41, PMUT = X__44, ODP = X__47, PArbeit = X__50, BP = X__53, ADV = X__56, 
+         PdV = X__59, MLPD = X__62, BS = X__65, SP = X__68, DR = X__71, ADD = X__74, AMTS = X__77, BergP = X__80, BG = X__83, DBewe = X__86, DKP = X__89, DMitte = X__92, Grauen = X__95, UrbaneHipHop = X__98, MPartei = X__101, MWelt = X__104, PH = X__107, PGesund = X__110, VPartei = X__113, BCD = X__116, Einheit = X__119, Violetten = X__122, FamilienP = X__125, FPDF = X__128, Mieter = X__131, NLiberale = X__134, UBD = X__137, U = X__140) %&gt;% # rename columns&#39; names
+  select(-odd_columns) %&gt;% # delete columns
+  mutate_at(vars(3:45), as.numeric) %&gt;% # mutate variables from the 3rd to the 45th column to numeric
+  mutate_at(vars(1), as.character) %&gt;% # mutate 1st column to character to make
+  mutate(CDU_CSU = rowSums(.[c(&quot;CDU&quot;, &quot;CSU&quot;)], na.rm = TRUE), 
+         CDU_CSU_per = CDU_CSU / rowSums(.[3:45], na.rm = TRUE) * 100,
+         SPD_perc = SPD / rowSums(.[3:45], na.rm = TRUE) * 100,
+         DieLinke_perc = DieLinke / rowSums(.[3:45], na.rm = TRUE) * 100,
+         Gruenen_perc = Gruenen / rowSums(.[3:45], na.rm = TRUE) * 100,
+         FDP_perc = FDP / rowSums(.[3:45], na.rm = TRUE) * 100,
+         AfD_perc = AfD / rowSums(.[3:45], na.rm = TRUE) * 100) %&gt;% # create the CDU/CSU variable and all the percentage values of each party for each state 
+  select(Nr, state, CDU_CSU_per,SPD_perc,DieLinke_perc, Gruenen_perc, FDP_perc, AfD_perc, CDU_CSU,
+         everything(), -10:-45)</code></pre>
+<p>However, I still need to recode the values of the Nr variable to become compatible with the shapefile of Germany that I will load afterwards.</p>
+<pre class="r"><code>Nr_recode &lt;- c(&quot;10&quot; = &quot;11&quot;, &quot;9&quot; = &quot;1&quot;, &quot;1&quot; = &quot;14&quot;, &quot;4&quot; = &quot;4&quot;, &quot;13&quot; = &quot;7&quot;, &quot;8&quot; = &quot;0&quot;,&quot;5&quot; = &quot;9&quot;, &quot;6&quot; = &quot;6&quot;, &quot;12&quot; = &quot;3&quot;, &quot;7&quot; = &quot;10&quot;, &quot;14&quot; = &quot;12&quot;, &quot;11&quot; = &quot;2&quot;, &quot;15&quot; = &quot;13&quot;,&quot;2&quot; = &quot;5&quot;, &quot;16&quot; = &quot;15&quot;, &quot;3&quot; = &quot;8&quot;) # &quot;old value&quot; = &quot;new value&quot;
+germany_tidy$Nr &lt;- Nr_recode[germany_tidy$Nr] # assign the new values to the Nr variable</code></pre>
+<p>Thus, I finished the wrangling of the German Federal Election dataframe. This is how it looks:</p>
+<pre class="r"><code>head(germany_tidy)</code></pre>
+<pre><code>## # A tibble: 6 x 16
+##   Nr    state     CDU_CSU_per SPD_perc DieLinke_perc Gruenen_perc FDP_perc
+##   &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;
+## 1 14    Schleswi~        34.0     23.3          7.27        12.0     12.6 
+## 2 7     Mecklenb~        33.1     15.1         17.8          4.26     6.24
+## 3 5     Hamburg          27.2     23.5         12.2         13.9     10.8 
+## 4 8     Niedersa~        34.9     27.4          6.95         8.71     9.28
+## 5 4     Bremen           25.1     26.8         13.4         11.1      9.35
+## 6 3     Brandenb~        26.7     17.6         17.2          5.03     7.08
+## # ... with 9 more variables: AfD_perc &lt;dbl&gt;, CDU_CSU &lt;dbl&gt;, CDU &lt;dbl&gt;,
+## #   SPD &lt;dbl&gt;, DieLinke &lt;dbl&gt;, Gruenen &lt;dbl&gt;, CSU &lt;dbl&gt;, FDP &lt;dbl&gt;,
+## #   AfD &lt;dbl&gt;</code></pre>
+<p>However, my goal is to create a map of Germany with the results of the German Federal Elections. For that we need to load a shapefile of Germany. I have downloaded the shapefile and put it in my working directory. After that I use the function readOGR() from the rgdal package to load the file in R.</p>
+<pre class="r"><code>germany &lt;- readOGR(here(layer = &quot;DEU_adm1.shp&quot;), use_iconv = TRUE, encoding = &quot;UTF-8&quot;)</code></pre>
+<pre><code>## OGR data source with driver: ESRI Shapefile 
+## Source: &quot;C:\Users\Diana\Downloads\hugoblog\DEU_adm1.shp&quot;, layer: &quot;DEU_adm1&quot;
+## with 16 features
+## It has 16 fields</code></pre>
+<pre class="r"><code>plot(germany)</code></pre>
+<p><img src="/post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Ok, now I have one shape file with the map of Germany and one data frame with the German Federal Elections results. So, they are separated from each other, but I must join them so that I can map the elections results in the map of Germany. But before joining them, I should prepare this shape file make possible the joining with the German Federal election dataframe. Therefore, I create a new variable called germany_states.</p>
+<pre class="r"><code>germany_states &lt;- germany@data$NAME_1
+germany@data$germany_states &lt;- germany_states # prepare the shape file with the map of germany to make it possible to join the dataframe of german elections</code></pre>
+<p>Then, I have to filter the state variable present in the the German Federal election dataframe with the correspondent variable created before in the shape file.</p>
+<pre class="r"><code>elections_data &lt;- germany_tidy %&gt;% filter(state %in% germany_states) # filter data for germany states</code></pre>
+<p>Now, everything is ready to join both datasets, the shape and the German Federal Election dataframe called elections_data</p>
+<p>Let’s join both.</p>
+<pre class="r"><code>germany@data &lt;- germany@data %&gt;% left_join(elections_data, 
+                                           by = c(&quot;germany_states&quot; 
+                                                  = &quot;state&quot;)) # join datasets
+rownames(germany@data) &lt;- germany@data$germany_states # important step for the indexes to join</code></pre>
+<p>Finally, I just have to transform the previous object in a dataframe. I need to make this, because I cannot plot shape files, just dataframe. For this, Ill use the tidy() function from the broom package.</p>
+<pre class="r"><code>germany_dataframe &lt;- tidy(germany) %&gt;% left_join(., germany@data, by = c(&quot;id&quot; = &quot;Nr&quot;)) # transform the previous object in a dataframe</code></pre>
+<pre class="r"><code># plot
+x_final &lt;- x_final &lt;- ggplot(germany_dataframe, aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill=CDU_CSU_per), color = &quot;grey50&quot;, data =filter(germany_dataframe, !NAME_1 %in% c(&quot;Berlin&quot;, &quot;Bremen&quot;)))+
+  geom_polygon(aes(fill=CDU_CSU_per), color = &quot;grey50&quot;, data =filter(germany_dataframe, NAME_1 %in%  c(&quot;Berlin&quot;, &quot;Bremen&quot;)))+
+  theme_minimal() +
+  coord_equal()
+x_final</code></pre>
+<p><img src="/post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/05/about-me/" data-tooltip="About me">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/06/using-r-to-analyse-the-german-federal-election/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/06/using-r-to-analyse-the-german-federal-election/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 Hugo Toscano. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/05/about-me/" data-tooltip="About me">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/06/using-r-to-analyse-the-german-federal-election/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/06/using-r-to-analyse-the-german-federal-election/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2018%2F06%2Fusing-r-to-analyse-the-german-federal-election%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2018%2F06%2Fusing-r-to-analyse-the-german-federal-election%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="http://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Hugo Toscano</h4>
+    
+      <div id="about-card-bio">Contact: hugo_toscano@outlook.com</div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Stuttgart, Germany
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2018/06/using-r-to-analyse-the-german-federal-election/">
+                <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This blog post is about the last German Federal Election that took place on 24 September of 2017. It will not be an exhaustive analysis about the results. I’m only interested in mapping the share of vote that each party that is represented in Parliament (i.e. Bundestag) had in each one of the 16 German states. The first step is to load the packages that I need to make this mapping possible in R.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2018/05/about-me/">
+                <h3 class="media-heading">About me</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to the blog!
+I&rsquo;m Hugo, my background is in Psychology, more specifically, the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics(e.g. importing, wrangling, visualization, statistics). Not yet Machine Learning, I&rsquo;m still exploring it.
+I want to share what I have been learning in R and try to help you to work with it.
+I also enjoy other things, not necessarily data related, like history, tvshows, and literature, which I might blog about.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         2 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('/images/cover_new.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2018\/06\/using-r-to-analyse-the-german-federal-election\/';
+          
+            this.page.identifier = '\/2018\/06\/using-r-to-analyse-the-german-federal-election\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'toscano84';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
