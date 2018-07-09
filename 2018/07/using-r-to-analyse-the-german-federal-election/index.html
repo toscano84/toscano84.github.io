@@ -24,7 +24,7 @@
     <meta name="author" content="Hugo Toscano">
     <meta name="keywords" content="">
 
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="../../../favicon.png">
     
 
     
@@ -62,7 +62,7 @@ In order to make this visualization possible in R, loading the respective packag
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
     
     
-    <link rel="stylesheet" href="/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    <link rel="stylesheet" href="../../../css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
     
     
 
@@ -90,12 +90,12 @@ if (!doNotTrack) {
       <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="/">Hugo Toscano</a>
+    <a class="header-title-link" href="../../../">Hugo Toscano</a>
   </div>
   
     
       <a class="header-right-picture "
-         href="/#about">
+         href="../../../#about">
     
     
     
@@ -111,7 +111,7 @@ if (!doNotTrack) {
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
-        <a href="/#about">
+        <a href="../../../#about">
           <img class="sidebar-profile-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
         </a>
         <h4 class="sidebar-profile-name">Hugo Toscano</h4>
@@ -124,7 +124,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="/">
+      <a class="sidebar-button-link " href="../../../">
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
@@ -144,7 +144,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="/categories">
+      <a class="sidebar-button-link " href="../../../categories">
     
       <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
       
@@ -154,7 +154,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="/tags">
+      <a class="sidebar-button-link " href="../../../tags">
     
       <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
       
@@ -164,7 +164,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="/archives">
+      <a class="sidebar-button-link " href="../../../archives">
     
       <i class="sidebar-button-icon fa fa-lg fa-search"></i>
       
@@ -244,7 +244,7 @@ if (!doNotTrack) {
   
     <span>in</span>
     
-      <a class="category-link" href="/categories/ggplot2">ggplot2</a>
+      <a class="category-link" href="../../../categories/ggplot2">ggplot2</a>
     
   
 
@@ -547,7 +547,7 @@ germany &lt;- readOGR(here(layer = &quot;DEU_adm1.shp&quot;), use_iconv = TRUE, 
 ## with 16 features
 ## It has 16 fields</code></pre>
 <pre class="r"><code>plot(germany)</code></pre>
-<p><img src="/post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-7-1.png" width="672" /> Ok, by now we will have one shapefile with the map of Germany and one data frame with the results of the German Federal Elections. So, they are separated from each other, but we must join them to visualize the elections’ results. Therefore, let’s prepare the shapefile to join the German Federal election data frame by creating a new variable called germany_states.</p>
+<p><img src="../../../post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-7-1.png" width="672" /> Ok, by now we will have one shapefile with the map of Germany and one data frame with the results of the German Federal Elections. So, they are separated from each other, but we must join them to visualize the elections’ results. Therefore, let’s prepare the shapefile to join the German Federal election data frame by creating a new variable called germany_states.</p>
 <pre class="r"><code># prepare the shapefile with the map of germany to make it possible to join the dataframe of german elections
 germany_states &lt;- germany@data$NAME_1
 germany@data$germany_states &lt;- germany_states </code></pre>
@@ -582,7 +582,7 @@ plot_basic_CDU_CSU &lt;- germany_dataframe %&gt;%
   coord_map()
 
 plot_basic_CDU_CSU</code></pre>
-<p><img src="/post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="../../../post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>But given the power of the ggplot2 package, we can create a better plot than the last one. Let’s start by removing this background and create a common theme and legend design for all plots.</p>
 <pre class="r"><code># creation of a common theme for all plots
 common_theme &lt;- theme(title = element_text(family = &quot;Cambria&quot;, size = 12, hjust = 0.5),
@@ -651,7 +651,7 @@ plot_CDU_CSU &lt;- germany_dataframe %&gt;%
     guide = guide_legend) 
 
 plot_CDU_CSU </code></pre>
-<p><img src="/post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="../../../post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>The darker the color, the highest the vote percentage. We can see that the CDU/CSU coalition had stronger results in South and West Germany, wheresd in former East Germany had weaker results.</p>
 <p>Let’s now plot the SPD results. In this case, the highest values will be assigned to the party’s red color.</p>
 <pre class="r"><code># plot SPD
@@ -681,7 +681,7 @@ plot_SPD &lt;- germany_dataframe %&gt;%
     guide = guide_legend) 
 
 plot_SPD</code></pre>
-<p><img src="/post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="../../../post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>SPD had a historic election loss, and we can easily see why was that the case. Only in the Northwest States it had percentages above 20%. In the South and in former East Germany the results were disastrous.</p>
 <p>Moving on to the next party, FDP, its associated color is yellow. Consequently, a darker yellow will mean a stronger result, while a lighter yellow a weaker one.</p>
 <pre class="r"><code># plot FDP
@@ -711,7 +711,7 @@ plot_FDP &lt;- germany_dataframe %&gt;%
     guide = guide_legend) 
 
 plot_FDP </code></pre>
-<p><img src="/post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-16-1.png" width="672" /> The visualization of this map shows a better result in the Western States and the worst performance in the Eastern States.</p>
+<p><img src="../../../post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-16-1.png" width="672" /> The visualization of this map shows a better result in the Western States and the worst performance in the Eastern States.</p>
 <p>The fourth party analyzed will be the Gruenen. As the name implies the party’s color is green.</p>
 <pre class="r"><code>plot_Gruenen &lt;- germany_dataframe %&gt;%
   ggplot(aes(x = long, y = lat, group = group)) +
@@ -739,7 +739,7 @@ plot_FDP </code></pre>
     guide = guide_legend) 
 
 plot_Gruenen</code></pre>
-<p><img src="/post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-17-1.png" width="672" /> The Gruenen party is stronger in Baden-Wuerttemberg State and in the city-states of Hamburg, Bremen, and Berlin.</p>
+<p><img src="../../../post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-17-1.png" width="672" /> The Gruenen party is stronger in Baden-Wuerttemberg State and in the city-states of Hamburg, Bremen, and Berlin.</p>
 <p>We still have two parties left to analyze. The Die Linke party will be the next one. Note: Purple is the color of this party.</p>
 <pre class="r"><code># Die Linke plot
 plot_DieLinke &lt;- germany_dataframe %&gt;%
@@ -769,7 +769,7 @@ plot_DieLinke &lt;- germany_dataframe %&gt;%
     guide = guide_legend) 
 
 plot_DieLinke </code></pre>
-<p><img src="/post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-18-1.png" width="672" /> In this visualization, we can clearly notice how much stronger is Die Linke in the former territories of East Germany.</p>
+<p><img src="../../../post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-18-1.png" width="672" /> In this visualization, we can clearly notice how much stronger is Die Linke in the former territories of East Germany.</p>
 <p>Finally, the last party to be assessed is the AFD. Note: Cyan represents the party’s color.</p>
 <pre class="r"><code># AfD party
 plot_AfD &lt;- germany_dataframe %&gt;%
@@ -796,7 +796,7 @@ plot_AfD &lt;- germany_dataframe %&gt;%
     guide = guide_legend)
 
 plot_AfD</code></pre>
-<p><img src="/post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="../../../post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>Similarly to the Die Linke, though with highest percentages, the AfD party was much stronger in the East. In all of these States, but Berlin, it had almost 20% or above.</p>
 <p>Hope you have enjoyed! This was just a simple analysis using this awesome and powerful statistical language called R. These visualizations can be even better. Your feedback and suggestions are highly appreciated! I am still learning the tricks around R and your inputs will definitely help me improve. Thank you! Talk to you soon!</p>
 
@@ -811,15 +811,15 @@ plot_AfD</code></pre>
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">TAGGED IN</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="/tags/r/">R</a>
+  <a class="tag tag--primary tag--small" href="../../../tags/r/">R</a>
 
-  <a class="tag tag--primary tag--small" href="/tags/maps/">maps</a>
+  <a class="tag tag--primary tag--small" href="../../../tags/maps/">maps</a>
 
-  <a class="tag tag--primary tag--small" href="/tags/germany/">germany</a>
+  <a class="tag tag--primary tag--small" href="../../../tags/germany/">germany</a>
 
-  <a class="tag tag--primary tag--small" href="/tags/elections/">elections</a>
+  <a class="tag tag--primary tag--small" href="../../../tags/elections/">elections</a>
 
-  <a class="tag tag--primary tag--small" href="/tags/ggplot2/">ggplot2</a>
+  <a class="tag tag--primary tag--small" href="../../../tags/ggplot2/">ggplot2</a>
 
                   </div>
                 
@@ -840,7 +840,7 @@ plot_AfD</code></pre>
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/about-me/" data-tooltip="About me">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/07/about-me/" data-tooltip="About me">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -920,7 +920,7 @@ plot_AfD</code></pre>
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/about-me/" data-tooltip="About me">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/07/about-me/" data-tooltip="About me">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -1035,7 +1035,7 @@ plot_AfD</code></pre>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="/2018/07/using-r-to-analyse-the-german-federal-election/">
+              <a class="link-unstyled" href="../../../2018/07/using-r-to-analyse-the-german-federal-election/">
                 <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
               </a>
               <span class="media-meta">
@@ -1053,7 +1053,7 @@ In order to make this visualization possible in R, loading the respective packag
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="/2018/07/about-me/">
+              <a class="link-unstyled" href="../../../2018/07/about-me/">
                 <h3 class="media-heading">About me</h3>
               </a>
               <span class="media-meta">
@@ -1097,7 +1097,7 @@ Other interests I also have, non-data related, are history, tv shows and literat
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
 
-<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+<script src="../../../js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
 
 
 
