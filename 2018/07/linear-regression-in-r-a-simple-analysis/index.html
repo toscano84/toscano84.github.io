@@ -1,0 +1,848 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.41 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Tuition costs and gdp per capita: A linear regression analysis</title>
+    <meta name="author" content="Hugo Toscano">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../favicon.png">
+    
+
+    
+    <meta name="description" content="This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
+I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.">
+    <meta property="og:description" content="This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
+I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Tuition costs and gdp per capita: A linear regression analysis">
+    <meta property="og:url" content="/2018/07/linear-regression-in-r-a-simple-analysis/">
+    <meta property="og:site_name" content="Hugo Toscano">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo Toscano">
+    <meta name="twitter:description" content="This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
+I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="../../../css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">Hugo Toscano</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="../../../#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="../../../#about">
+          <img class="sidebar-profile-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Hugo Toscano</h4>
+        
+          <h5 class="sidebar-profile-bio">Contact: hugo_toscano@outlook.com</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../2018/07/about-me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+      
+      <span class="sidebar-button-desc">About me</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/toscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Tuition costs and gdp per capita: A linear regression analysis
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-07-27T00:00:00Z">
+        
+  July 27, 2018
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="../../../categories/statistics">statistics</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.</p>
+<p>I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.</p>
+<p>Our initial step is to load the packages that we need to run this analysis.</p>
+<pre class="r"><code># libraries needed
+library(here)
+library(tidyverse) # load packages related to data cleaning (e.g. dplyr) and data visualization(ggplot2)
+library(PerformanceAnalytics) # visualize the correlation
+library(GGally) # visualize the correlation
+library(readxl) # load excel files
+library(broom) # tidy the regression model
+library(lares) # to check the regression model
+library(sigr) # to check the F-statistic result</code></pre>
+<p>Now, we must load two data frames. One with the US tuition costs per state and another one with the gdp per capita per state.</p>
+<pre class="r"><code># load tuition costs dataset
+tuition_costs &lt;- read_excel(here(&quot;us_avg_tuition.xlsx&quot;))
+glimpse(tuition_costs)</code></pre>
+<pre><code>## Observations: 50
+## Variables: 13
+## $ State     &lt;chr&gt; &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Arizona&quot;, &quot;Arkansas&quot;, &quot;Califor...
+## $ `2004-05` &lt;dbl&gt; 5682.838, 4328.281, 5138.495, 5772.302, 5285.921, 47...
+## $ `2005-06` &lt;dbl&gt; 5840.550, 4632.623, 5415.516, 6082.379, 5527.881, 54...
+## $ `2006-07` &lt;dbl&gt; 5753.496, 4918.501, 5481.419, 6231.977, 5334.826, 55...
+## $ `2007-08` &lt;dbl&gt; 6008.169, 5069.822, 5681.638, 6414.900, 5672.472, 62...
+## $ `2008-09` &lt;dbl&gt; 6475.092, 5075.482, 6058.464, 6416.503, 5897.888, 62...
+## $ `2009-10` &lt;dbl&gt; 7188.954, 5454.607, 7263.204, 6627.092, 7258.771, 69...
+## $ `2010-11` &lt;dbl&gt; 8071.134, 5759.153, 8839.605, 6900.912, 8193.739, 77...
+## $ `2011-12` &lt;dbl&gt; 8451.902, 5762.421, 9966.716, 7028.991, 9436.426, 83...
+## $ `2012-13` &lt;dbl&gt; 9098.069, 6026.143, 10133.503, 7286.580, 9360.574, 8...
+## $ `2013-14` &lt;dbl&gt; 9358.929, 6012.445, 10296.200, 7408.495, 9274.193, 9...
+## $ `2014-15` &lt;dbl&gt; 9496.084, 6148.808, 10413.844, 7606.410, 9186.824, 9...
+## $ `2015-16` &lt;dbl&gt; 9751.101, 6571.340, 10646.278, 7867.297, 9269.844, 9...</code></pre>
+<pre class="r"><code># load gdp per capita dataset
+gdp_state_cap &lt;- read_excel(here(&quot;gdp_per_state.xlsx&quot;), skip = 4)
+glimpse(gdp_state_cap)</code></pre>
+<pre><code>## Observations: 66
+## Variables: 23
+## $ Fips   &lt;chr&gt; &quot;00000&quot;, &quot;01000&quot;, &quot;02000&quot;, &quot;04000&quot;, &quot;05000&quot;, &quot;06000&quot;, &quot;...
+## $ Area   &lt;chr&gt; &quot;United States&quot;, &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Arizona&quot;, &quot;Arkan...
+## $ `1997` &lt;dbl&gt; 40781, 31398, 61797, 34434, 30435, 41345, 43558, 54740,...
+## $ `1998` &lt;dbl&gt; 42045, 32164, 59504, 36311, 30513, 43098, 46692, 56416,...
+## $ `1999` &lt;dbl&gt; 43513, 33106, 58609, 38300, 31877, 45541, 49040, 57724,...
+## $ `2000` &lt;dbl&gt; 44714, 33284, 57184, 39185, 31834, 48223, 51524, 61355,...
+## $ `2001` &lt;dbl&gt; 44689, 33312, 58547, 39170, 31685, 47216, 51113, 61872,...
+## $ `2002` &lt;dbl&gt; 45068, 34068, 60101, 39323, 32514, 47880, 50870, 61233,...
+## $ `2003` &lt;dbl&gt; 45831, 34855, 59008, 40769, 33678, 49501, 50743, 61419,...
+## $ `2004` &lt;dbl&gt; 47010, 36702, 60137, 41063, 34936, 51520, 50083, 65034,...
+## $ `2005` &lt;dbl&gt; 48062, 37578, 61125, 43018, 35649, 53320, 51473, 66032,...
+## $ `2006` &lt;dbl&gt; 48880, 37735, 64349, 44086, 35803, 54842, 51515, 67458,...
+## $ `2007` &lt;dbl&gt; 49126, 37522, 67228, 44168, 35205, 55154, 52094, 70096,...
+## $ `2008` &lt;dbl&gt; 48401, 36976, 67527, 41800, 34957, 54454, 51651, 68777,...
+## $ `2009` &lt;dbl&gt; 46680, 35376, 72204, 38232, 33837, 51733, 49731, 65574,...
+## $ `2010` &lt;dbl&gt; 47289, 35912, 69565, 37943, 34674, 51878, 49260, 64901,...
+## $ `2011` &lt;dbl&gt; 47598, 36210, 70618, 38267, 35156, 52105, 49303, 63602,...
+## $ `2012` &lt;dbl&gt; 48174, 36440, 73505, 38591, 34982, 52963, 49673, 63433,...
+## $ `2013` &lt;dbl&gt; 48534, 36674, 69711, 38352, 35888, 53838, 50523, 62438,...
+## $ `2014` &lt;dbl&gt; 49329, 36473, 67179, 38534, 36265, 55571, 52105, 62023,...
+## $ `2015` &lt;dbl&gt; 50301, 36818, 65971, 38787, 36295, 57637, 53007, 62796,...
+## $ `2016` &lt;dbl&gt; 50660, 37158, 63304, 38940, 36502, 58974, 52863, 62745,...
+## $ `2017` &lt;dbl&gt; 51337, 37508, 63610, 39583, 36714, 60359, 54026, 62633,...</code></pre>
+<p>Let`s now start the wrangling of our data frames. First, we’ll change the tuition costs data frame from a wide to a long format.</p>
+<pre class="r"><code>tuition_costs_long &lt;- tuition_costs %&gt;%
+  gather(year, tuition, -State)
+glimpse(tuition_costs_long)</code></pre>
+<pre><code>## Observations: 600
+## Variables: 3
+## $ State   &lt;chr&gt; &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Arizona&quot;, &quot;Arkansas&quot;, &quot;Californi...
+## $ year    &lt;chr&gt; &quot;2004-05&quot;, &quot;2004-05&quot;, &quot;2004-05&quot;, &quot;2004-05&quot;, &quot;2004-05&quot;,...
+## $ tuition &lt;dbl&gt; 5682.838, 4328.281, 5138.495, 5772.302, 5285.921, 4703...</code></pre>
+<p>Moving on, we should recode the year variable present in our tuition data frame so that it has the same levels as the year-related variables in our gdp per state data frame.</p>
+<pre class="r"><code>tuition_tidy &lt;- tuition_costs_long %&gt;%
+  # recode variable year
+  mutate(year = case_when(year == &quot;2004-05&quot; ~ &quot;2004&quot;,
+                          year == &quot;2005-06&quot; ~ &quot;2005&quot;,
+                          year == &quot;2006-07&quot; ~ &quot;2006&quot;,
+                          year == &quot;2007-08&quot; ~ &quot;2007&quot;,
+                          year == &quot;2008-09&quot; ~ &quot;2008&quot;,
+                          year == &quot;2009-10&quot; ~ &quot;2009&quot;,
+                          year == &quot;2010-11&quot; ~ &quot;2010&quot;,
+                          year == &quot;2011-12&quot; ~ &quot;2011&quot;,
+                          year == &quot;2012-13&quot; ~ &quot;2012&quot;,
+                          year == &quot;2013-14&quot; ~ &quot;2013&quot;,
+                          year == &quot;2014-15&quot; ~ &quot;2014&quot;,
+                          year == &quot;2015-16&quot; ~ &quot;2015&quot;)) %&gt;%
+  # change variable State to small case
+  select_all(str_to_lower)</code></pre>
+<p>Okay, our tuition data frame looks tidy! Now, let’s take care of our gdp per state data frame. We intend to have the states and years compatible between both data frames, in order to join them in a later step.</p>
+<pre class="r"><code>gdp_tidy &lt;- gdp_state_cap %&gt;%
+  # select and rename the column Area, and select years 2004 to 2015
+  select(state = Area, 10:21) %&gt;%
+  # include only the 50 states 
+  slice(2:52) %&gt;%
+  filter(state != &quot;District of Columbia&quot;) %&gt;%
+  #change from wide to long format
+  gather(year, gdp_per_capita, -state)
+
+glimpse(gdp_tidy)</code></pre>
+<pre><code>## Observations: 600
+## Variables: 3
+## $ state          &lt;chr&gt; &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Arizona&quot;, &quot;Arkansas&quot;, &quot;Ca...
+## $ year           &lt;chr&gt; &quot;2004&quot;, &quot;2004&quot;, &quot;2004&quot;, &quot;2004&quot;, &quot;2004&quot;, &quot;2004&quot;,...
+## $ gdp_per_capita &lt;dbl&gt; 36702, 60137, 41063, 34936, 51520, 50083, 65034...</code></pre>
+<p>Now, let’s join both data frames.</p>
+<pre class="r"><code>tuition_gdp &lt;- tuition_tidy %&gt;%
+  left_join(gdp_tidy, by = c(&quot;state&quot;, &quot;year&quot;))
+
+glimpse(tuition_gdp)</code></pre>
+<pre><code>## Observations: 600
+## Variables: 4
+## $ state          &lt;chr&gt; &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Arizona&quot;, &quot;Arkansas&quot;, &quot;Ca...
+## $ year           &lt;chr&gt; &quot;2004&quot;, &quot;2004&quot;, &quot;2004&quot;, &quot;2004&quot;, &quot;2004&quot;, &quot;2004&quot;,...
+## $ tuition        &lt;dbl&gt; 5682.838, 4328.281, 5138.495, 5772.302, 5285.92...
+## $ gdp_per_capita &lt;dbl&gt; 36702, 60137, 41063, 34936, 51520, 50083, 65034...</code></pre>
+<p>For a start, we can make an exploratory data analysis of each state gdp per capita and tuition.</p>
+<pre class="r"><code># mean and error bars of the gdp per capita for each state
+ggplot(tuition_gdp, aes(x = state, y = gdp_per_capita)) +
+  stat_summary(fun.y = mean, geom = &quot;point&quot;) +
+  stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1), 
+               geom = &quot;errorbar&quot;, width = 0.1) +
+  theme(axis.text.x = element_text(angle = 90, 
+vjust = 0, face = &quot;bold&quot;))</code></pre>
+<p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code># mean and error bars of the tuition costs for each state
+ggplot(tuition_gdp, aes(x = state, y = tuition)) +
+  stat_summary(fun.y = mean, geom = &quot;point&quot;) +
+  stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1), 
+               geom = &quot;errorbar&quot;, width = 0.1) +
+  theme(axis.text.x = element_text(angle = 90, 
+vjust = 0, face = &quot;bold&quot;))</code></pre>
+<p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<p>Now, we can compute the correlation between tuition and gdp per capita. We can also use the functions chart.Correlation() and ggpairs() to visually perceive the association between both variables.</p>
+<pre class="r"><code># cor() function to compute correlation
+cor(tuition_gdp$tuition, tuition_gdp$gdp_per_capita)</code></pre>
+<pre><code>## [1] 0.1496632</code></pre>
+<pre class="r"><code># use chart.Correlation from the Performance Analytics Package
+chart.Correlation(tuition_gdp[, c(&quot;tuition&quot;, &quot;gdp_per_capita&quot;)])</code></pre>
+<p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code># or the ggpairs function from the GGally package
+ggpairs(tuition_gdp[, c(&quot;tuition&quot;, &quot;gdp_per_capita&quot;)])</code></pre>
+<p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<p>It seems that both variables are correlated, r = .15, p &lt; .001. However, this effect is rather small.</p>
+<p>Nonetheless, we can do a simple linear regression to check if there is any linear relationship between the tuition costs and the gdp per capita. We will use the lm() function where first we set the response(Y) as a factor(~) of the predictor variable(X), and finally we assign it to the respective data frame.</p>
+<pre class="r"><code># linear function
+model &lt;- lm(tuition ~ gdp_per_capita, data = tuition_gdp)</code></pre>
+<p>After creating our model, we can use the summary() function to get an overview of how fit it really is.</p>
+<pre class="r"><code>summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = tuition ~ gdp_per_capita, data = tuition_gdp)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -4891  -1664   -249   1515   7251 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    5.966e+03  5.312e+02  11.233  &lt; 2e-16 ***
+## gdp_per_capita 4.125e-02  1.114e-02   3.702 0.000234 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2380 on 598 degrees of freedom
+## Multiple R-squared:  0.0224, Adjusted R-squared:  0.02076 
+## F-statistic:  13.7 on 1 and 598 DF,  p-value: 0.0002341</code></pre>
+<p>Looking to our model fit, we can see that the same produces a statistical significant result, Rsquared = .022, F(1, 598) = 13.7, p = .00023. You can use the function wrapFtest() to get a clearer view about this statistic.</p>
+<pre class="r"><code>wrapFTest(model)</code></pre>
+<pre><code>## [1] &quot;F Test summary: (R2=0.022, F(1,598)=14, p=0.00023).&quot;</code></pre>
+<p>This shows that the gdp per capita of each state explains 2.2% of the variability of the tuition costs. Thus, even if our model is statistical significant it only has a very low explanatory power. In sum, it does not show a good fit to predict the tuition costs.</p>
+<p>Let’s now take a look to the estimates of the model. We can use the tidy() function from the broom package to check these values.</p>
+<pre class="r"><code>tidy(model)</code></pre>
+<pre><code>##             term     estimate    std.error statistic     p.value
+## 1    (Intercept) 5.966324e+03 531.15634991 11.232708 1.07188e-26
+## 2 gdp_per_capita 4.124726e-02   0.01114321  3.701561 2.34075e-04</code></pre>
+<pre class="r"><code># check the confidence intervals
+confint(model, conf.level = 0.95)</code></pre>
+<pre><code>##                       2.5 %       97.5 %
+## (Intercept)    4.923166e+03 7.009483e+03
+## gdp_per_capita 1.936268e-02 6.313183e-02</code></pre>
+<p>The estimate of our model is 0.041, 95% confidence interval[0.019, 0.063]. This means that an increase of 1 dollar in gdp per capita per state will increase the tuition costs per state in 0.041 dollars. Meaning , if the gpd per capita increases 1000 dollars the tuition costs will increase 41 dollars. Once more, we can see that our model is not fit to predict the tuition costs.</p>
+<p>Regarding the goodness-of-fit, we still must check the Residual Standard Error which is around 2380. We can use the sigma() function to verify it. Again, this value indicates that our model does not show a good fit given that the actual tuition costs will deviate from the regression line, that is, from the expected costs, in 2379.82 dollars.</p>
+<pre class="r"><code>sigma(model)</code></pre>
+<pre><code>## [1] 2379.819</code></pre>
+<p>To test how accurate is our regression model, we should also check it with visual tools. But before that, we can look into some statistics reflected in our model using the augment() function from the broom package.</p>
+<pre class="r"><code>aug &lt;- augment(model)
+head(aug)</code></pre>
+<pre><code>##    tuition gdp_per_capita  .fitted  .se.fit    .resid        .hat   .sigma
+## 1 5682.838          36702 7480.181 149.1891 -1797.343 0.003929942 2380.671
+## 2 4328.281          60137 8446.811 176.9765 -4118.529 0.005530228 2375.806
+## 3 5138.495          41063 7660.060 116.6842 -2521.565 0.002404010 2379.569
+## 4 5772.302          34936 7407.338 164.6227 -1635.037 0.004785104 2380.867
+## 5 5285.921          51520 8091.383 110.1505 -2805.461 0.002142322 2379.037
+## 6 4703.777          50083 8032.111 103.5728 -3328.333 0.001894102 2377.906
+##       .cooksd .std.resid
+## 1 0.001129667 -0.7567318
+## 2 0.008373869 -1.7354110
+## 3 0.001355967 -1.0608374
+## 4 0.001140235 -0.6886920
+## 5 0.001494990 -1.1801195
+## 6 0.001859456 -1.3998920</code></pre>
+<p>In this table, we can see the residuals(.resid), the predicted (.fitted) and estimated values. It is also interesting to check the leverage(.hat) and the cook distance(.cooksd) to check if we have outliers.</p>
+<p>Moving on with our analysis, even if the data shown in our model reveals low predictive performance, we can still assess it visually.</p>
+<pre class="r"><code>ggplot(tuition_gdp, aes(x = gdp_per_capita, y = tuition)) +
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;) +
+  geom_smooth(se = FALSE, color = &quot;red&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-15-1.png" width="672" /> This graph allow us to see the assumption of linearity of our model. In our case the red line is not within the confidence interval of the blue line. Consequently, we can conclude that our model is not linear.</p>
+<p>One interesting graph to check the linearity of our model is the mplot_density() function from the lares package. Our graph below shows clearly that the actual values (green color) represent a different density distribution than the predicted values (red color).</p>
+<pre class="r"><code>mplot_density(tag = aug$tuition, 
+                    score = aug$.fitted,
+                    subtitle = &quot;Tuition Model&quot;,
+                    model_name = &quot;Linear Model&quot;)</code></pre>
+<p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-16-1.png" width="672" /> Regarding the assumption of homoscedasticity, we can use the code below to visualize it.</p>
+<pre class="r"><code>ggplot(aug, aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  ggtitle(&quot;Residuals vs Fitted&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>Or this one:</p>
+<pre class="r"><code>ggplot(aug, aes(x = .fitted, y = .resid)) + 
+  geom_pointrange(aes(ymin = 0, ymax = .resid)) +
+  geom_hline(yintercept = 0, linetype = 3) + 
+  scale_x_continuous(&quot;Predictions&quot;) +
+  scale_y_continuous(&quot;Residuals&quot;) +
+  ggtitle(&quot;Residuals vs. Linear model prediction&quot;)</code></pre>
+<p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>These plots show that the residuals do not have a constant variance along the y-axis. Therefore, our model shows Heteroscedasticity.</p>
+<p>Regarding the assumption of normal distribution, we can use the qqnorm() and qqline() functions.</p>
+<pre class="r"><code>qqnorm(aug$.resid)
+qqline(aug$.resid)</code></pre>
+<p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>In order to have a normally distributed sample, the points should fall directly in the line. We can see by the points in the upper right-hand side and in the bottom left-hand side, that the residuals are not normally-distributed.</p>
+<p>Hope you have enjoyed this simple regression analysis. What is important to have in mind is to know which values are relevant to the goodness-of-fit of the model and also to plot the model in order to check the assumptions of the linear regression. Thank you and happy R coding!</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="../../../tags/linear-regression/">linear regression</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/r/">r</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/07/using-r-to-analyse-the-german-federal-election/" data-tooltip="Using R to analyse the German Federal Election">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 Hugo Toscano. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/07/using-r-to-analyse-the-german-federal-election/" data-tooltip="Using R to analyse the German Federal Election">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoscano84.github.io%2F2018%2F07%2Flinear-regression-in-r-a-simple-analysis%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftoscano84.github.io%2F2018%2F07%2Flinear-regression-in-r-a-simple-analysis%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Hugo Toscano</h4>
+    
+      <div id="about-card-bio">Contact: hugo_toscano@outlook.com</div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Stuttgart, Germany
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+                <h3 class="media-heading">Tuition costs and gdp per capita: A linear regression analysis</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
+I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
+                <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">As the title of this post implies we will analyze, using the statistical programming language R, the German Federal Election which took place on 24 September of 2017. It will not be an exhaustive analysis of the results. I’m only interested in visualizing the share of the vote that each party represented in the Parliament (i.e. Bundestag) received in each one of the 16 States of Germany.
+In order to make this visualization possible in R, loading the respective packages is the first step.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/about-me/">
+                <h3 class="media-heading">About me</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to my blog!
+I&rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Not yet Machine Learning, still exploring it.
+My goal is to try to help you improve your R skills, by sharing what I am currently learning.
+Other interests I also have, non-data related, are history, tv shows and literature, which I can eventually blog about.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         3 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://toscano84.github.io/images/cover_new.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="../../../js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/toscano84.github.io\/2018\/07\/linear-regression-in-r-a-simple-analysis\/';
+          
+            this.page.identifier = '\/2018\/07\/linear-regression-in-r-a-simple-analysis\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'toscano84';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
