@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Coffee Chains on Hugo Toscano</title>
+    <link>https://toscano84.github.io/tags/coffee-chains/</link>
+    <description>Recent content in Coffee Chains on Hugo Toscano</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://toscano84.github.io/tags/coffee-chains/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</title>
+      <link>https://toscano84.github.io/2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/</link>
+      <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/</guid>
+      <description>This post talks about making interactive visualizations in R with leaflet. In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</description>
+    </item>
+    
+  </channel>
+</rss>
