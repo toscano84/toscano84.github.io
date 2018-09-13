@@ -255,7 +255,7 @@ if (!doNotTrack) {
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
               <p>Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.</p>
-<p>Firstly, we will show examples related to what is called <strong>mutating joins</strong>. These joins combine two data frames by matching observations in common variables. In the following image you can see the mutating joins present in R. This image is from the awesome book <a href="http://r4ds.had.co.nz/" class="uri">http://r4ds.had.co.nz/</a> by Garrett Grolemund and Hadley Wickham.</p>
+<p>Firstly, we will show examples related to what is called <strong>mutating joins</strong>. These joins combine two data frames by matching observations in common variables.</p>
 <div id="mutating-joins" class="section level2">
 <h2>Mutating Joins</h2>
 <p>For this tutorial I have created small datasets just for the sole purpose of writing this blog. Therefore, the data was created by myself and if there is any relationship between the variables, it is not real.</p>
@@ -570,17 +570,17 @@ df_u </code></pre>
 ##       Id Face  Sex      Dom   Str
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
 ##  1     7 G     Male       3     4
-##  2     5 E     Female     8     1
-##  3    15 B     Male       9     3
-##  4     4 D     Female     7     6
-##  5    13 C     Male      10     8
-##  6     2 B     Female     5     4
-##  7     6 F     Female     1     3
-##  8    10 A     Male       8     4
-##  9     3 C     Female     6     5
-## 10     8 H     Male       4     2
-## 11     1 A     Female     3     3
-## 12     9 I     Male       5     3</code></pre>
+##  2     4 D     Female     7     6
+##  3     2 B     Female     5     4
+##  4     9 I     Male       5     3
+##  5     8 H     Male       4     2
+##  6    15 B     Male       9     3
+##  7     3 C     Female     6     5
+##  8     6 F     Female     1     3
+##  9     5 E     Female     8     1
+## 10    13 C     Male      10     8
+## 11    10 A     Male       8     4
+## 12     1 A     Female     3     3</code></pre>
 <p>Now, we have only 12 rows, because 6 of the rows in df3 were the same as in df1. Remember, the union function returns only the unique rows. In this case, we have 12 observations that are unique within both data frames.</p>
 <p>In other cases, we can use the <code>setdiff()</code> if we want only the observation in df1 not in common with df3.</p>
 <pre class="r"><code>df_dif &lt;- df1 %&gt;% 
