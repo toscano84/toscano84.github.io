@@ -134,7 +134,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="../../../2018/07/about-me/">
+      <a class="sidebar-button-link " href="https://toscano84.github.io/2018/07/about-me/">
     
       <i class="sidebar-button-icon fa fa-lg fa-user"></i>
       
@@ -178,7 +178,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://github.com/toscano84" target="_blank" rel="noopener">
+      <a class="sidebar-button-link " href="https://github.com/toscano84">
     
       <i class="sidebar-button-icon fa fa-lg fa-github"></i>
       
@@ -188,7 +188,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/" target="_blank" rel="noopener">
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/">
     
       <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
       
@@ -198,7 +198,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://twitter.com/htoscano84" target="_blank" rel="noopener">
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84">
     
       <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
       
@@ -383,7 +383,7 @@ ggplot(tuition_gdp, aes(x = state, y = tuition)) +
   theme(axis.text.x = element_text(angle = 90, 
 vjust = 0, face = &quot;bold&quot;))</code></pre>
 <p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
-<p>Now, we can compute the correlation between tuition and gdp per capita. We can also use the functions chart.Correlation() and ggpairs() to visually perceive the association between both variables.</p>
+<p>Now, we can compute the correlation between tuition and gdp per capita. We can also use the functions <code>chart.Correlation()</code> and <code>ggpairs()</code> to visually perceive the association between both variables.</p>
 <pre class="r"><code># cor() function to compute correlation
 cor(tuition_gdp$tuition, tuition_gdp$gdp_per_capita)</code></pre>
 <pre><code>## [1] 0.1496632</code></pre>
@@ -394,10 +394,10 @@ chart.Correlation(tuition_gdp[, c(&quot;tuition&quot;, &quot;gdp_per_capita&quot
 ggpairs(tuition_gdp[, c(&quot;tuition&quot;, &quot;gdp_per_capita&quot;)])</code></pre>
 <p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 <p>It seems that both variables are correlated, r = .15, p &lt; .001. However, this effect is rather small.</p>
-<p>Nonetheless, we can do a simple linear regression to check if there is any linear relationship between the tuition costs and the gdp per capita. We will use the lm() function where first we set the response(Y) as a factor(~) of the predictor variable(X), and finally we assign it to the respective data frame.</p>
+<p>Nonetheless, we can do a simple linear regression to check if there is any linear relationship between the tuition costs and the gdp per capita. We will use the <code>lm()</code> function where first we set the response(Y) as a factor(~) of the predictor variable(X), and finally we assign it to the respective data frame.</p>
 <pre class="r"><code># linear function
 model &lt;- lm(tuition ~ gdp_per_capita, data = tuition_gdp)</code></pre>
-<p>After creating our model, we can use the summary() function to get an overview of how fit it really is.</p>
+<p>After creating our model, we can use the <code>summary()</code> function to get an overview of how fit it really is.</p>
 <pre class="r"><code>summary(model)</code></pre>
 <pre><code>## 
 ## Call:
@@ -417,11 +417,11 @@ model &lt;- lm(tuition ~ gdp_per_capita, data = tuition_gdp)</code></pre>
 ## Residual standard error: 2380 on 598 degrees of freedom
 ## Multiple R-squared:  0.0224, Adjusted R-squared:  0.02076 
 ## F-statistic:  13.7 on 1 and 598 DF,  p-value: 0.0002341</code></pre>
-<p>Looking to our model fit, we can see that the same produces a statistical significant result, Rsquared = .022, F(1, 598) = 13.7, p = .00023. You can use the function wrapFtest() to get a clearer view about this statistic.</p>
+<p>Looking to our model fit, we can see that the same produces a statistical significant result, Rsquared = .022, F(1, 598) = 13.7, p = .00023. You can use the function <code>wrapFtest()</code> to get a clearer view about this statistic.</p>
 <pre class="r"><code>wrapFTest(model)</code></pre>
 <pre><code>## [1] &quot;F Test summary: (R2=0.022, F(1,598)=14, p=0.00023).&quot;</code></pre>
 <p>This shows that the gdp per capita of each state explains 2.2% of the variability of the tuition costs. Thus, even if our model is statistical significant it only has a very low explanatory power. In sum, it does not show a good fit to predict the tuition costs.</p>
-<p>Let’s now take a look to the estimates of the model. We can use the tidy() function from the broom package to check these values.</p>
+<p>Let’s now take a look to the estimates of the model. We can use the <code>tidy()</code> function from the broom package to check these values.</p>
 <pre class="r"><code>tidy(model)</code></pre>
 <pre><code>##             term     estimate    std.error statistic     p.value
 ## 1    (Intercept) 5.966324e+03 531.15634991 11.232708 1.07188e-26
@@ -432,10 +432,10 @@ confint(model, conf.level = 0.95)</code></pre>
 ## (Intercept)    4.923166e+03 7.009483e+03
 ## gdp_per_capita 1.936268e-02 6.313183e-02</code></pre>
 <p>The estimate of our model is 0.041, 95% confidence interval[0.019, 0.063]. This means that an increase of 1 dollar in gdp per capita per state will increase the tuition costs per state in 0.041 dollars. Meaning , if the gpd per capita increases 1000 dollars the tuition costs will increase 41 dollars. Once more, we can see that our model is not fit to predict the tuition costs.</p>
-<p>Regarding the goodness-of-fit, we still must check the Residual Standard Error which is around 2380. We can use the sigma() function to verify it. Again, this value indicates that our model does not show a good fit given that the actual tuition costs will deviate from the regression line, that is, from the expected costs, in 2379.82 dollars.</p>
+<p>Regarding the goodness-of-fit, we still must check the Residual Standard Error which is around 2380. We can use the <code>sigma()</code> function to verify it. Again, this value indicates that our model does not show a good fit given that the actual tuition costs will deviate from the regression line, that is, from the expected costs, in 2379.82 dollars.</p>
 <pre class="r"><code>sigma(model)</code></pre>
 <pre><code>## [1] 2379.819</code></pre>
-<p>To test how accurate is our regression model, we should also check it with visual tools. But before that, we can look into some statistics reflected in our model using the augment() function from the broom package.</p>
+<p>To test how accurate is our regression model, we should also check it with visual tools. But before that, we can look into some statistics reflected in our model using the <code>augment()</code> function from the broom package.</p>
 <pre class="r"><code>aug &lt;- augment(model)
 head(aug)</code></pre>
 <pre><code>##    tuition gdp_per_capita  .fitted  .se.fit    .resid        .hat   .sigma
@@ -460,7 +460,7 @@ head(aug)</code></pre>
   geom_smooth(se = FALSE, color = &quot;red&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-15-1.png" width="672" /> This graph allow us to see the assumption of linearity of our model. In our case the red line is not within the confidence interval of the blue line. Consequently, we can conclude that our model is not linear.</p>
-<p>One interesting graph to check the linearity of our model is the mplot_density() function from the lares package. Our graph below shows clearly that the actual values (green color) represent a different density distribution than the predicted values (red color).</p>
+<p>One interesting graph to check the linearity of our model is the <code>mplot_density()</code> function from the lares package. Our graph below shows clearly that the actual values (green color) represent a different density distribution than the predicted values (red color).</p>
 <pre class="r"><code>mplot_density(tag = aug$tuition, 
                     score = aug$.fitted,
                     subtitle = &quot;Tuition Model&quot;,
@@ -481,7 +481,7 @@ head(aug)</code></pre>
   ggtitle(&quot;Residuals vs. Linear model prediction&quot;)</code></pre>
 <p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>These plots show that the residuals do not have a constant variance along the y-axis. Therefore, our model shows Heteroscedasticity.</p>
-<p>Regarding the assumption of normal distribution, we can use the qqnorm() and qqline() functions.</p>
+<p>Regarding the assumption of normal distribution, we can use the <code>qqnorm()</code> and <code>qqline()</code> functions.</p>
 <pre class="r"><code>qqnorm(aug$.resid)
 qqline(aug$.resid)</code></pre>
 <p><img src="../../../post/2018-07-25-linear-regression-in-r-a-simple-analysis_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
@@ -540,13 +540,13 @@ qqline(aug$.resid)</code></pre>
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/07/linear-regression-in-r-a-simple-analysis/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/07/linear-regression-in-r-a-simple-analysis/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -620,13 +620,13 @@ qqline(aug$.resid)</code></pre>
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/07/linear-regression-in-r-a-simple-analysis/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/07/linear-regression-in-r-a-simple-analysis/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -656,13 +656,13 @@ qqline(aug$.resid)</code></pre>
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoscano84.github.io%2F2018%2F07%2Flinear-regression-in-r-a-simple-analysis%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2018%2F07%2Flinear-regression-in-r-a-simple-analysis%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftoscano84.github.io%2F2018%2F07%2Flinear-regression-in-r-a-simple-analysis%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2018%2F07%2Flinear-regression-in-r-a-simple-analysis%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
@@ -717,15 +717,15 @@ qqline(aug$.resid)</code></pre>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
-                <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
+              <a class="link-unstyled" href="../../../2018/09/combine-data-frames-in-r/">
+                <h3 class="media-heading">Combine Data frames in R</h3>
               </a>
               <span class="media-meta">
                 <span class="media-date text-small">
-                  Aug 8, 2018
+                  Sep 9, 2018
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">This post talks about making interactive visualizations in R with leaflet. In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</div>
+              <div class="media-content hide-xs font-merryweather">Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -734,7 +734,24 @@ qqline(aug$.resid)</code></pre>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+              <a class="link-unstyled" href="../../../2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
+                <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post talks about making interactive visualizations in R with leaflet(). In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/07/linear-regression-in-r-a-simple-analysis/">
                 <h3 class="media-heading">Tuition costs and gdp per capita: A linear regression analysis</h3>
               </a>
               <span class="media-meta">
@@ -752,7 +769,7 @@ I will use a simple Linear Regression to study whether there is any relationship
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
+              <a class="link-unstyled" href="../../../2018/07/using-r-to-analyse-the-german-federal-election/">
                 <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
               </a>
               <span class="media-meta">
@@ -770,7 +787,7 @@ In order to make this visualization possible in R, loading the respective packag
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/about-me/">
+              <a class="link-unstyled" href="../../../2018/07/about-me/">
                 <h3 class="media-heading">About me</h3>
               </a>
               <span class="media-meta">
@@ -794,7 +811,7 @@ Other interests I also have, non-data related, are history, tv shows and literat
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         4 posts found
+         5 posts found
       </p>
     </div>
   </div>
@@ -835,7 +852,7 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/toscano84.github.io\/2018\/07\/linear-regression-in-r-a-simple-analysis\/';
+          this.page.url = '\/2018\/07\/linear-regression-in-r-a-simple-analysis\/';
           
             this.page.identifier = '\/2018\/07\/linear-regression-in-r-a-simple-analysis\/'
           

@@ -1,0 +1,1121 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.41 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Combine Data frames in R</title>
+    <meta name="author" content="Hugo Toscano">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../favicon.png">
+    
+
+    
+    <meta name="description" content="Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.">
+    <meta property="og:description" content="Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Combine Data frames in R">
+    <meta property="og:url" content="/2018/09/combine-data-frames-in-r/">
+    <meta property="og:site_name" content="Hugo Toscano">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo Toscano">
+    <meta name="twitter:description" content="Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="../../../css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">Hugo Toscano</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="../../../#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="../../../#about">
+          <img class="sidebar-profile-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Hugo Toscano</h4>
+        
+          <h5 class="sidebar-profile-bio">Contact: hugo_toscano@outlook.com</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://toscano84.github.io/2018/07/about-me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+      
+      <span class="sidebar-button-desc">About me</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/toscano84">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Combine Data frames in R
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-09-13T00:00:00Z">
+        
+  September 13, 2018
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="../../../categories/tutorials">Tutorials</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <div id="putting-together-data-frames-in-r" class="section level1">
+<h1>Putting together Data frames in R</h1>
+<p>Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.</p>
+<p>Firstly, we will show examples related to what is called <strong>mutating joins</strong>. These joins combine two data frames by matching observations in common variables. In the following image you can see the mutating joins present in R. This image is from the awesome book <a href="http://r4ds.had.co.nz/" class="uri">http://r4ds.had.co.nz/</a> by Garrett Grolemund and Hadley Wickham.</p>
+<div id="mutating-joins" class="section level2">
+<h2>Mutating Joins</h2>
+<p>For this tutorial I have created small datasets just for the sole purpose of writing this blog. Therefore, the data was created by myself and if there is any relationship between the variables, it is not real.</p>
+<p>First, we will load the packages and data frames needed for this tutorial.</p>
+<pre class="r"><code>library(here)
+library(tibble)
+library(tidyverse) # load packages related to data cleaning(in this tutorial dplyr for joins and set operators,  and purrr to use the reduce() function)
+library(readxl) # load excel files
+# dataframes
+df1 &lt;- read_excel(here(&quot;df1.xlsx&quot;))
+df2 &lt;- read_excel(here(&quot;df2.xlsx&quot;))
+df3 &lt;- read_excel(here(&quot;df3.xlsx&quot;))
+df4 &lt;- read_excel(here(&quot;df4.xlsx&quot;))</code></pre>
+<p>Let us start with the data frames df1 and df2.</p>
+<p>df1:</p>
+<pre class="r"><code>df1 </code></pre>
+<pre><code>## # A tibble: 9 x 5
+##      Id Face  Sex      Dom   Str
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 A     Female     3     3
+## 2     2 B     Female     5     4
+## 3     3 C     Female     6     5
+## 4     4 D     Female     7     6
+## 5     5 E     Female     8     1
+## 6     6 F     Female     1     3
+## 7     7 G     Male       3     4
+## 8     8 H     Male       4     2
+## 9     9 I     Male       5     3</code></pre>
+<p>df2:</p>
+<pre class="r"><code>df2</code></pre>
+<pre><code>## # A tibble: 9 x 5
+##      Id Face  Sex    Nationality SES        
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;      
+## 1     1 L     Female PT          Low        
+## 2     2 B     Female DEU         Middle     
+## 3     3 M     Female PT          High       
+## 4     4 D     Female PT          Millionaire
+## 5     5 E     Female PT          Low        
+## 6     6 F     Female UK          Low        
+## 7     7 G     Male   UK          High       
+## 8     8 H     Male   USA         Middle     
+## 9     9 I     Male   USA         Middle</code></pre>
+<p>If our goal is to maintain all elements of df1 and the elements of df2 in common with df1, we should use a <code>left_join()</code>. We can see that we have 3 variables in common. Our code for this is the following:</p>
+<pre class="r"><code>df_left &lt;- df1 %&gt;% 
+  left_join(df2, by = c(&quot;Id&quot;, &quot;Face&quot;, &quot;Sex&quot;))# use of by argument where we write the common variables in both datasets
+
+df_left</code></pre>
+<pre><code>## # A tibble: 9 x 7
+##      Id Face  Sex      Dom   Str Nationality SES        
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      
+## 1     1 A     Female     3     3 &lt;NA&gt;        &lt;NA&gt;       
+## 2     2 B     Female     5     4 DEU         Middle     
+## 3     3 C     Female     6     5 &lt;NA&gt;        &lt;NA&gt;       
+## 4     4 D     Female     7     6 PT          Millionaire
+## 5     5 E     Female     8     1 PT          Low        
+## 6     6 F     Female     1     3 UK          Low        
+## 7     7 G     Male       3     4 UK          High       
+## 8     8 H     Male       4     2 USA         Middle     
+## 9     9 I     Male       5     3 USA         Middle</code></pre>
+<p>As you can see the output maintains all the columns, but we have 2 missing values in the Nationality and SES columns because the first and third elements of df2 on the Face and Sex columns were different from df1. As said before, a left_join maintains all elemens of df1 and the common elements between df2 and df1.</p>
+<p>Sometimes, we might just want to do the reverse, maintain all elements of df2 and elements of df1 in common with df2. For that you should use a <code>right_join()</code> as the one below:</p>
+<pre class="r"><code>df_right &lt;- df2 %&gt;% 
+  right_join(df1, by = c(&quot;Id&quot;, &quot;Face&quot;, &quot;Sex&quot;))
+
+df_right</code></pre>
+<pre><code>## # A tibble: 9 x 7
+##      Id Face  Sex    Nationality SES           Dom   Str
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 A     Female &lt;NA&gt;        &lt;NA&gt;            3     3
+## 2     2 B     Female DEU         Middle          5     4
+## 3     3 C     Female &lt;NA&gt;        &lt;NA&gt;            6     5
+## 4     4 D     Female PT          Millionaire     7     6
+## 5     5 E     Female PT          Low             8     1
+## 6     6 F     Female UK          Low             1     3
+## 7     7 G     Male   UK          High            3     4
+## 8     8 H     Male   USA         Middle          4     2
+## 9     9 I     Male   USA         Middle          5     3</code></pre>
+<p>In other situations we might want to maintain only the elements in common between df1 and df2. For that you use an <code>inner_join()</code>:</p>
+<pre class="r"><code>df_inner &lt;- df1 %&gt;% 
+  inner_join(df2, by = c(&quot;Id&quot;, &quot;Face&quot;, &quot;Sex&quot;))
+
+df_inner</code></pre>
+<pre><code>## # A tibble: 7 x 7
+##      Id Face  Sex      Dom   Str Nationality SES        
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      
+## 1     2 B     Female     5     4 DEU         Middle     
+## 2     4 D     Female     7     6 PT          Millionaire
+## 3     5 E     Female     8     1 PT          Low        
+## 4     6 F     Female     1     3 UK          Low        
+## 5     7 G     Male       3     4 UK          High       
+## 6     8 H     Male       4     2 USA         Middle     
+## 7     9 I     Male       5     3 USA         Middle</code></pre>
+<p>As you can see, elements in the first and third columns disappear from our database as they are not common between df1 and df2. In those cases where we want to maintain all observations from df1 and df2, we should go with a <code>full_join()</code>:</p>
+<pre class="r"><code>df_full &lt;- df1 %&gt;% 
+  full_join(df2, by = c(&quot;Id&quot;, &quot;Face&quot;, &quot;Sex&quot;))
+
+df_full</code></pre>
+<pre><code>## # A tibble: 11 x 7
+##       Id Face  Sex      Dom   Str Nationality SES        
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      
+##  1     1 A     Female     3     3 &lt;NA&gt;        &lt;NA&gt;       
+##  2     2 B     Female     5     4 DEU         Middle     
+##  3     3 C     Female     6     5 &lt;NA&gt;        &lt;NA&gt;       
+##  4     4 D     Female     7     6 PT          Millionaire
+##  5     5 E     Female     8     1 PT          Low        
+##  6     6 F     Female     1     3 UK          Low        
+##  7     7 G     Male       3     4 UK          High       
+##  8     8 H     Male       4     2 USA         Middle     
+##  9     9 I     Male       5     3 USA         Middle     
+## 10     1 L     Female    NA    NA PT          Low        
+## 11     3 M     Female    NA    NA PT          High</code></pre>
+<p>We have two additional rows. Why? Because with a full join the non-common elements in rows 1 and 3 are added to the joined database.</p>
+<div id="very-important-notes-to-consider-in-two-situations" class="section level3">
+<h3>Very Important <strong>NOTES</strong> to consider in two situations:</h3>
+<p><em>1st situation</em> You may have common variables in two different datasets with different names as in df1 and df4</p>
+<p>df1:</p>
+<pre class="r"><code>df1</code></pre>
+<pre><code>## # A tibble: 9 x 5
+##      Id Face  Sex      Dom   Str
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 A     Female     3     3
+## 2     2 B     Female     5     4
+## 3     3 C     Female     6     5
+## 4     4 D     Female     7     6
+## 5     5 E     Female     8     1
+## 6     6 F     Female     1     3
+## 7     7 G     Male       3     4
+## 8     8 H     Male       4     2
+## 9     9 I     Male       5     3</code></pre>
+<p>And df4:</p>
+<pre class="r"><code>df4 </code></pre>
+<pre><code>## # A tibble: 9 x 5
+##      Id face_stimuli Sex    Nationality SES        
+##   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;      
+## 1     1 L            Female PT          Low        
+## 2     2 B            Female DEU         Middle     
+## 3     3 M            Female PT          High       
+## 4     4 D            Female PT          Millionaire
+## 5     5 E            Female PT          Low        
+## 6     6 F            Female UK          Low        
+## 7     7 G            Male   UK          High       
+## 8     8 H            Male   USA         Middle     
+## 9     9 I            Male   USA         Middle</code></pre>
+<p>The variables Face and face_stimuli are the same, but have different names. In that case you should do the following (in this example, we are using an <code>inner_join()</code>, but we could use another type of join):</p>
+<pre class="r"><code>df_sit1 &lt;- df1 %&gt;% 
+  inner_join(df4, by = c(&quot;Id&quot;, &quot;Sex&quot;, 
+                         &quot;Face&quot; = &quot;face_stimuli&quot;))# you make explicit that face equals item
+
+df_sit1</code></pre>
+<pre><code>## # A tibble: 7 x 7
+##      Id Face  Sex      Dom   Str Nationality SES        
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      
+## 1     2 B     Female     5     4 DEU         Middle     
+## 2     4 D     Female     7     6 PT          Millionaire
+## 3     5 E     Female     8     1 PT          Low        
+## 4     6 F     Female     1     3 UK          Low        
+## 5     7 G     Male       3     4 UK          High       
+## 6     8 H     Male       4     2 USA         Middle     
+## 7     9 I     Male       5     3 USA         Middle</code></pre>
+<p><em>2nd situation</em> We have variables with the same name, but are not exactly the same. In these two data frames I have created, df5 and df6, we have the counting of white blood cells before and after treatment, respectively.</p>
+<p>df5:</p>
+<pre class="r"><code>df5 &lt;- tibble(Id = 1:10,
+             WhiteBloodCell = c(900, 910, 1000, 250, 300, 600, 300, 800, 200, 100),
+             SES = c(&quot;Middle Class&quot;, &quot;Middle Class&quot;, &quot;Middle Class&quot;, &quot;Upper Middle Class&quot;,
+                     &quot;Middle Class&quot;, &quot;Middle Class&quot;, &quot;Middle Class&quot;, &quot;Upper Middle Class&quot;,
+                     &quot;Lower Middle Class&quot;, &quot;Lower Middle Class&quot;))
+
+df5 </code></pre>
+<pre><code>## # A tibble: 10 x 3
+##       Id WhiteBloodCell SES               
+##    &lt;int&gt;          &lt;dbl&gt; &lt;chr&gt;             
+##  1     1            900 Middle Class      
+##  2     2            910 Middle Class      
+##  3     3           1000 Middle Class      
+##  4     4            250 Upper Middle Class
+##  5     5            300 Middle Class      
+##  6     6            600 Middle Class      
+##  7     7            300 Middle Class      
+##  8     8            800 Upper Middle Class
+##  9     9            200 Lower Middle Class
+## 10    10            100 Lower Middle Class</code></pre>
+<p>And df6:</p>
+<pre class="r"><code>df6 &lt;- tibble(Id = 1:10,
+             WhiteBloodCell = c(1000, 980, 1200, 500, 
+                                500, 700, 300, 1000, 400, 300)) 
+df6 </code></pre>
+<pre><code>## # A tibble: 10 x 2
+##       Id WhiteBloodCell
+##    &lt;int&gt;          &lt;dbl&gt;
+##  1     1           1000
+##  2     2            980
+##  3     3           1200
+##  4     4            500
+##  5     5            500
+##  6     6            700
+##  7     7            300
+##  8     8           1000
+##  9     9            400
+## 10    10            300</code></pre>
+<p>In these cases, we should follow the function described below:</p>
+<pre class="r"><code>df_sit2 &lt;- df5 %&gt;% 
+  left_join(df6, by = c(&quot;Id&quot;), suffix = c(&quot;Before Treatment&quot;, &quot;After Treatment&quot;))#we have in common the variables Id and whitebloodcell, but the latter corresponds to two different elements, before and after treatment.
+
+df_sit2</code></pre>
+<pre><code>## # A tibble: 10 x 4
+##       Id `WhiteBloodCellBefore Treatment` SES        `WhiteBloodCellAfter~
+##    &lt;int&gt;                            &lt;dbl&gt; &lt;chr&gt;                      &lt;dbl&gt;
+##  1     1                              900 Middle Cl~                  1000
+##  2     2                              910 Middle Cl~                   980
+##  3     3                             1000 Middle Cl~                  1200
+##  4     4                              250 Upper Mid~                   500
+##  5     5                              300 Middle Cl~                   500
+##  6     6                              600 Middle Cl~                   700
+##  7     7                              300 Middle Cl~                   300
+##  8     8                              800 Upper Mid~                  1000
+##  9     9                              200 Lower Mid~                   400
+## 10    10                              100 Lower Mid~                   300</code></pre>
+</div>
+</div>
+<div id="filtering-joins" class="section level2">
+<h2>Filtering Joins</h2>
+<p>Let’s go now to another type of joins. The <strong>FILTERING</strong> joins. They have this name because they filter observations in two different datasets. There are two types of filtering joins: <code>semi_join()</code> and <code>anti_join()</code>.</p>
+<p>The <code>semi_join()</code> maintains all observations in a data frame (x) which are not matched in another data frame (y):</p>
+<pre class="r"><code>df_semi &lt;- df1 %&gt;% 
+  semi_join(df2, by = c(&quot;Id&quot;, &quot;Face&quot;, &quot;Sex&quot;))
+
+df_semi</code></pre>
+<pre><code>## # A tibble: 7 x 5
+##      Id Face  Sex      Dom   Str
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1     2 B     Female     5     4
+## 2     4 D     Female     7     6
+## 3     5 E     Female     8     1
+## 4     6 F     Female     1     3
+## 5     7 G     Male       3     4
+## 6     8 H     Male       4     2
+## 7     9 I     Male       5     3</code></pre>
+<p>Rows 1 and 3 disappear and the variables Nationality and SES from df2 are no longer showing in this new dataset. Therefore, this join maintains all variables of j1 and the ones in common with df2. In regard to the observations/cases, it maintains only the matching ones.</p>
+<p>The <code>anti_join()</code> maintains only the non-common observations between data frame (x) and data frame (y):</p>
+<pre class="r"><code>df_anti &lt;- df1 %&gt;% 
+  anti_join(df2, by = c(&quot;Id&quot;, &quot;Face&quot;, &quot;Sex&quot;))
+
+df_anti</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##      Id Face  Sex      Dom   Str
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 A     Female     3     3
+## 2     3 C     Female     6     5</code></pre>
+<p>In this case, only rows 1 and 3 are maintained.</p>
+</div>
+<div id="joining-more-than-2-data-frames" class="section level2">
+<h2>Joining more than 2 data frames</h2>
+<p>Unfortunately, the mutating and filtering joins only enable the merger of two data frames. However, there are situations where we have 3 or more datasets. Let’s imagine we wanted to join df1, df2, and df3. In this scenario, we would need the <code>reduce()</code> function from the <code>purrr</code> package.</p>
+<p>First step is to create a list with the 3 data frames:</p>
+<pre class="r"><code>a &lt;- list(df1, df2, df3)#create a list with the 3 datasets</code></pre>
+<p>Afterwards we write the function below:</p>
+<pre class="r"><code>df_reduce &lt;- a %&gt;% 
+  reduce(left_join, by = c(&quot;Id&quot;, &quot;Face&quot;, &quot;Sex&quot;))#use reduce() function. The first argument is the list created. The second argument is the join that you intend to use.
+
+df_reduce</code></pre>
+<pre><code>## # A tibble: 9 x 9
+##      Id Face  Sex    Dom.x Str.x Nationality SES         Dom.y Str.y
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 A     Female     3     3 &lt;NA&gt;        &lt;NA&gt;           NA    NA
+## 2     2 B     Female     5     4 DEU         Middle         NA    NA
+## 3     3 C     Female     6     5 &lt;NA&gt;        &lt;NA&gt;           NA    NA
+## 4     4 D     Female     7     6 PT          Millionaire     7     6
+## 5     5 E     Female     8     1 PT          Low             8     1
+## 6     6 F     Female     1     3 UK          Low             1     3
+## 7     7 G     Male       3     4 UK          High            3     4
+## 8     8 H     Male       4     2 USA         Middle          4     2
+## 9     9 I     Male       5     3 USA         Middle          5     3</code></pre>
+</div>
+<div id="set-operations" class="section level2">
+<h2>Set Operations</h2>
+<p>Sometimes we do not need to use joins when we have two datasets we want to unite. This happens when two datasets have the same variables. For instance, df1 and df3:</p>
+<p>See df1:</p>
+<pre class="r"><code>df1</code></pre>
+<pre><code>## # A tibble: 9 x 5
+##      Id Face  Sex      Dom   Str
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 A     Female     3     3
+## 2     2 B     Female     5     4
+## 3     3 C     Female     6     5
+## 4     4 D     Female     7     6
+## 5     5 E     Female     8     1
+## 6     6 F     Female     1     3
+## 7     7 G     Male       3     4
+## 8     8 H     Male       4     2
+## 9     9 I     Male       5     3</code></pre>
+<p>And df3:</p>
+<pre class="r"><code>df3</code></pre>
+<pre><code>## # A tibble: 9 x 5
+##      Id Face  Sex      Dom   Str
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1    10 A     Male       8     4
+## 2    15 B     Male       9     3
+## 3    13 C     Male      10     8
+## 4     4 D     Female     7     6
+## 5     5 E     Female     8     1
+## 6     6 F     Female     1     3
+## 7     7 G     Male       3     4
+## 8     8 H     Male       4     2
+## 9     9 I     Male       5     3</code></pre>
+<p>To combine these datasets we should use what is called set operators. R has 3 of such: union, setdiff, and intersect.</p>
+<p><code>union()</code> is used when we want all the unique observations of the two data frames</p>
+<pre class="r"><code>df_u &lt;- df1 %&gt;% 
+  union(df3)
+
+df_u </code></pre>
+<pre><code>## # A tibble: 12 x 5
+##       Id Face  Sex      Dom   Str
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+##  1     6 F     Female     1     3
+##  2     8 H     Male       4     2
+##  3     2 B     Female     5     4
+##  4     1 A     Female     3     3
+##  5     5 E     Female     8     1
+##  6     7 G     Male       3     4
+##  7     9 I     Male       5     3
+##  8     3 C     Female     6     5
+##  9    10 A     Male       8     4
+## 10     4 D     Female     7     6
+## 11    15 B     Male       9     3
+## 12    13 C     Male      10     8</code></pre>
+<p>Now, we have only 12 rows, because 6 of the rows in df3 were the same as in df1. Remember, the union function returns only the unique rows. In this case, we have 12 observations that are unique within both data frames.</p>
+<p>In other cases, we can use the <code>setdiff()</code> if we want only the observation in df1 not in common with df3.</p>
+<pre class="r"><code>df_dif &lt;- df1 %&gt;% 
+  setdiff(df3)
+
+df_dif </code></pre>
+<pre><code>## # A tibble: 3 x 5
+##      Id Face  Sex      Dom   Str
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 A     Female     3     3
+## 2     2 B     Female     5     4
+## 3     3 C     Female     6     5</code></pre>
+<p>Returns only the rows with Id 1 to 3. The rows not in common with df3.</p>
+<p>Finally, we can use <code>intersect()</code> if we want only the observations in common between df1, df3.</p>
+<pre class="r"><code>df_intersect &lt;- df1 %&gt;% 
+  intersect(df3)
+
+df_intersect</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##      Id Face  Sex      Dom   Str
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1     4 D     Female     7     6
+## 2     5 E     Female     8     1
+## 3     6 F     Female     1     3
+## 4     7 G     Male       3     4
+## 5     8 H     Male       4     2
+## 6     9 I     Male       5     3</code></pre>
+</div>
+<div id="adding-rows-and-columns" class="section level2">
+<h2>Adding Rows and Columns</h2>
+<p>Occasionally, it may happen that you want to combine cases from two datasets with the same variables. In that scenario you should use the function <code>bind_rows()</code> from the <code>dplyr</code> package.</p>
+<p>We can use the function bind_rows with df1 and df3.</p>
+<pre class="r"><code>df_bind &lt;- df1 %&gt;% 
+  bind_rows(df3)
+
+df_bind</code></pre>
+<pre><code>## # A tibble: 18 x 5
+##       Id Face  Sex      Dom   Str
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+##  1     1 A     Female     3     3
+##  2     2 B     Female     5     4
+##  3     3 C     Female     6     5
+##  4     4 D     Female     7     6
+##  5     5 E     Female     8     1
+##  6     6 F     Female     1     3
+##  7     7 G     Male       3     4
+##  8     8 H     Male       4     2
+##  9     9 I     Male       5     3
+## 10    10 A     Male       8     4
+## 11    15 B     Male       9     3
+## 12    13 C     Male      10     8
+## 13     4 D     Female     7     6
+## 14     5 E     Female     8     1
+## 15     6 F     Female     1     3
+## 16     7 G     Male       3     4
+## 17     8 H     Male       4     2
+## 18     9 I     Male       5     3</code></pre>
+<p>Now we have 18 rows. One nice feature of <code>bind_rows()</code> is the possibility to add an extra column , allowing you to identify of which data frame came each observation.</p>
+<pre class="r"><code>bind_df2 &lt;- bind_rows(Dataset1 = df1, 
+                   Dataset2 = df3, 
+                   .id = &quot;Dataset&quot;)
+
+bind_df2 </code></pre>
+<pre><code>## # A tibble: 18 x 6
+##    Dataset     Id Face  Sex      Dom   Str
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+##  1 Dataset1     1 A     Female     3     3
+##  2 Dataset1     2 B     Female     5     4
+##  3 Dataset1     3 C     Female     6     5
+##  4 Dataset1     4 D     Female     7     6
+##  5 Dataset1     5 E     Female     8     1
+##  6 Dataset1     6 F     Female     1     3
+##  7 Dataset1     7 G     Male       3     4
+##  8 Dataset1     8 H     Male       4     2
+##  9 Dataset1     9 I     Male       5     3
+## 10 Dataset2    10 A     Male       8     4
+## 11 Dataset2    15 B     Male       9     3
+## 12 Dataset2    13 C     Male      10     8
+## 13 Dataset2     4 D     Female     7     6
+## 14 Dataset2     5 E     Female     8     1
+## 15 Dataset2     6 F     Female     1     3
+## 16 Dataset2     7 G     Male       3     4
+## 17 Dataset2     8 H     Male       4     2
+## 18 Dataset2     9 I     Male       5     3</code></pre>
+<p>As a result we have a new variable called Dataset with two levels, Dataset1 and Dataset2. This allow us to identify from which dataset the observations came.</p>
+<p>Besides rows you can also bind columns. Again, with the package <code>dplyr</code> you have the option of doing it through the <code>bind_cols()</code> function.</p>
+<p>Let us use a data frame from another post and break in two:</p>
+<pre class="r"><code>us_tuition &lt;- read_excel(here(&quot;us_avg_tuition.xlsx&quot;))
+
+head(us_tuition)</code></pre>
+<pre><code>## # A tibble: 6 x 13
+##   State      `2004-05` `2005-06` `2006-07` `2007-08` `2008-09` `2009-10`
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Alabama        5683.     5841.     5753.     6008.     6475.     7189.
+## 2 Alaska         4328.     4633.     4919.     5070.     5075.     5455.
+## 3 Arizona        5138.     5416.     5481.     5682.     6058.     7263.
+## 4 Arkansas       5772.     6082.     6232.     6415.     6417.     6627.
+## 5 California     5286.     5528.     5335.     5672.     5898.     7259.
+## 6 Colorado       4704.     5407.     5596.     6227.     6284.     6948.
+## # ... with 6 more variables: `2010-11` &lt;dbl&gt;, `2011-12` &lt;dbl&gt;,
+## #   `2012-13` &lt;dbl&gt;, `2013-14` &lt;dbl&gt;, `2014-15` &lt;dbl&gt;, `2015-16` &lt;dbl&gt;</code></pre>
+<pre class="r"><code># break the data frame in two
+us_1 &lt;- us_tuition[1:6] 
+head(us_1)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   State      `2004-05` `2005-06` `2006-07` `2007-08` `2008-09`
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Alabama        5683.     5841.     5753.     6008.     6475.
+## 2 Alaska         4328.     4633.     4919.     5070.     5075.
+## 3 Arizona        5138.     5416.     5481.     5682.     6058.
+## 4 Arkansas       5772.     6082.     6232.     6415.     6417.
+## 5 California     5286.     5528.     5335.     5672.     5898.
+## 6 Colorado       4704.     5407.     5596.     6227.     6284.</code></pre>
+<pre class="r"><code>#
+us_2 &lt;- us_tuition[7:13]
+head(us_2)</code></pre>
+<pre><code>## # A tibble: 6 x 7
+##   `2009-10` `2010-11` `2011-12` `2012-13` `2013-14` `2014-15` `2015-16`
+##       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1     7189.     8071.     8452.     9098.     9359.     9496.     9751.
+## 2     5455.     5759.     5762.     6026.     6012.     6149.     6571.
+## 3     7263.     8840.     9967.    10134.    10296.    10414.    10646.
+## 4     6627.     6901.     7029.     7287.     7408.     7606.     7867.
+## 5     7259.     8194.     9436.     9361.     9274.     9187.     9270.
+## 6     6948.     7748.     8316.     8793.     9293.     9299.     9748.</code></pre>
+<p>Now let us use the <code>bind_cols()</code> function to unite them.</p>
+<pre class="r"><code>us_reunited &lt;- us_1 %&gt;% 
+  bind_cols(us_2)
+
+head(us_reunited)</code></pre>
+<pre><code>## # A tibble: 6 x 13
+##   State      `2004-05` `2005-06` `2006-07` `2007-08` `2008-09` `2009-10`
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Alabama        5683.     5841.     5753.     6008.     6475.     7189.
+## 2 Alaska         4328.     4633.     4919.     5070.     5075.     5455.
+## 3 Arizona        5138.     5416.     5481.     5682.     6058.     7263.
+## 4 Arkansas       5772.     6082.     6232.     6415.     6417.     6627.
+## 5 California     5286.     5528.     5335.     5672.     5898.     7259.
+## 6 Colorado       4704.     5407.     5596.     6227.     6284.     6948.
+## # ... with 6 more variables: `2010-11` &lt;dbl&gt;, `2011-12` &lt;dbl&gt;,
+## #   `2012-13` &lt;dbl&gt;, `2013-14` &lt;dbl&gt;, `2014-15` &lt;dbl&gt;, `2015-16` &lt;dbl&gt;</code></pre>
+<p>I hope you liked this tutorial about how to put together different data frames. Thank you and keep coding!</p>
+</div>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="../../../tags/dplyr/">dplyr</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/joins/">joins</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/combine/">combine</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/" data-tooltip="A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/09/combine-data-frames-in-r/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/09/combine-data-frames-in-r/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 Hugo Toscano. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/" data-tooltip="A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/09/combine-data-frames-in-r/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/09/combine-data-frames-in-r/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2018%2F09%2Fcombine-data-frames-in-r%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2018%2F09%2Fcombine-data-frames-in-r%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Hugo Toscano</h4>
+    
+      <div id="about-card-bio">Contact: hugo_toscano@outlook.com</div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Stuttgart, Germany
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/09/combine-data-frames-in-r/">
+                <h3 class="media-heading">Combine Data frames in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
+                <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post talks about making interactive visualizations in R with leaflet(). In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/07/linear-regression-in-r-a-simple-analysis/">
+                <h3 class="media-heading">Tuition costs and gdp per capita: A linear regression analysis</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
+I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/07/using-r-to-analyse-the-german-federal-election/">
+                <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">As the title of this post implies we will analyze, using the statistical programming language R, the German Federal Election which took place on 24 September of 2017. It will not be an exhaustive analysis of the results. I’m only interested in visualizing the share of the vote that each party represented in the Parliament (i.e. Bundestag) received in each one of the 16 States of Germany.
+In order to make this visualization possible in R, loading the respective packages is the first step.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/07/about-me/">
+                <h3 class="media-heading">About me</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to my blog!
+I&rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Not yet Machine Learning, still exploring it.
+My goal is to try to help you improve your R skills, by sharing what I am currently learning.
+Other interests I also have, non-data related, are history, tv shows and literature, which I can eventually blog about.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         5 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/dabczf7ag/image/upload/v1533024537/cover_new2.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="../../../js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2018\/09\/combine-data-frames-in-r\/';
+          
+            this.page.identifier = '\/2018\/09\/combine-data-frames-in-r\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'toscano84';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

@@ -134,7 +134,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="../../../2018/07/about-me/">
+      <a class="sidebar-button-link " href="https://toscano84.github.io/2018/07/about-me/">
     
       <i class="sidebar-button-icon fa fa-lg fa-user"></i>
       
@@ -178,7 +178,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://github.com/toscano84" target="_blank" rel="noopener">
+      <a class="sidebar-button-link " href="https://github.com/toscano84">
     
       <i class="sidebar-button-icon fa fa-lg fa-github"></i>
       
@@ -188,7 +188,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/" target="_blank" rel="noopener">
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/">
     
       <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
       
@@ -198,7 +198,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://twitter.com/htoscano84" target="_blank" rel="noopener">
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84">
     
       <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
       
@@ -265,7 +265,7 @@ library(readxl) # load excel files
 library(here) # creates a path to the current directory
 library(extrafont) # add new fonts</code></pre>
 <p>Next, we need to get the file with the German Election results. We can get it from the Federal Returning Officer - <a href="https://www.bundeswahlleiter.de/en/bundestagswahlen/2017/ergebnisse.html" class="uri">https://www.bundeswahlleiter.de/en/bundestagswahlen/2017/ergebnisse.html</a></p>
-<p>After the file is opened in Excel, we save it as .xlsx file in our working directory of R. Then, use the read_excel() function to load the file. We can also use the skip argument, as the first 5 rows of the spreadsheet are unnecessary.</p>
+<p>After the file is opened in Excel, we save it as .xlsx file in our working directory of R. Then, use the <code>read_excel()</code> function to load the file. We can also use the skip argument, as the first 5 rows of the spreadsheet are unnecessary.</p>
 <pre class="r"><code># load file
 germany_elections_untidy &lt;- read_excel(here(&quot;btw17_kerg.xlsx&quot;), 
                                        skip = 5) 
@@ -470,7 +470,7 @@ glimpse(germany_elections_untidy)</code></pre>
 <pre class="r"><code># create two new vectors
 even_columns&lt;-seq(20,190,2) 
 odd_columns&lt;-seq(3,87,2) </code></pre>
-<p>Now, it’s time to tidy up the data frame. Select the variables of interest and use the slice() function to select the rows which correspond to the 16 States of Germany. Afterwards, rename and delete some columns. Use mutate_at to transform some columns to numeric or character type. Subsequently, use mutate to create new variables like the percentage values for each party in each State. Finally, reorder columns and delete some of them.</p>
+<p>Now, it’s time to tidy up the data frame. Select the variables of interest and use the <code>slice()</code> function to select the rows which correspond to the 16 States of Germany. Afterwards, rename and delete some columns. Use <code>mutate_at</code> to transform some columns to numeric or character type. Subsequently, use <code>mutate()</code> to create new variables like the percentage values for each party in each State. Finally, reorder columns and delete some of them.</p>
 <pre class="r"><code># clean the German Federal Election data frame
 
 germany_tidy &lt;- germany_elections_untidy %&gt;%
@@ -539,7 +539,7 @@ germany_tidy$Nr &lt;- Nr_recode[germany_tidy$Nr] </code></pre>
 ## $ CSU           &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ...
 ## $ FDP           &lt;dbl&gt; 216844, 57895, 105610, 431405, 31056, 105485, 96...
 ## $ AfD           &lt;dbl&gt; 140362, 172409, 76511, 422362, 33244, 301103, 24...</code></pre>
-<p>Nonetheless, our goal is to create a map of Germany with the results of the German Federal Elections and for that, we need to load a shapefile of Germany. Go ahead and download the shapefile and save it in your working directory. After that, use the function readOGR() from the rgdal package to load the file in R.</p>
+<p>Nonetheless, our goal is to create a map of Germany with the results of the German Federal Elections and for that, we need to load a shapefile of Germany. Go ahead and download the shapefile and save it in your working directory. After that, use the function <code>readOGR()</code> from the rgdal package to load the file in R.</p>
 <pre class="r"><code># load shape file
 germany &lt;- readOGR(here(layer = &quot;DEU_adm1.shp&quot;), use_iconv = TRUE, encoding = &quot;UTF-8&quot;) </code></pre>
 <pre><code>## OGR data source with driver: ESRI Shapefile 
@@ -563,7 +563,7 @@ germany@data &lt;- germany@data %&gt;%
 
 # important step for the indexes to join
 rownames(germany@data) &lt;- germany@data$germany_states </code></pre>
-<p>Finally, we must transform the previous object in a data frame. This is needed since plot shapefiles is not possible, only data frames. With this goal in mind, use the tidy() function from the broom package.</p>
+<p>Finally, we must transform the previous object in a data frame. This is needed since plot shapefiles is not possible, only data frames. With this goal in mind, use the <code>tidy()</code> function from the broom package.</p>
 <pre class="r"><code># transform the previous object in a dataframe
 germany_dataframe &lt;- tidy(germany) %&gt;% 
   left_join(., germany@data, by = c(&quot;id&quot; = &quot;Nr&quot;)) </code></pre>
@@ -583,7 +583,7 @@ plot_basic_CDU_CSU &lt;- germany_dataframe %&gt;%
 
 plot_basic_CDU_CSU</code></pre>
 <p><img src="../../../post/2018-06-29-using-r-to-analyse-the-german-federal-election_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<p>But given the power of the ggplot2 package, we can create a better plot than the last one. Let’s start by removing this background and create a common theme and legend design for all plots.</p>
+<p>But given the power of the <code>ggplot2</code> package, we can create a better plot than the last one. Let’s start by removing this background and create a common theme and legend design for all plots.</p>
 <pre class="r"><code># creation of a common theme for all plots
 common_theme &lt;- theme(title = element_text(family = &quot;Cambria&quot;, size = 12, hjust = 0.5),
         plot.title = element_text(family = &quot;Cambria&quot;, 
@@ -858,13 +858,13 @@ plot_AfD</code></pre>
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/07/using-r-to-analyse-the-german-federal-election/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/07/using-r-to-analyse-the-german-federal-election/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -938,13 +938,13 @@ plot_AfD</code></pre>
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/07/using-r-to-analyse-the-german-federal-election/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/07/using-r-to-analyse-the-german-federal-election/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -974,13 +974,13 @@ plot_AfD</code></pre>
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoscano84.github.io%2F2018%2F07%2Fusing-r-to-analyse-the-german-federal-election%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2018%2F07%2Fusing-r-to-analyse-the-german-federal-election%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftoscano84.github.io%2F2018%2F07%2Fusing-r-to-analyse-the-german-federal-election%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2018%2F07%2Fusing-r-to-analyse-the-german-federal-election%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
@@ -1035,15 +1035,15 @@ plot_AfD</code></pre>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
-                <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
+              <a class="link-unstyled" href="../../../2018/09/combine-data-frames-in-r/">
+                <h3 class="media-heading">Combine Data frames in R</h3>
               </a>
               <span class="media-meta">
                 <span class="media-date text-small">
-                  Aug 8, 2018
+                  Sep 9, 2018
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">This post talks about making interactive visualizations in R with leaflet. In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</div>
+              <div class="media-content hide-xs font-merryweather">Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -1052,7 +1052,24 @@ plot_AfD</code></pre>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+              <a class="link-unstyled" href="../../../2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
+                <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post talks about making interactive visualizations in R with leaflet(). In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/07/linear-regression-in-r-a-simple-analysis/">
                 <h3 class="media-heading">Tuition costs and gdp per capita: A linear regression analysis</h3>
               </a>
               <span class="media-meta">
@@ -1070,7 +1087,7 @@ I will use a simple Linear Regression to study whether there is any relationship
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
+              <a class="link-unstyled" href="../../../2018/07/using-r-to-analyse-the-german-federal-election/">
                 <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
               </a>
               <span class="media-meta">
@@ -1088,7 +1105,7 @@ In order to make this visualization possible in R, loading the respective packag
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/about-me/">
+              <a class="link-unstyled" href="../../../2018/07/about-me/">
                 <h3 class="media-heading">About me</h3>
               </a>
               <span class="media-meta">
@@ -1112,7 +1129,7 @@ Other interests I also have, non-data related, are history, tv shows and literat
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         4 posts found
+         5 posts found
       </p>
     </div>
   </div>
@@ -1153,7 +1170,7 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/toscano84.github.io\/2018\/07\/using-r-to-analyse-the-german-federal-election\/';
+          this.page.url = '\/2018\/07\/using-r-to-analyse-the-german-federal-election\/';
           
             this.page.identifier = '\/2018\/07\/using-r-to-analyse-the-german-federal-election\/'
           

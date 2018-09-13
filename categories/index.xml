@@ -2,38 +2,47 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Hugo Toscano</title>
-    <link>https://toscano84.github.io/categories/</link>
+    <link>/categories/</link>
     <description>Recent content in Categories on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="https://toscano84.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Ggplot2</title>
-      <link>https://toscano84.github.io/categories/ggplot2/</link>
+      <link>/categories/ggplot2/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://toscano84.github.io/categories/ggplot2/</guid>
+      <guid>/categories/ggplot2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Leaflet</title>
-      <link>https://toscano84.github.io/categories/leaflet/</link>
+      <link>/categories/leaflet/</link>
       <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://toscano84.github.io/categories/leaflet/</guid>
+      <guid>/categories/leaflet/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Statistics</title>
-      <link>https://toscano84.github.io/categories/statistics/</link>
+      <link>/categories/statistics/</link>
       <pubDate>Fri, 27 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://toscano84.github.io/categories/statistics/</guid>
+      <guid>/categories/statistics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutorials</title>
+      <link>/categories/tutorials/</link>
+      <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/tutorials/</guid>
       <description></description>
     </item>
     
