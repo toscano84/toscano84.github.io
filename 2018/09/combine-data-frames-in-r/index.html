@@ -28,15 +28,18 @@
     
 
     
-    <meta name="description" content="Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.">
-    <meta property="og:description" content="Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.">
+    <meta name="description" content="Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.">
+    <meta property="og:description" content="Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.">
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Combine Data frames in R">
     <meta property="og:url" content="/2018/09/combine-data-frames-in-r/">
     <meta property="og:site_name" content="Hugo Toscano">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Hugo Toscano">
-    <meta name="twitter:description" content="Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.">
+    <meta name="twitter:description" content="Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.">
     
     
 
@@ -131,7 +134,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://toscano84.github.io/2018/07/about-me/">
+      <a class="sidebar-button-link " href="../../../2018/07/about-me/">
     
       <i class="sidebar-button-icon fa fa-lg fa-user"></i>
       
@@ -175,7 +178,7 @@ if (!doNotTrack) {
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://github.com/toscano84">
+      <a class="sidebar-button-link " href="https://github.com/toscano84" target="_blank" rel="noopener">
     
       <i class="sidebar-button-icon fa fa-lg fa-github"></i>
       
@@ -185,7 +188,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/">
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/" target="_blank" rel="noopener">
     
       <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
       
@@ -195,7 +198,7 @@ if (!doNotTrack) {
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://twitter.com/htoscano84">
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84" target="_blank" rel="noopener">
     
       <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
       
@@ -251,9 +254,7 @@ if (!doNotTrack) {
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <div id="putting-together-data-frames-in-r" class="section level1">
-<h1>Putting together Data frames in R</h1>
-<p>Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.</p>
+              <p>Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.</p>
 <p>Firstly, we will show examples related to what is called <strong>mutating joins</strong>. These joins combine two data frames by matching observations in common variables. In the following image you can see the mutating joins present in R. This image is from the awesome book <a href="http://r4ds.had.co.nz/" class="uri">http://r4ds.had.co.nz/</a> by Garrett Grolemund and Hadley Wickham.</p>
 <div id="mutating-joins" class="section level2">
 <h2>Mutating Joins</h2>
@@ -568,18 +569,18 @@ df_u </code></pre>
 <pre><code>## # A tibble: 12 x 5
 ##       Id Face  Sex      Dom   Str
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
-##  1     6 F     Female     1     3
-##  2     8 H     Male       4     2
-##  3     2 B     Female     5     4
-##  4     1 A     Female     3     3
-##  5     5 E     Female     8     1
-##  6     7 G     Male       3     4
-##  7     9 I     Male       5     3
-##  8     3 C     Female     6     5
-##  9    10 A     Male       8     4
-## 10     4 D     Female     7     6
-## 11    15 B     Male       9     3
-## 12    13 C     Male      10     8</code></pre>
+##  1     7 G     Male       3     4
+##  2     5 E     Female     8     1
+##  3    15 B     Male       9     3
+##  4     4 D     Female     7     6
+##  5    13 C     Male      10     8
+##  6     2 B     Female     5     4
+##  7     6 F     Female     1     3
+##  8    10 A     Male       8     4
+##  9     3 C     Female     6     5
+## 10     8 H     Male       4     2
+## 11     1 A     Female     3     3
+## 12     9 I     Male       5     3</code></pre>
 <p>Now, we have only 12 rows, because 6 of the rows in df3 were the same as in df1. Remember, the union function returns only the unique rows. In this case, we have 12 observations that are unique within both data frames.</p>
 <p>In other cases, we can use the <code>setdiff()</code> if we want only the observation in df1 not in common with df3.</p>
 <pre class="r"><code>df_dif &lt;- df1 %&gt;% 
@@ -723,7 +724,6 @@ head(us_reunited)</code></pre>
 ## #   `2012-13` &lt;dbl&gt;, `2013-14` &lt;dbl&gt;, `2014-15` &lt;dbl&gt;, `2015-16` &lt;dbl&gt;</code></pre>
 <p>I hope you liked this tutorial about how to put together different data frames. Thank you and keep coding!</p>
 </div>
-</div>
 
               
             </div>
@@ -779,13 +779,13 @@ head(us_reunited)</code></pre>
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/09/combine-data-frames-in-r/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/09/combine-data-frames-in-r/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -859,13 +859,13 @@ head(us_reunited)</code></pre>
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/09/combine-data-frames-in-r/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/09/combine-data-frames-in-r/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -895,13 +895,13 @@ head(us_reunited)</code></pre>
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2018%2F09%2Fcombine-data-frames-in-r%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoscano84.github.io%2F2018%2F09%2Fcombine-data-frames-in-r%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2018%2F09%2Fcombine-data-frames-in-r%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftoscano84.github.io%2F2018%2F09%2Fcombine-data-frames-in-r%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
@@ -956,7 +956,7 @@ head(us_reunited)</code></pre>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="../../../2018/09/combine-data-frames-in-r/">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
                 <h3 class="media-heading">Combine Data frames in R</h3>
               </a>
               <span class="media-meta">
@@ -964,7 +964,8 @@ head(us_reunited)</code></pre>
                   Sep 9, 2018
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.</div>
+              <div class="media-content hide-xs font-merryweather">Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -973,7 +974,7 @@ head(us_reunited)</code></pre>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="../../../2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
                 <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
               </a>
               <span class="media-meta">
@@ -990,7 +991,7 @@ head(us_reunited)</code></pre>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="../../../2018/07/linear-regression-in-r-a-simple-analysis/">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
                 <h3 class="media-heading">Tuition costs and gdp per capita: A linear regression analysis</h3>
               </a>
               <span class="media-meta">
@@ -1008,7 +1009,7 @@ I will use a simple Linear Regression to study whether there is any relationship
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="../../../2018/07/using-r-to-analyse-the-german-federal-election/">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
                 <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
               </a>
               <span class="media-meta">
@@ -1026,7 +1027,7 @@ In order to make this visualization possible in R, loading the respective packag
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="../../../2018/07/about-me/">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/about-me/">
                 <h3 class="media-heading">About me</h3>
               </a>
               <span class="media-meta">
@@ -1091,7 +1092,7 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = '\/2018\/09\/combine-data-frames-in-r\/';
+          this.page.url = 'https:\/\/toscano84.github.io\/2018\/09\/combine-data-frames-in-r\/';
           
             this.page.identifier = '\/2018\/09\/combine-data-frames-in-r\/'
           

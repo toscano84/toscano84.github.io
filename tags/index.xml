@@ -2,120 +2,120 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Hugo Toscano</title>
-    <link>/tags/</link>
+    <link>https://toscano84.github.io/tags/</link>
     <description>Recent content in Tags on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 04 Jul 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://toscano84.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Blog</title>
-      <link>/tags/blog/</link>
+      <link>https://toscano84.github.io/tags/blog/</link>
       <pubDate>Wed, 04 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/blog/</guid>
+      <guid>https://toscano84.github.io/tags/blog/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Coffee Chains</title>
-      <link>/tags/coffee-chains/</link>
+      <link>https://toscano84.github.io/tags/coffee-chains/</link>
       <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/coffee-chains/</guid>
+      <guid>https://toscano84.github.io/tags/coffee-chains/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Combine</title>
-      <link>/tags/combine/</link>
+      <link>https://toscano84.github.io/tags/combine/</link>
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/combine/</guid>
+      <guid>https://toscano84.github.io/tags/combine/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Dplyr</title>
-      <link>/tags/dplyr/</link>
+      <link>https://toscano84.github.io/tags/dplyr/</link>
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/dplyr/</guid>
+      <guid>https://toscano84.github.io/tags/dplyr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Elections</title>
-      <link>/tags/elections/</link>
+      <link>https://toscano84.github.io/tags/elections/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/elections/</guid>
+      <guid>https://toscano84.github.io/tags/elections/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Germany</title>
-      <link>/tags/germany/</link>
+      <link>https://toscano84.github.io/tags/germany/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/germany/</guid>
+      <guid>https://toscano84.github.io/tags/germany/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Ggplot2</title>
-      <link>/tags/ggplot2/</link>
+      <link>https://toscano84.github.io/tags/ggplot2/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/ggplot2/</guid>
+      <guid>https://toscano84.github.io/tags/ggplot2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Joins</title>
-      <link>/tags/joins/</link>
+      <link>https://toscano84.github.io/tags/joins/</link>
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/joins/</guid>
+      <guid>https://toscano84.github.io/tags/joins/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Leaflet</title>
-      <link>/tags/leaflet/</link>
+      <link>https://toscano84.github.io/tags/leaflet/</link>
       <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/leaflet/</guid>
+      <guid>https://toscano84.github.io/tags/leaflet/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Linear Regression</title>
-      <link>/tags/linear-regression/</link>
+      <link>https://toscano84.github.io/tags/linear-regression/</link>
       <pubDate>Fri, 27 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/linear-regression/</guid>
+      <guid>https://toscano84.github.io/tags/linear-regression/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Maps</title>
-      <link>/tags/maps/</link>
+      <link>https://toscano84.github.io/tags/maps/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/maps/</guid>
+      <guid>https://toscano84.github.io/tags/maps/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>/tags/r/</link>
+      <link>https://toscano84.github.io/tags/r/</link>
       <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r/</guid>
+      <guid>https://toscano84.github.io/tags/r/</guid>
       <description></description>
     </item>
     

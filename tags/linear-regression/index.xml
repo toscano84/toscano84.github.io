@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linear Regression on Hugo Toscano</title>
-    <link>/tags/linear-regression/</link>
+    <link>https://toscano84.github.io/tags/linear-regression/</link>
     <description>Recent content in Linear Regression on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 27 Jul 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/linear-regression/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://toscano84.github.io/tags/linear-regression/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Tuition costs and gdp per capita: A linear regression analysis</title>
-      <link>/2018/07/linear-regression-in-r-a-simple-analysis/</link>
+      <link>https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/</link>
       <pubDate>Fri, 27 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/07/linear-regression-in-r-a-simple-analysis/</guid>
+      <guid>https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/</guid>
       <description>This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
 I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.</description>
     </item>

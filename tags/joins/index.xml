@@ -2,22 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Joins on Hugo Toscano</title>
-    <link>/tags/joins/</link>
+    <link>https://toscano84.github.io/tags/joins/</link>
     <description>Recent content in Joins on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 13 Sep 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/joins/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://toscano84.github.io/tags/joins/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Combine Data frames in R</title>
-      <link>/2018/09/combine-data-frames-in-r/</link>
+      <link>https://toscano84.github.io/2018/09/combine-data-frames-in-r/</link>
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/combine-data-frames-in-r/</guid>
-      <description>Putting together Data frames in RSometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.</description>
+      <guid>https://toscano84.github.io/2018/09/combine-data-frames-in-r/</guid>
+      <description>Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.</description>
     </item>
     
   </channel>
