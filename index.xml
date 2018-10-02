@@ -6,10 +6,19 @@
     <description>Recent content on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 13 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 02 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://toscano84.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hints to deal with Missing Values in R</title>
+      <link>https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/</link>
+      <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/</guid>
+      <description>In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?</description>
+    </item>
     
     <item>
       <title>Combine Data frames in R</title>

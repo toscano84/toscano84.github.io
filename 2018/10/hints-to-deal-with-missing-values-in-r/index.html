@@ -1,0 +1,3559 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.41 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Hints to deal with Missing Values in R</title>
+    <meta name="author" content="Hugo Toscano">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../favicon.png">
+    
+
+    
+    <meta name="description" content="In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?">
+    <meta property="og:description" content="In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Hints to deal with Missing Values in R">
+    <meta property="og:url" content="/2018/10/hints-to-deal-with-missing-values-in-r/">
+    <meta property="og:site_name" content="Hugo Toscano">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo Toscano">
+    <meta name="twitter:description" content="In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="../../../css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">Hugo Toscano</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="../../../#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="../../../#about">
+          <img class="sidebar-profile-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Hugo Toscano</h4>
+        
+          <h5 class="sidebar-profile-bio">Contact: hugo_toscano@outlook.com</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../2018/07/about-me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+      
+      <span class="sidebar-button-desc">About me</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/toscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Hints to deal with Missing Values in R
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-10-02T00:00:00Z">
+        
+  October 2, 2018
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="../../../categories/tutorials">Tutorials</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>In R missing values are usually, but not always, represented by letters <code>NA</code>. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: <strong>Do I have missing values in my database?</strong></p>
+<p>First, we need to load the libraries needed for our analysis.</p>
+<pre class="r"><code>library(Amelia)
+library(tidyr)
+library(readxl)
+library(tidyimpute)
+library(mice)
+library(VIM)
+library(dplyr)
+library(here)</code></pre>
+<p>Next, we will load the data frame related to the NFL Positional Salaries from 2011 to 2018.</p>
+<pre class="r"><code>nfl &lt;- read_excel(here(&quot;nfl_salaries.xlsx&quot;))
+glimpse(nfl)</code></pre>
+<pre><code>## Observations: 800
+## Variables: 11
+## $ year                &lt;dbl&gt; 2011, 2011, 2011, 2011, 2011, 2011, 2011, ...
+## $ Cornerback          &lt;dbl&gt; 11265916, 11000000, 10000000, 10000000, 10...
+## $ `Defensive Lineman` &lt;dbl&gt; 17818000, 16200000, 12476000, 11904706, 11...
+## $ Linebacker          &lt;dbl&gt; 16420000, 15623000, 11825000, 10083333, 10...
+## $ `Offensive Lineman` &lt;dbl&gt; 15960000, 12800000, 11767500, 10358200, 10...
+## $ Quarterback         &lt;dbl&gt; 17228125, 16000000, 14400000, 14100000, 13...
+## $ `Running Back`      &lt;dbl&gt; 12955000, 10873833, 9479000, 7700000, 7500...
+## $ Safety              &lt;dbl&gt; 8871428, 8787500, 8282500, 8000000, 780433...
+## $ `Special Teamer`    &lt;dbl&gt; 4300000, 3725000, 3556176, 3500000, 325000...
+## $ `Tight End`         &lt;dbl&gt; 8734375, 8591000, 8290000, 7723333, 697466...
+## $ `Wide Receiver`     &lt;dbl&gt; 16250000, 14175000, 11424000, 11415000, 10...</code></pre>
+<p>Now that the data is loaded, let’s use some nice functions from Base R to answer the question mentioned above. The first function we will use is <code>is.na()</code>.</p>
+<pre class="r"><code>is.na(nfl)</code></pre>
+<pre><code>##         year Cornerback Defensive Lineman Linebacker Offensive Lineman
+##   [1,] FALSE      FALSE             FALSE      FALSE             FALSE
+##   [2,] FALSE      FALSE             FALSE      FALSE             FALSE
+##   [3,] FALSE      FALSE             FALSE      FALSE             FALSE
+##   [4,] FALSE      FALSE             FALSE      FALSE             FALSE
+##   [5,] FALSE      FALSE             FALSE      FALSE             FALSE
+##   [6,] FALSE      FALSE             FALSE      FALSE             FALSE
+##   [7,] FALSE      FALSE             FALSE      FALSE             FALSE
+##   [8,] FALSE      FALSE             FALSE      FALSE             FALSE
+##   [9,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [10,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [11,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [12,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [13,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [14,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [15,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [16,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [17,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [18,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [19,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [20,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [21,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [22,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [23,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [24,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [25,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [26,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [27,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [28,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [29,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [30,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [31,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [32,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [33,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [34,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [35,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [36,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [37,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [38,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [39,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [40,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [41,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [42,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [43,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [44,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [45,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [46,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [47,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [48,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [49,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [50,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [51,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [52,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [53,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [54,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [55,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [56,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [57,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [58,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [59,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [60,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [61,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [62,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [63,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [64,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [65,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [66,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [67,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [68,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [69,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [70,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [71,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [72,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [73,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [74,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [75,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [76,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [77,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [78,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [79,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [80,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [81,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [82,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [83,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [84,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [85,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [86,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [87,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [88,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [89,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [90,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [91,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [92,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [93,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [94,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [95,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [96,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [97,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [98,] FALSE      FALSE             FALSE      FALSE             FALSE
+##  [99,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [100,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [101,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [102,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [103,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [104,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [105,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [106,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [107,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [108,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [109,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [110,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [111,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [112,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [113,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [114,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [115,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [116,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [117,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [118,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [119,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [120,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [121,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [122,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [123,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [124,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [125,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [126,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [127,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [128,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [129,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [130,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [131,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [132,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [133,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [134,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [135,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [136,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [137,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [138,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [139,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [140,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [141,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [142,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [143,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [144,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [145,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [146,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [147,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [148,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [149,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [150,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [151,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [152,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [153,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [154,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [155,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [156,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [157,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [158,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [159,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [160,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [161,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [162,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [163,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [164,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [165,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [166,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [167,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [168,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [169,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [170,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [171,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [172,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [173,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [174,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [175,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [176,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [177,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [178,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [179,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [180,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [181,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [182,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [183,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [184,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [185,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [186,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [187,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [188,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [189,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [190,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [191,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [192,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [193,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [194,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [195,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [196,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [197,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [198,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [199,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [200,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [201,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [202,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [203,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [204,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [205,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [206,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [207,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [208,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [209,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [210,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [211,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [212,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [213,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [214,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [215,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [216,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [217,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [218,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [219,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [220,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [221,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [222,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [223,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [224,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [225,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [226,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [227,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [228,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [229,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [230,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [231,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [232,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [233,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [234,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [235,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [236,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [237,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [238,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [239,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [240,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [241,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [242,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [243,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [244,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [245,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [246,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [247,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [248,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [249,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [250,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [251,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [252,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [253,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [254,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [255,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [256,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [257,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [258,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [259,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [260,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [261,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [262,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [263,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [264,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [265,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [266,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [267,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [268,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [269,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [270,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [271,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [272,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [273,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [274,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [275,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [276,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [277,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [278,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [279,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [280,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [281,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [282,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [283,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [284,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [285,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [286,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [287,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [288,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [289,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [290,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [291,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [292,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [293,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [294,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [295,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [296,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [297,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [298,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [299,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [300,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [301,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [302,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [303,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [304,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [305,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [306,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [307,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [308,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [309,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [310,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [311,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [312,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [313,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [314,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [315,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [316,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [317,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [318,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [319,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [320,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [321,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [322,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [323,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [324,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [325,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [326,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [327,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [328,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [329,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [330,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [331,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [332,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [333,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [334,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [335,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [336,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [337,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [338,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [339,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [340,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [341,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [342,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [343,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [344,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [345,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [346,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [347,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [348,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [349,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [350,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [351,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [352,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [353,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [354,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [355,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [356,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [357,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [358,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [359,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [360,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [361,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [362,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [363,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [364,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [365,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [366,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [367,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [368,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [369,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [370,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [371,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [372,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [373,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [374,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [375,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [376,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [377,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [378,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [379,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [380,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [381,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [382,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [383,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [384,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [385,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [386,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [387,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [388,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [389,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [390,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [391,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [392,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [393,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [394,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [395,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [396,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [397,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [398,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [399,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [400,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [401,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [402,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [403,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [404,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [405,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [406,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [407,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [408,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [409,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [410,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [411,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [412,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [413,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [414,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [415,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [416,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [417,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [418,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [419,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [420,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [421,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [422,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [423,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [424,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [425,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [426,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [427,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [428,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [429,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [430,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [431,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [432,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [433,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [434,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [435,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [436,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [437,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [438,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [439,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [440,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [441,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [442,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [443,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [444,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [445,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [446,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [447,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [448,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [449,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [450,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [451,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [452,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [453,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [454,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [455,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [456,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [457,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [458,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [459,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [460,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [461,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [462,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [463,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [464,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [465,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [466,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [467,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [468,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [469,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [470,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [471,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [472,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [473,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [474,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [475,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [476,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [477,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [478,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [479,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [480,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [481,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [482,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [483,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [484,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [485,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [486,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [487,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [488,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [489,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [490,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [491,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [492,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [493,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [494,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [495,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [496,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [497,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [498,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [499,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [500,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [501,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [502,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [503,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [504,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [505,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [506,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [507,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [508,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [509,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [510,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [511,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [512,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [513,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [514,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [515,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [516,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [517,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [518,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [519,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [520,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [521,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [522,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [523,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [524,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [525,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [526,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [527,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [528,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [529,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [530,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [531,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [532,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [533,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [534,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [535,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [536,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [537,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [538,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [539,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [540,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [541,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [542,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [543,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [544,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [545,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [546,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [547,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [548,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [549,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [550,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [551,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [552,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [553,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [554,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [555,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [556,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [557,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [558,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [559,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [560,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [561,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [562,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [563,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [564,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [565,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [566,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [567,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [568,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [569,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [570,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [571,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [572,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [573,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [574,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [575,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [576,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [577,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [578,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [579,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [580,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [581,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [582,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [583,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [584,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [585,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [586,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [587,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [588,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [589,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [590,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [591,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [592,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [593,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [594,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [595,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [596,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [597,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [598,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [599,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [600,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [601,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [602,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [603,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [604,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [605,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [606,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [607,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [608,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [609,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [610,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [611,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [612,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [613,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [614,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [615,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [616,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [617,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [618,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [619,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [620,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [621,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [622,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [623,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [624,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [625,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [626,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [627,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [628,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [629,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [630,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [631,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [632,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [633,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [634,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [635,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [636,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [637,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [638,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [639,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [640,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [641,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [642,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [643,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [644,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [645,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [646,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [647,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [648,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [649,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [650,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [651,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [652,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [653,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [654,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [655,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [656,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [657,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [658,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [659,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [660,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [661,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [662,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [663,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [664,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [665,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [666,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [667,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [668,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [669,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [670,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [671,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [672,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [673,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [674,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [675,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [676,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [677,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [678,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [679,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [680,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [681,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [682,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [683,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [684,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [685,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [686,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [687,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [688,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [689,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [690,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [691,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [692,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [693,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [694,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [695,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [696,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [697,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [698,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [699,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [700,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [701,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [702,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [703,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [704,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [705,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [706,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [707,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [708,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [709,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [710,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [711,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [712,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [713,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [714,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [715,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [716,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [717,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [718,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [719,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [720,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [721,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [722,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [723,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [724,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [725,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [726,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [727,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [728,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [729,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [730,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [731,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [732,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [733,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [734,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [735,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [736,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [737,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [738,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [739,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [740,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [741,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [742,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [743,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [744,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [745,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [746,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [747,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [748,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [749,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [750,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [751,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [752,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [753,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [754,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [755,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [756,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [757,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [758,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [759,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [760,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [761,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [762,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [763,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [764,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [765,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [766,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [767,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [768,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [769,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [770,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [771,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [772,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [773,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [774,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [775,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [776,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [777,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [778,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [779,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [780,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [781,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [782,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [783,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [784,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [785,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [786,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [787,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [788,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [789,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [790,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [791,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [792,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [793,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [794,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [795,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [796,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [797,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [798,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [799,] FALSE      FALSE             FALSE      FALSE             FALSE
+## [800,] FALSE      FALSE             FALSE      FALSE             FALSE
+##        Quarterback Running Back Safety Special Teamer Tight End
+##   [1,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##   [2,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##   [3,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##   [4,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##   [5,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##   [6,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##   [7,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##   [8,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##   [9,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [10,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [11,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [12,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [13,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [14,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [15,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [16,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [17,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [18,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [19,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [20,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [21,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [22,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [23,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [24,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [25,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [26,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [27,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [28,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [29,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [30,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [31,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [32,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [33,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [34,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [35,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [36,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [37,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [38,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [39,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [40,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [41,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [42,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [43,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [44,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [45,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [46,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [47,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [48,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [49,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [50,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [51,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [52,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [53,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [54,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [55,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [56,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [57,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [58,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [59,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [60,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [61,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [62,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [63,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [64,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [65,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [66,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [67,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [68,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [69,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [70,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [71,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [72,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [73,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [74,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [75,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [76,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [77,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [78,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [79,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [80,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [81,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [82,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [83,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [84,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [85,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [86,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [87,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [88,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [89,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [90,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [91,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [92,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [93,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [94,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [95,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [96,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [97,]       FALSE        FALSE  FALSE          FALSE     FALSE
+##  [98,]        TRUE        FALSE  FALSE          FALSE     FALSE
+##  [99,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [100,]        TRUE        FALSE  FALSE           TRUE     FALSE
+## [101,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [102,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [103,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [104,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [105,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [106,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [107,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [108,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [109,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [110,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [111,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [112,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [113,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [114,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [115,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [116,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [117,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [118,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [119,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [120,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [121,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [122,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [123,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [124,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [125,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [126,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [127,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [128,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [129,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [130,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [131,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [132,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [133,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [134,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [135,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [136,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [137,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [138,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [139,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [140,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [141,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [142,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [143,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [144,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [145,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [146,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [147,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [148,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [149,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [150,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [151,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [152,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [153,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [154,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [155,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [156,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [157,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [158,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [159,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [160,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [161,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [162,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [163,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [164,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [165,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [166,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [167,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [168,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [169,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [170,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [171,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [172,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [173,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [174,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [175,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [176,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [177,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [178,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [179,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [180,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [181,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [182,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [183,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [184,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [185,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [186,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [187,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [188,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [189,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [190,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [191,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [192,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [193,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [194,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [195,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [196,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [197,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [198,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [199,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [200,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [201,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [202,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [203,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [204,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [205,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [206,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [207,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [208,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [209,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [210,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [211,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [212,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [213,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [214,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [215,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [216,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [217,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [218,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [219,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [220,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [221,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [222,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [223,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [224,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [225,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [226,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [227,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [228,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [229,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [230,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [231,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [232,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [233,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [234,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [235,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [236,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [237,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [238,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [239,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [240,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [241,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [242,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [243,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [244,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [245,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [246,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [247,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [248,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [249,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [250,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [251,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [252,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [253,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [254,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [255,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [256,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [257,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [258,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [259,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [260,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [261,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [262,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [263,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [264,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [265,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [266,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [267,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [268,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [269,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [270,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [271,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [272,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [273,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [274,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [275,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [276,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [277,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [278,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [279,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [280,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [281,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [282,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [283,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [284,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [285,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [286,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [287,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [288,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [289,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [290,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [291,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [292,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [293,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [294,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [295,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [296,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [297,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [298,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [299,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [300,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [301,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [302,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [303,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [304,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [305,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [306,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [307,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [308,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [309,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [310,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [311,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [312,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [313,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [314,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [315,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [316,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [317,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [318,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [319,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [320,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [321,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [322,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [323,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [324,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [325,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [326,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [327,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [328,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [329,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [330,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [331,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [332,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [333,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [334,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [335,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [336,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [337,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [338,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [339,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [340,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [341,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [342,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [343,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [344,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [345,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [346,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [347,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [348,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [349,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [350,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [351,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [352,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [353,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [354,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [355,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [356,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [357,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [358,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [359,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [360,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [361,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [362,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [363,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [364,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [365,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [366,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [367,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [368,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [369,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [370,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [371,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [372,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [373,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [374,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [375,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [376,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [377,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [378,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [379,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [380,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [381,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [382,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [383,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [384,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [385,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [386,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [387,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [388,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [389,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [390,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [391,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [392,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [393,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [394,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [395,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [396,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [397,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [398,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [399,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [400,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [401,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [402,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [403,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [404,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [405,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [406,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [407,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [408,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [409,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [410,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [411,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [412,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [413,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [414,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [415,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [416,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [417,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [418,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [419,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [420,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [421,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [422,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [423,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [424,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [425,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [426,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [427,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [428,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [429,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [430,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [431,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [432,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [433,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [434,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [435,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [436,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [437,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [438,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [439,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [440,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [441,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [442,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [443,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [444,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [445,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [446,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [447,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [448,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [449,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [450,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [451,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [452,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [453,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [454,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [455,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [456,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [457,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [458,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [459,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [460,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [461,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [462,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [463,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [464,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [465,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [466,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [467,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [468,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [469,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [470,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [471,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [472,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [473,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [474,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [475,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [476,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [477,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [478,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [479,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [480,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [481,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [482,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [483,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [484,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [485,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [486,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [487,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [488,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [489,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [490,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [491,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [492,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [493,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [494,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [495,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [496,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [497,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [498,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [499,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [500,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [501,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [502,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [503,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [504,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [505,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [506,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [507,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [508,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [509,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [510,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [511,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [512,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [513,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [514,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [515,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [516,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [517,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [518,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [519,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [520,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [521,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [522,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [523,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [524,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [525,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [526,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [527,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [528,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [529,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [530,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [531,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [532,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [533,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [534,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [535,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [536,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [537,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [538,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [539,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [540,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [541,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [542,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [543,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [544,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [545,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [546,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [547,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [548,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [549,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [550,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [551,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [552,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [553,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [554,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [555,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [556,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [557,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [558,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [559,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [560,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [561,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [562,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [563,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [564,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [565,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [566,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [567,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [568,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [569,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [570,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [571,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [572,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [573,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [574,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [575,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [576,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [577,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [578,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [579,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [580,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [581,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [582,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [583,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [584,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [585,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [586,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [587,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [588,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [589,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [590,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [591,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [592,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [593,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [594,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [595,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [596,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [597,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [598,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [599,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [600,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [601,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [602,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [603,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [604,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [605,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [606,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [607,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [608,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [609,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [610,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [611,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [612,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [613,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [614,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [615,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [616,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [617,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [618,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [619,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [620,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [621,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [622,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [623,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [624,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [625,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [626,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [627,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [628,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [629,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [630,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [631,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [632,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [633,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [634,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [635,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [636,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [637,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [638,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [639,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [640,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [641,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [642,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [643,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [644,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [645,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [646,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [647,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [648,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [649,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [650,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [651,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [652,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [653,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [654,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [655,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [656,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [657,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [658,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [659,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [660,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [661,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [662,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [663,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [664,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [665,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [666,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [667,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [668,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [669,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [670,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [671,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [672,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [673,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [674,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [675,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [676,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [677,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [678,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [679,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [680,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [681,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [682,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [683,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [684,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [685,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [686,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [687,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [688,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [689,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [690,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [691,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [692,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [693,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [694,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [695,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [696,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [697,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [698,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [699,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [700,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [701,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [702,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [703,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [704,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [705,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [706,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [707,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [708,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [709,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [710,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [711,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [712,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [713,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [714,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [715,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [716,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [717,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [718,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [719,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [720,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [721,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [722,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [723,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [724,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [725,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [726,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [727,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [728,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [729,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [730,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [731,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [732,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [733,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [734,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [735,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [736,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [737,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [738,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [739,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [740,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [741,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [742,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [743,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [744,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [745,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [746,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [747,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [748,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [749,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [750,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [751,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [752,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [753,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [754,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [755,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [756,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [757,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [758,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [759,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [760,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [761,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [762,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [763,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [764,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [765,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [766,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [767,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [768,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [769,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [770,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [771,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [772,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [773,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [774,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [775,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [776,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [777,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [778,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [779,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [780,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [781,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [782,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [783,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [784,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [785,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [786,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [787,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [788,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [789,]       FALSE        FALSE  FALSE          FALSE     FALSE
+## [790,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [791,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [792,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [793,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [794,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [795,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [796,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [797,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [798,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [799,]        TRUE        FALSE  FALSE          FALSE     FALSE
+## [800,]        TRUE        FALSE  FALSE          FALSE     FALSE
+##        Wide Receiver
+##   [1,]         FALSE
+##   [2,]         FALSE
+##   [3,]         FALSE
+##   [4,]         FALSE
+##   [5,]         FALSE
+##   [6,]         FALSE
+##   [7,]         FALSE
+##   [8,]         FALSE
+##   [9,]         FALSE
+##  [10,]         FALSE
+##  [11,]         FALSE
+##  [12,]         FALSE
+##  [13,]         FALSE
+##  [14,]         FALSE
+##  [15,]         FALSE
+##  [16,]         FALSE
+##  [17,]         FALSE
+##  [18,]         FALSE
+##  [19,]         FALSE
+##  [20,]         FALSE
+##  [21,]         FALSE
+##  [22,]         FALSE
+##  [23,]         FALSE
+##  [24,]         FALSE
+##  [25,]         FALSE
+##  [26,]         FALSE
+##  [27,]         FALSE
+##  [28,]         FALSE
+##  [29,]         FALSE
+##  [30,]         FALSE
+##  [31,]         FALSE
+##  [32,]         FALSE
+##  [33,]         FALSE
+##  [34,]         FALSE
+##  [35,]         FALSE
+##  [36,]         FALSE
+##  [37,]         FALSE
+##  [38,]         FALSE
+##  [39,]         FALSE
+##  [40,]         FALSE
+##  [41,]         FALSE
+##  [42,]         FALSE
+##  [43,]         FALSE
+##  [44,]         FALSE
+##  [45,]         FALSE
+##  [46,]         FALSE
+##  [47,]         FALSE
+##  [48,]         FALSE
+##  [49,]         FALSE
+##  [50,]         FALSE
+##  [51,]         FALSE
+##  [52,]         FALSE
+##  [53,]         FALSE
+##  [54,]         FALSE
+##  [55,]         FALSE
+##  [56,]         FALSE
+##  [57,]         FALSE
+##  [58,]         FALSE
+##  [59,]         FALSE
+##  [60,]         FALSE
+##  [61,]         FALSE
+##  [62,]         FALSE
+##  [63,]         FALSE
+##  [64,]         FALSE
+##  [65,]         FALSE
+##  [66,]         FALSE
+##  [67,]         FALSE
+##  [68,]         FALSE
+##  [69,]         FALSE
+##  [70,]         FALSE
+##  [71,]         FALSE
+##  [72,]         FALSE
+##  [73,]         FALSE
+##  [74,]         FALSE
+##  [75,]         FALSE
+##  [76,]         FALSE
+##  [77,]         FALSE
+##  [78,]         FALSE
+##  [79,]         FALSE
+##  [80,]         FALSE
+##  [81,]         FALSE
+##  [82,]         FALSE
+##  [83,]         FALSE
+##  [84,]         FALSE
+##  [85,]         FALSE
+##  [86,]         FALSE
+##  [87,]         FALSE
+##  [88,]         FALSE
+##  [89,]         FALSE
+##  [90,]         FALSE
+##  [91,]         FALSE
+##  [92,]         FALSE
+##  [93,]         FALSE
+##  [94,]         FALSE
+##  [95,]         FALSE
+##  [96,]         FALSE
+##  [97,]         FALSE
+##  [98,]         FALSE
+##  [99,]         FALSE
+## [100,]         FALSE
+## [101,]         FALSE
+## [102,]         FALSE
+## [103,]         FALSE
+## [104,]         FALSE
+## [105,]         FALSE
+## [106,]         FALSE
+## [107,]         FALSE
+## [108,]         FALSE
+## [109,]         FALSE
+## [110,]         FALSE
+## [111,]         FALSE
+## [112,]         FALSE
+## [113,]         FALSE
+## [114,]         FALSE
+## [115,]         FALSE
+## [116,]         FALSE
+## [117,]         FALSE
+## [118,]         FALSE
+## [119,]         FALSE
+## [120,]         FALSE
+## [121,]         FALSE
+## [122,]         FALSE
+## [123,]         FALSE
+## [124,]         FALSE
+## [125,]         FALSE
+## [126,]         FALSE
+## [127,]         FALSE
+## [128,]         FALSE
+## [129,]         FALSE
+## [130,]         FALSE
+## [131,]         FALSE
+## [132,]         FALSE
+## [133,]         FALSE
+## [134,]         FALSE
+## [135,]         FALSE
+## [136,]         FALSE
+## [137,]         FALSE
+## [138,]         FALSE
+## [139,]         FALSE
+## [140,]         FALSE
+## [141,]         FALSE
+## [142,]         FALSE
+## [143,]         FALSE
+## [144,]         FALSE
+## [145,]         FALSE
+## [146,]         FALSE
+## [147,]         FALSE
+## [148,]         FALSE
+## [149,]         FALSE
+## [150,]         FALSE
+## [151,]         FALSE
+## [152,]         FALSE
+## [153,]         FALSE
+## [154,]         FALSE
+## [155,]         FALSE
+## [156,]         FALSE
+## [157,]         FALSE
+## [158,]         FALSE
+## [159,]         FALSE
+## [160,]         FALSE
+## [161,]         FALSE
+## [162,]         FALSE
+## [163,]         FALSE
+## [164,]         FALSE
+## [165,]         FALSE
+## [166,]         FALSE
+## [167,]         FALSE
+## [168,]         FALSE
+## [169,]         FALSE
+## [170,]         FALSE
+## [171,]         FALSE
+## [172,]         FALSE
+## [173,]         FALSE
+## [174,]         FALSE
+## [175,]         FALSE
+## [176,]         FALSE
+## [177,]         FALSE
+## [178,]         FALSE
+## [179,]         FALSE
+## [180,]         FALSE
+## [181,]         FALSE
+## [182,]         FALSE
+## [183,]         FALSE
+## [184,]         FALSE
+## [185,]         FALSE
+## [186,]         FALSE
+## [187,]         FALSE
+## [188,]         FALSE
+## [189,]         FALSE
+## [190,]         FALSE
+## [191,]         FALSE
+## [192,]         FALSE
+## [193,]         FALSE
+## [194,]         FALSE
+## [195,]         FALSE
+## [196,]         FALSE
+## [197,]         FALSE
+## [198,]         FALSE
+## [199,]         FALSE
+## [200,]         FALSE
+## [201,]         FALSE
+## [202,]         FALSE
+## [203,]         FALSE
+## [204,]         FALSE
+## [205,]         FALSE
+## [206,]         FALSE
+## [207,]         FALSE
+## [208,]         FALSE
+## [209,]         FALSE
+## [210,]         FALSE
+## [211,]         FALSE
+## [212,]         FALSE
+## [213,]         FALSE
+## [214,]         FALSE
+## [215,]         FALSE
+## [216,]         FALSE
+## [217,]         FALSE
+## [218,]         FALSE
+## [219,]         FALSE
+## [220,]         FALSE
+## [221,]         FALSE
+## [222,]         FALSE
+## [223,]         FALSE
+## [224,]         FALSE
+## [225,]         FALSE
+## [226,]         FALSE
+## [227,]         FALSE
+## [228,]         FALSE
+## [229,]         FALSE
+## [230,]         FALSE
+## [231,]         FALSE
+## [232,]         FALSE
+## [233,]         FALSE
+## [234,]         FALSE
+## [235,]         FALSE
+## [236,]         FALSE
+## [237,]         FALSE
+## [238,]         FALSE
+## [239,]         FALSE
+## [240,]         FALSE
+## [241,]         FALSE
+## [242,]         FALSE
+## [243,]         FALSE
+## [244,]         FALSE
+## [245,]         FALSE
+## [246,]         FALSE
+## [247,]         FALSE
+## [248,]         FALSE
+## [249,]         FALSE
+## [250,]         FALSE
+## [251,]         FALSE
+## [252,]         FALSE
+## [253,]         FALSE
+## [254,]         FALSE
+## [255,]         FALSE
+## [256,]         FALSE
+## [257,]         FALSE
+## [258,]         FALSE
+## [259,]         FALSE
+## [260,]         FALSE
+## [261,]         FALSE
+## [262,]         FALSE
+## [263,]         FALSE
+## [264,]         FALSE
+## [265,]         FALSE
+## [266,]         FALSE
+## [267,]         FALSE
+## [268,]         FALSE
+## [269,]         FALSE
+## [270,]         FALSE
+## [271,]         FALSE
+## [272,]         FALSE
+## [273,]         FALSE
+## [274,]         FALSE
+## [275,]         FALSE
+## [276,]         FALSE
+## [277,]         FALSE
+## [278,]         FALSE
+## [279,]         FALSE
+## [280,]         FALSE
+## [281,]         FALSE
+## [282,]         FALSE
+## [283,]         FALSE
+## [284,]         FALSE
+## [285,]         FALSE
+## [286,]         FALSE
+## [287,]         FALSE
+## [288,]         FALSE
+## [289,]         FALSE
+## [290,]         FALSE
+## [291,]         FALSE
+## [292,]         FALSE
+## [293,]         FALSE
+## [294,]         FALSE
+## [295,]         FALSE
+## [296,]         FALSE
+## [297,]         FALSE
+## [298,]         FALSE
+## [299,]         FALSE
+## [300,]         FALSE
+## [301,]         FALSE
+## [302,]         FALSE
+## [303,]         FALSE
+## [304,]         FALSE
+## [305,]         FALSE
+## [306,]         FALSE
+## [307,]         FALSE
+## [308,]         FALSE
+## [309,]         FALSE
+## [310,]         FALSE
+## [311,]         FALSE
+## [312,]         FALSE
+## [313,]         FALSE
+## [314,]         FALSE
+## [315,]         FALSE
+## [316,]         FALSE
+## [317,]         FALSE
+## [318,]         FALSE
+## [319,]         FALSE
+## [320,]         FALSE
+## [321,]         FALSE
+## [322,]         FALSE
+## [323,]         FALSE
+## [324,]         FALSE
+## [325,]         FALSE
+## [326,]         FALSE
+## [327,]         FALSE
+## [328,]         FALSE
+## [329,]         FALSE
+## [330,]         FALSE
+## [331,]         FALSE
+## [332,]         FALSE
+## [333,]         FALSE
+## [334,]         FALSE
+## [335,]         FALSE
+## [336,]         FALSE
+## [337,]         FALSE
+## [338,]         FALSE
+## [339,]         FALSE
+## [340,]         FALSE
+## [341,]         FALSE
+## [342,]         FALSE
+## [343,]         FALSE
+## [344,]         FALSE
+## [345,]         FALSE
+## [346,]         FALSE
+## [347,]         FALSE
+## [348,]         FALSE
+## [349,]         FALSE
+## [350,]         FALSE
+## [351,]         FALSE
+## [352,]         FALSE
+## [353,]         FALSE
+## [354,]         FALSE
+## [355,]         FALSE
+## [356,]         FALSE
+## [357,]         FALSE
+## [358,]         FALSE
+## [359,]         FALSE
+## [360,]         FALSE
+## [361,]         FALSE
+## [362,]         FALSE
+## [363,]         FALSE
+## [364,]         FALSE
+## [365,]         FALSE
+## [366,]         FALSE
+## [367,]         FALSE
+## [368,]         FALSE
+## [369,]         FALSE
+## [370,]         FALSE
+## [371,]         FALSE
+## [372,]         FALSE
+## [373,]         FALSE
+## [374,]         FALSE
+## [375,]         FALSE
+## [376,]         FALSE
+## [377,]         FALSE
+## [378,]         FALSE
+## [379,]         FALSE
+## [380,]         FALSE
+## [381,]         FALSE
+## [382,]         FALSE
+## [383,]         FALSE
+## [384,]         FALSE
+## [385,]         FALSE
+## [386,]         FALSE
+## [387,]         FALSE
+## [388,]         FALSE
+## [389,]         FALSE
+## [390,]         FALSE
+## [391,]         FALSE
+## [392,]         FALSE
+## [393,]         FALSE
+## [394,]         FALSE
+## [395,]         FALSE
+## [396,]         FALSE
+## [397,]         FALSE
+## [398,]         FALSE
+## [399,]         FALSE
+## [400,]         FALSE
+## [401,]         FALSE
+## [402,]         FALSE
+## [403,]         FALSE
+## [404,]         FALSE
+## [405,]         FALSE
+## [406,]         FALSE
+## [407,]         FALSE
+## [408,]         FALSE
+## [409,]         FALSE
+## [410,]         FALSE
+## [411,]         FALSE
+## [412,]         FALSE
+## [413,]         FALSE
+## [414,]         FALSE
+## [415,]         FALSE
+## [416,]         FALSE
+## [417,]         FALSE
+## [418,]         FALSE
+## [419,]         FALSE
+## [420,]         FALSE
+## [421,]         FALSE
+## [422,]         FALSE
+## [423,]         FALSE
+## [424,]         FALSE
+## [425,]         FALSE
+## [426,]         FALSE
+## [427,]         FALSE
+## [428,]         FALSE
+## [429,]         FALSE
+## [430,]         FALSE
+## [431,]         FALSE
+## [432,]         FALSE
+## [433,]         FALSE
+## [434,]         FALSE
+## [435,]         FALSE
+## [436,]         FALSE
+## [437,]         FALSE
+## [438,]         FALSE
+## [439,]         FALSE
+## [440,]         FALSE
+## [441,]         FALSE
+## [442,]         FALSE
+## [443,]         FALSE
+## [444,]         FALSE
+## [445,]         FALSE
+## [446,]         FALSE
+## [447,]         FALSE
+## [448,]         FALSE
+## [449,]         FALSE
+## [450,]         FALSE
+## [451,]         FALSE
+## [452,]         FALSE
+## [453,]         FALSE
+## [454,]         FALSE
+## [455,]         FALSE
+## [456,]         FALSE
+## [457,]         FALSE
+## [458,]         FALSE
+## [459,]         FALSE
+## [460,]         FALSE
+## [461,]         FALSE
+## [462,]         FALSE
+## [463,]         FALSE
+## [464,]         FALSE
+## [465,]         FALSE
+## [466,]         FALSE
+## [467,]         FALSE
+## [468,]         FALSE
+## [469,]         FALSE
+## [470,]         FALSE
+## [471,]         FALSE
+## [472,]         FALSE
+## [473,]         FALSE
+## [474,]         FALSE
+## [475,]         FALSE
+## [476,]         FALSE
+## [477,]         FALSE
+## [478,]         FALSE
+## [479,]         FALSE
+## [480,]         FALSE
+## [481,]         FALSE
+## [482,]         FALSE
+## [483,]         FALSE
+## [484,]         FALSE
+## [485,]         FALSE
+## [486,]         FALSE
+## [487,]         FALSE
+## [488,]         FALSE
+## [489,]         FALSE
+## [490,]         FALSE
+## [491,]         FALSE
+## [492,]         FALSE
+## [493,]         FALSE
+## [494,]         FALSE
+## [495,]         FALSE
+## [496,]         FALSE
+## [497,]         FALSE
+## [498,]         FALSE
+## [499,]         FALSE
+## [500,]         FALSE
+## [501,]         FALSE
+## [502,]         FALSE
+## [503,]         FALSE
+## [504,]         FALSE
+## [505,]         FALSE
+## [506,]         FALSE
+## [507,]         FALSE
+## [508,]         FALSE
+## [509,]         FALSE
+## [510,]         FALSE
+## [511,]         FALSE
+## [512,]         FALSE
+## [513,]         FALSE
+## [514,]         FALSE
+## [515,]         FALSE
+## [516,]         FALSE
+## [517,]         FALSE
+## [518,]         FALSE
+## [519,]         FALSE
+## [520,]         FALSE
+## [521,]         FALSE
+## [522,]         FALSE
+## [523,]         FALSE
+## [524,]         FALSE
+## [525,]         FALSE
+## [526,]         FALSE
+## [527,]         FALSE
+## [528,]         FALSE
+## [529,]         FALSE
+## [530,]         FALSE
+## [531,]         FALSE
+## [532,]         FALSE
+## [533,]         FALSE
+## [534,]         FALSE
+## [535,]         FALSE
+## [536,]         FALSE
+## [537,]         FALSE
+## [538,]         FALSE
+## [539,]         FALSE
+## [540,]         FALSE
+## [541,]         FALSE
+## [542,]         FALSE
+## [543,]         FALSE
+## [544,]         FALSE
+## [545,]         FALSE
+## [546,]         FALSE
+## [547,]         FALSE
+## [548,]         FALSE
+## [549,]         FALSE
+## [550,]         FALSE
+## [551,]         FALSE
+## [552,]         FALSE
+## [553,]         FALSE
+## [554,]         FALSE
+## [555,]         FALSE
+## [556,]         FALSE
+## [557,]         FALSE
+## [558,]         FALSE
+## [559,]         FALSE
+## [560,]         FALSE
+## [561,]         FALSE
+## [562,]         FALSE
+## [563,]         FALSE
+## [564,]         FALSE
+## [565,]         FALSE
+## [566,]         FALSE
+## [567,]         FALSE
+## [568,]         FALSE
+## [569,]         FALSE
+## [570,]         FALSE
+## [571,]         FALSE
+## [572,]         FALSE
+## [573,]         FALSE
+## [574,]         FALSE
+## [575,]         FALSE
+## [576,]         FALSE
+## [577,]         FALSE
+## [578,]         FALSE
+## [579,]         FALSE
+## [580,]         FALSE
+## [581,]         FALSE
+## [582,]         FALSE
+## [583,]         FALSE
+## [584,]         FALSE
+## [585,]         FALSE
+## [586,]         FALSE
+## [587,]         FALSE
+## [588,]         FALSE
+## [589,]         FALSE
+## [590,]         FALSE
+## [591,]         FALSE
+## [592,]         FALSE
+## [593,]         FALSE
+## [594,]         FALSE
+## [595,]         FALSE
+## [596,]         FALSE
+## [597,]         FALSE
+## [598,]         FALSE
+## [599,]         FALSE
+## [600,]         FALSE
+## [601,]         FALSE
+## [602,]         FALSE
+## [603,]         FALSE
+## [604,]         FALSE
+## [605,]         FALSE
+## [606,]         FALSE
+## [607,]         FALSE
+## [608,]         FALSE
+## [609,]         FALSE
+## [610,]         FALSE
+## [611,]         FALSE
+## [612,]         FALSE
+## [613,]         FALSE
+## [614,]         FALSE
+## [615,]         FALSE
+## [616,]         FALSE
+## [617,]         FALSE
+## [618,]         FALSE
+## [619,]         FALSE
+## [620,]         FALSE
+## [621,]         FALSE
+## [622,]         FALSE
+## [623,]         FALSE
+## [624,]         FALSE
+## [625,]         FALSE
+## [626,]         FALSE
+## [627,]         FALSE
+## [628,]         FALSE
+## [629,]         FALSE
+## [630,]         FALSE
+## [631,]         FALSE
+## [632,]         FALSE
+## [633,]         FALSE
+## [634,]         FALSE
+## [635,]         FALSE
+## [636,]         FALSE
+## [637,]         FALSE
+## [638,]         FALSE
+## [639,]         FALSE
+## [640,]         FALSE
+## [641,]         FALSE
+## [642,]         FALSE
+## [643,]         FALSE
+## [644,]         FALSE
+## [645,]         FALSE
+## [646,]         FALSE
+## [647,]         FALSE
+## [648,]         FALSE
+## [649,]         FALSE
+## [650,]         FALSE
+## [651,]         FALSE
+## [652,]         FALSE
+## [653,]         FALSE
+## [654,]         FALSE
+## [655,]         FALSE
+## [656,]         FALSE
+## [657,]         FALSE
+## [658,]         FALSE
+## [659,]         FALSE
+## [660,]         FALSE
+## [661,]         FALSE
+## [662,]         FALSE
+## [663,]         FALSE
+## [664,]         FALSE
+## [665,]         FALSE
+## [666,]         FALSE
+## [667,]         FALSE
+## [668,]         FALSE
+## [669,]         FALSE
+## [670,]         FALSE
+## [671,]         FALSE
+## [672,]         FALSE
+## [673,]         FALSE
+## [674,]         FALSE
+## [675,]         FALSE
+## [676,]         FALSE
+## [677,]         FALSE
+## [678,]         FALSE
+## [679,]         FALSE
+## [680,]         FALSE
+## [681,]         FALSE
+## [682,]         FALSE
+## [683,]         FALSE
+## [684,]         FALSE
+## [685,]         FALSE
+## [686,]         FALSE
+## [687,]         FALSE
+## [688,]         FALSE
+## [689,]         FALSE
+## [690,]         FALSE
+## [691,]         FALSE
+## [692,]         FALSE
+## [693,]         FALSE
+## [694,]         FALSE
+## [695,]         FALSE
+## [696,]         FALSE
+## [697,]         FALSE
+## [698,]         FALSE
+## [699,]         FALSE
+## [700,]         FALSE
+## [701,]         FALSE
+## [702,]         FALSE
+## [703,]         FALSE
+## [704,]         FALSE
+## [705,]         FALSE
+## [706,]         FALSE
+## [707,]         FALSE
+## [708,]         FALSE
+## [709,]         FALSE
+## [710,]         FALSE
+## [711,]         FALSE
+## [712,]         FALSE
+## [713,]         FALSE
+## [714,]         FALSE
+## [715,]         FALSE
+## [716,]         FALSE
+## [717,]         FALSE
+## [718,]         FALSE
+## [719,]         FALSE
+## [720,]         FALSE
+## [721,]         FALSE
+## [722,]         FALSE
+## [723,]         FALSE
+## [724,]         FALSE
+## [725,]         FALSE
+## [726,]         FALSE
+## [727,]         FALSE
+## [728,]         FALSE
+## [729,]         FALSE
+## [730,]         FALSE
+## [731,]         FALSE
+## [732,]         FALSE
+## [733,]         FALSE
+## [734,]         FALSE
+## [735,]         FALSE
+## [736,]         FALSE
+## [737,]         FALSE
+## [738,]         FALSE
+## [739,]         FALSE
+## [740,]         FALSE
+## [741,]         FALSE
+## [742,]         FALSE
+## [743,]         FALSE
+## [744,]         FALSE
+## [745,]         FALSE
+## [746,]         FALSE
+## [747,]         FALSE
+## [748,]         FALSE
+## [749,]         FALSE
+## [750,]         FALSE
+## [751,]         FALSE
+## [752,]         FALSE
+## [753,]         FALSE
+## [754,]         FALSE
+## [755,]         FALSE
+## [756,]         FALSE
+## [757,]         FALSE
+## [758,]         FALSE
+## [759,]         FALSE
+## [760,]         FALSE
+## [761,]         FALSE
+## [762,]         FALSE
+## [763,]         FALSE
+## [764,]         FALSE
+## [765,]         FALSE
+## [766,]         FALSE
+## [767,]         FALSE
+## [768,]         FALSE
+## [769,]         FALSE
+## [770,]         FALSE
+## [771,]         FALSE
+## [772,]         FALSE
+## [773,]         FALSE
+## [774,]         FALSE
+## [775,]         FALSE
+## [776,]         FALSE
+## [777,]         FALSE
+## [778,]         FALSE
+## [779,]         FALSE
+## [780,]         FALSE
+## [781,]         FALSE
+## [782,]         FALSE
+## [783,]         FALSE
+## [784,]         FALSE
+## [785,]         FALSE
+## [786,]         FALSE
+## [787,]         FALSE
+## [788,]         FALSE
+## [789,]         FALSE
+## [790,]         FALSE
+## [791,]         FALSE
+## [792,]         FALSE
+## [793,]         FALSE
+## [794,]         FALSE
+## [795,]         FALSE
+## [796,]         FALSE
+## [797,]         FALSE
+## [798,]         FALSE
+## [799,]         FALSE
+## [800,]         FALSE</code></pre>
+<p>This function tells us for each observation if the existence of missing values is TRUE or FALSE. However, when we have a multitude of cases it is not very clear if our question was answered. Instead, we should use <code>any(is.na(name of dataframe))</code> or <code>sum(is.na(name of the dataframe))</code>.</p>
+<pre class="r"><code>any(is.na(nfl))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>sum(is.na(nfl))</code></pre>
+<pre><code>## [1] 56</code></pre>
+<p>any(is.na(nfl)) says TRUE, meaning we have missing data. Besides, sum(is.na(nfl)) tells us that we have in total 56 missing values.</p>
+<p>Even though our question was answered, we still do not know where the missing values are present. More specifically, <strong>in which variables do we have missing values?</strong> That’s our second question.</p>
+<p>For that, there are some functions available. We can use the <code>which(is.na())</code> function.</p>
+<pre class="r"><code>which(is.na(nfl))</code></pre>
+<pre><code>##  [1] 4098 4099 4100 4189 4190 4191 4192 4193 4194 4195 4196 4197 4198 4199
+## [15] 4200 4294 4295 4296 4297 4298 4299 4300 4390 4391 4392 4393 4394 4395
+## [29] 4396 4397 4398 4399 4400 4498 4499 4500 4596 4597 4598 4599 4600 4698
+## [43] 4699 4700 4790 4791 4792 4793 4794 4795 4796 4797 4798 4799 4800 6500</code></pre>
+<p>However, this gives only the location in terms of number of case and nothing about the variable where the missing data is present. We can use for this the <code>colSums()</code> function.</p>
+<pre class="r"><code>colSums(is.na(nfl))</code></pre>
+<pre><code>##              year        Cornerback Defensive Lineman        Linebacker 
+##                 0                 0                 0                 0 
+## Offensive Lineman       Quarterback      Running Back            Safety 
+##                 0                55                 0                 0 
+##    Special Teamer         Tight End     Wide Receiver 
+##                 1                 0                 0</code></pre>
+<p>We can now see that we have 55 missing values in the Quarterback position and 1 missing value in the Special Teamer position. Nonetheless, we can visually check where in our variables we have missing data. The <code>missmap()</code> function from the <code>Amelia</code> package is fit for this purpose.</p>
+<pre class="r"><code>missmap(nfl)</code></pre>
+<p><img src="../../../post/2018-10-02-hints-to-deal-with-missing-values-in-r_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Visually we can check that we have only missing values in the Quarterback and Special Teamer columns. Another alternative is to check where exactly are the missing values and their correspondent proportion in total. Now, we should use <code>aggr()</code> function from the <code>VIM</code> package.</p>
+<pre class="r"><code>plot &lt;- aggr(nfl, col = c(&quot;green&quot;, &quot;red&quot;), 
+             numbers = TRUE, 
+             sortVars = TRUE)</code></pre>
+<p><img src="../../../post/2018-10-02-hints-to-deal-with-missing-values-in-r_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre><code>## 
+##  Variables sorted by number of missings: 
+##           Variable   Count
+##        Quarterback 0.06875
+##     Special Teamer 0.00125
+##               year 0.00000
+##         Cornerback 0.00000
+##  Defensive Lineman 0.00000
+##         Linebacker 0.00000
+##  Offensive Lineman 0.00000
+##       Running Back 0.00000
+##             Safety 0.00000
+##          Tight End 0.00000
+##      Wide Receiver 0.00000</code></pre>
+<p>The values in the table show that 6.875% of the cases in the Quarterback variable correspond to missing values, while only 0.125% correspond to missing values in the Special Teamer variable. The plot does not show all the variable names because of some issue that I could not solve. Nonetheless, from the table it is clear the proportion of missing values in each variable.</p>
+<p>Now the last step anwers the third question: <strong>What should I do with the missing values?</strong> The simplest and more direct way to deal with missing data is to omit it from our data frame. In this case, we can use the <code>na.omit()</code> function.</p>
+<pre class="r"><code>nfl_complete &lt;- na.omit(nfl) 
+any(is.na(nfl_complete))</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>The downside being the deletion of too many observations of our data which could have been useful to our analysis. In this case, we could delete only missing values of a specific variable. To do that, go ahead and use the <code>drop_na()</code> function form the <code>tidyr()</code> package.</p>
+<pre class="r"><code>nfl %&gt;%
+  drop_na(&quot;Special Teamer&quot;)</code></pre>
+<pre><code>## # A tibble: 799 x 11
+##     year Cornerback `Defensive Lineman` Linebacker `Offensive Lineman`
+##    &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
+##  1  2011   11265916            17818000   16420000            15960000
+##  2  2011   11000000            16200000   15623000            12800000
+##  3  2011   10000000            12476000   11825000            11767500
+##  4  2011   10000000            11904706   10083333            10358200
+##  5  2011   10000000            11762782   10020000            10000000
+##  6  2011    9244117            11340000    8150000             9859166
+##  7  2011    8000000            10000000    7812500             9500000
+##  8  2011    7900000             9482500    7700000             9420000
+##  9  2011    7400000             8450000    7200000             8880000
+## 10  2011    7000000             8383266    7100000             8686750
+## # ... with 789 more rows, and 6 more variables: Quarterback &lt;dbl&gt;,
+## #   `Running Back` &lt;dbl&gt;, Safety &lt;dbl&gt;, `Special Teamer` &lt;dbl&gt;, `Tight
+## #   End` &lt;dbl&gt;, `Wide Receiver` &lt;dbl&gt;</code></pre>
+<p>In the example, we have deleted all missing values corresponding to the Special Teamer column.</p>
+<p>Two other neat functions from the <code>tidyr()</code> package can also be of great help. The <code>fill()</code> and <code>replace_na()</code> can impute values where before were missing values. The <code>fill()</code> function allows to replace the missing values with the most recent non-missing value present before or after the missing value. There is an argument in this function called .direction which enables you to choose if it is the nearest value being displayed before or after the missing value.</p>
+<p>If we write the code as follows:</p>
+<pre class="r"><code>nfl %&gt;%
+  fill(Quarterback, .direction = &quot;down&quot;)</code></pre>
+<pre><code>## # A tibble: 800 x 11
+##     year Cornerback `Defensive Lineman` Linebacker `Offensive Lineman`
+##    &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
+##  1  2011   11265916            17818000   16420000            15960000
+##  2  2011   11000000            16200000   15623000            12800000
+##  3  2011   10000000            12476000   11825000            11767500
+##  4  2011   10000000            11904706   10083333            10358200
+##  5  2011   10000000            11762782   10020000            10000000
+##  6  2011    9244117            11340000    8150000             9859166
+##  7  2011    8000000            10000000    7812500             9500000
+##  8  2011    7900000             9482500    7700000             9420000
+##  9  2011    7400000             8450000    7200000             8880000
+## 10  2011    7000000             8383266    7100000             8686750
+## # ... with 790 more rows, and 6 more variables: Quarterback &lt;dbl&gt;,
+## #   `Running Back` &lt;dbl&gt;, Safety &lt;dbl&gt;, `Special Teamer` &lt;dbl&gt;, `Tight
+## #   End` &lt;dbl&gt;, `Wide Receiver` &lt;dbl&gt;</code></pre>
+<p>With .direction = “down”, it will show (?) the value appearing before the missing value which will fill the NA values, but if we write with .direction = “up” the reserve will occur. Meaning, the value being displayed after the NA value will fill the space where the missing value once was.</p>
+<pre class="r"><code>nfl %&gt;%
+  fill(Quarterback, .direction = &quot;up&quot;)</code></pre>
+<pre><code>## # A tibble: 800 x 11
+##     year Cornerback `Defensive Lineman` Linebacker `Offensive Lineman`
+##    &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
+##  1  2011   11265916            17818000   16420000            15960000
+##  2  2011   11000000            16200000   15623000            12800000
+##  3  2011   10000000            12476000   11825000            11767500
+##  4  2011   10000000            11904706   10083333            10358200
+##  5  2011   10000000            11762782   10020000            10000000
+##  6  2011    9244117            11340000    8150000             9859166
+##  7  2011    8000000            10000000    7812500             9500000
+##  8  2011    7900000             9482500    7700000             9420000
+##  9  2011    7400000             8450000    7200000             8880000
+## 10  2011    7000000             8383266    7100000             8686750
+## # ... with 790 more rows, and 6 more variables: Quarterback &lt;dbl&gt;,
+## #   `Running Back` &lt;dbl&gt;, Safety &lt;dbl&gt;, `Special Teamer` &lt;dbl&gt;, `Tight
+## #   End` &lt;dbl&gt;, `Wide Receiver` &lt;dbl&gt;</code></pre>
+<p>Rather, if we want to replace the missing value with the mean or median of the respective variable we could use <code>replace_na</code>.</p>
+<pre class="r"><code># with the mean
+nfl %&gt;% 
+  replace_na(replace = list(Quarterback = mean(.$Quarterback, na.rm =TRUE),
+             `Special Teamer` = mean(.$`Special Teamer`, na.rm =TRUE)))</code></pre>
+<pre><code>## # A tibble: 800 x 11
+##     year Cornerback `Defensive Lineman` Linebacker `Offensive Lineman`
+##    &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
+##  1  2011   11265916            17818000   16420000            15960000
+##  2  2011   11000000            16200000   15623000            12800000
+##  3  2011   10000000            12476000   11825000            11767500
+##  4  2011   10000000            11904706   10083333            10358200
+##  5  2011   10000000            11762782   10020000            10000000
+##  6  2011    9244117            11340000    8150000             9859166
+##  7  2011    8000000            10000000    7812500             9500000
+##  8  2011    7900000             9482500    7700000             9420000
+##  9  2011    7400000             8450000    7200000             8880000
+## 10  2011    7000000             8383266    7100000             8686750
+## # ... with 790 more rows, and 6 more variables: Quarterback &lt;dbl&gt;,
+## #   `Running Back` &lt;dbl&gt;, Safety &lt;dbl&gt;, `Special Teamer` &lt;dbl&gt;, `Tight
+## #   End` &lt;dbl&gt;, `Wide Receiver` &lt;dbl&gt;</code></pre>
+<pre class="r"><code># with the median
+nfl %&gt;% 
+  replace_na(replace = list(Quarterback = median(.$Quarterback, na.rm =TRUE),
+             `Special Teamer` = median(.$`Special Teamer`, na.rm =TRUE)))</code></pre>
+<pre><code>## # A tibble: 800 x 11
+##     year Cornerback `Defensive Lineman` Linebacker `Offensive Lineman`
+##    &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
+##  1  2011   11265916            17818000   16420000            15960000
+##  2  2011   11000000            16200000   15623000            12800000
+##  3  2011   10000000            12476000   11825000            11767500
+##  4  2011   10000000            11904706   10083333            10358200
+##  5  2011   10000000            11762782   10020000            10000000
+##  6  2011    9244117            11340000    8150000             9859166
+##  7  2011    8000000            10000000    7812500             9500000
+##  8  2011    7900000             9482500    7700000             9420000
+##  9  2011    7400000             8450000    7200000             8880000
+## 10  2011    7000000             8383266    7100000             8686750
+## # ... with 790 more rows, and 6 more variables: Quarterback &lt;dbl&gt;,
+## #   `Running Back` &lt;dbl&gt;, Safety &lt;dbl&gt;, `Special Teamer` &lt;dbl&gt;, `Tight
+## #   End` &lt;dbl&gt;, `Wide Receiver` &lt;dbl&gt;</code></pre>
+<p>A more elegant approach - I believe - to substitute missing values with the mean or median is to use the functions available in the package <code>tidyimpute</code>. As the code below shows, it`s very simple to impute the mean or median to our missing values.</p>
+<pre class="r"><code># with mean
+nfl %&gt;%
+  impute_mean(Quarterback, `Special Teamer`)</code></pre>
+<pre><code>## # A tibble: 800 x 11
+##     year Cornerback `Defensive Lineman` Linebacker `Offensive Lineman`
+##    &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
+##  1  2011   11265916            17818000   16420000            15960000
+##  2  2011   11000000            16200000   15623000            12800000
+##  3  2011   10000000            12476000   11825000            11767500
+##  4  2011   10000000            11904706   10083333            10358200
+##  5  2011   10000000            11762782   10020000            10000000
+##  6  2011    9244117            11340000    8150000             9859166
+##  7  2011    8000000            10000000    7812500             9500000
+##  8  2011    7900000             9482500    7700000             9420000
+##  9  2011    7400000             8450000    7200000             8880000
+## 10  2011    7000000             8383266    7100000             8686750
+## # ... with 790 more rows, and 6 more variables: Quarterback &lt;dbl&gt;,
+## #   `Running Back` &lt;dbl&gt;, Safety &lt;dbl&gt;, `Special Teamer` &lt;dbl&gt;, `Tight
+## #   End` &lt;dbl&gt;, `Wide Receiver` &lt;dbl&gt;</code></pre>
+<pre class="r"><code># with the median
+nfl %&gt;%
+  impute_median(Quarterback, `Special Teamer`)</code></pre>
+<pre><code>## # A tibble: 800 x 11
+##     year Cornerback `Defensive Lineman` Linebacker `Offensive Lineman`
+##    &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
+##  1  2011   11265916            17818000   16420000            15960000
+##  2  2011   11000000            16200000   15623000            12800000
+##  3  2011   10000000            12476000   11825000            11767500
+##  4  2011   10000000            11904706   10083333            10358200
+##  5  2011   10000000            11762782   10020000            10000000
+##  6  2011    9244117            11340000    8150000             9859166
+##  7  2011    8000000            10000000    7812500             9500000
+##  8  2011    7900000             9482500    7700000             9420000
+##  9  2011    7400000             8450000    7200000             8880000
+## 10  2011    7000000             8383266    7100000             8686750
+## # ... with 790 more rows, and 6 more variables: Quarterback &lt;dbl&gt;,
+## #   `Running Back` &lt;dbl&gt;, Safety &lt;dbl&gt;, `Special Teamer` &lt;dbl&gt;, `Tight
+## #   End` &lt;dbl&gt;, `Wide Receiver` &lt;dbl&gt;</code></pre>
+<p>Alternatively, we could use a robust package for imputing missing values. In this case, we will use the <code>mice package</code> - there are other alternatives like the <code>Hmisc</code> or the <code>mi</code> packages, just to name a couple of examples. The package <code>mice</code> means Multivariate Imputation via Chained Equations. First, let us start by checking the pattern of our missing values with function <code>md.pattern()</code>.</p>
+<pre class="r"><code>md.pattern(nfl)</code></pre>
+<pre><code>##     year Cornerback Defensive Lineman Linebacker Offensive Lineman
+## 745    1          1                 1          1                 1
+##  54    1          1                 1          1                 1
+##   1    1          1                 1          1                 1
+##        0          0                 0          0                 0
+##     Running Back Safety Tight End Wide Receiver Special Teamer Quarterback
+## 745            1      1         1             1              1           1
+##  54            1      1         1             1              1           0
+##   1            1      1         1             1              0           0
+##                0      0         0             0              1          55
+##       
+## 745  0
+##  54  1
+##   1  2
+##     56</code></pre>
+<p>This shows that we have 745 cases where we did not have any missing values, 54 cases where the only missing values were present in the Quarterback column, and 1 case where the missing values were in the Quarterback and Special Teamer columns.</p>
+<p>Now, let us impute the missing values using the function <code>mice()</code>. The m() value corresponds to the number of imputed data frames and its default value is 5. The <code>meth()</code> function is related to the imputation method. I have tried to use the “pmm” method which implies predictive mean matching, but it was showing as error. Therefore, I chose the “cart” method which means using classification and regression trees as the imputation method.</p>
+<pre class="r"><code>nfl_new &lt;- mice(nfl, m= 5, maxit = 50, meth = &quot;cart&quot;, seed = 100)</code></pre>
+<pre><code>## 
+##  iter imp variable
+##   1   1  Quarterback  Special Teamer
+##   1   2  Quarterback  Special Teamer
+##   1   3  Quarterback  Special Teamer
+##   1   4  Quarterback  Special Teamer
+##   1   5  Quarterback  Special Teamer
+##   2   1  Quarterback  Special Teamer
+##   2   2  Quarterback  Special Teamer
+##   2   3  Quarterback  Special Teamer
+##   2   4  Quarterback  Special Teamer
+##   2   5  Quarterback  Special Teamer
+##   3   1  Quarterback  Special Teamer
+##   3   2  Quarterback  Special Teamer
+##   3   3  Quarterback  Special Teamer
+##   3   4  Quarterback  Special Teamer
+##   3   5  Quarterback  Special Teamer
+##   4   1  Quarterback  Special Teamer
+##   4   2  Quarterback  Special Teamer
+##   4   3  Quarterback  Special Teamer
+##   4   4  Quarterback  Special Teamer
+##   4   5  Quarterback  Special Teamer
+##   5   1  Quarterback  Special Teamer
+##   5   2  Quarterback  Special Teamer
+##   5   3  Quarterback  Special Teamer
+##   5   4  Quarterback  Special Teamer
+##   5   5  Quarterback  Special Teamer
+##   6   1  Quarterback  Special Teamer
+##   6   2  Quarterback  Special Teamer
+##   6   3  Quarterback  Special Teamer
+##   6   4  Quarterback  Special Teamer
+##   6   5  Quarterback  Special Teamer
+##   7   1  Quarterback  Special Teamer
+##   7   2  Quarterback  Special Teamer
+##   7   3  Quarterback  Special Teamer
+##   7   4  Quarterback  Special Teamer
+##   7   5  Quarterback  Special Teamer
+##   8   1  Quarterback  Special Teamer
+##   8   2  Quarterback  Special Teamer
+##   8   3  Quarterback  Special Teamer
+##   8   4  Quarterback  Special Teamer
+##   8   5  Quarterback  Special Teamer
+##   9   1  Quarterback  Special Teamer
+##   9   2  Quarterback  Special Teamer
+##   9   3  Quarterback  Special Teamer
+##   9   4  Quarterback  Special Teamer
+##   9   5  Quarterback  Special Teamer
+##   10   1  Quarterback  Special Teamer
+##   10   2  Quarterback  Special Teamer
+##   10   3  Quarterback  Special Teamer
+##   10   4  Quarterback  Special Teamer
+##   10   5  Quarterback  Special Teamer
+##   11   1  Quarterback  Special Teamer
+##   11   2  Quarterback  Special Teamer
+##   11   3  Quarterback  Special Teamer
+##   11   4  Quarterback  Special Teamer
+##   11   5  Quarterback  Special Teamer
+##   12   1  Quarterback  Special Teamer
+##   12   2  Quarterback  Special Teamer
+##   12   3  Quarterback  Special Teamer
+##   12   4  Quarterback  Special Teamer
+##   12   5  Quarterback  Special Teamer
+##   13   1  Quarterback  Special Teamer
+##   13   2  Quarterback  Special Teamer
+##   13   3  Quarterback  Special Teamer
+##   13   4  Quarterback  Special Teamer
+##   13   5  Quarterback  Special Teamer
+##   14   1  Quarterback  Special Teamer
+##   14   2  Quarterback  Special Teamer
+##   14   3  Quarterback  Special Teamer
+##   14   4  Quarterback  Special Teamer
+##   14   5  Quarterback  Special Teamer
+##   15   1  Quarterback  Special Teamer
+##   15   2  Quarterback  Special Teamer
+##   15   3  Quarterback  Special Teamer
+##   15   4  Quarterback  Special Teamer
+##   15   5  Quarterback  Special Teamer
+##   16   1  Quarterback  Special Teamer
+##   16   2  Quarterback  Special Teamer
+##   16   3  Quarterback  Special Teamer
+##   16   4  Quarterback  Special Teamer
+##   16   5  Quarterback  Special Teamer
+##   17   1  Quarterback  Special Teamer
+##   17   2  Quarterback  Special Teamer
+##   17   3  Quarterback  Special Teamer
+##   17   4  Quarterback  Special Teamer
+##   17   5  Quarterback  Special Teamer
+##   18   1  Quarterback  Special Teamer
+##   18   2  Quarterback  Special Teamer
+##   18   3  Quarterback  Special Teamer
+##   18   4  Quarterback  Special Teamer
+##   18   5  Quarterback  Special Teamer
+##   19   1  Quarterback  Special Teamer
+##   19   2  Quarterback  Special Teamer
+##   19   3  Quarterback  Special Teamer
+##   19   4  Quarterback  Special Teamer
+##   19   5  Quarterback  Special Teamer
+##   20   1  Quarterback  Special Teamer
+##   20   2  Quarterback  Special Teamer
+##   20   3  Quarterback  Special Teamer
+##   20   4  Quarterback  Special Teamer
+##   20   5  Quarterback  Special Teamer
+##   21   1  Quarterback  Special Teamer
+##   21   2  Quarterback  Special Teamer
+##   21   3  Quarterback  Special Teamer
+##   21   4  Quarterback  Special Teamer
+##   21   5  Quarterback  Special Teamer
+##   22   1  Quarterback  Special Teamer
+##   22   2  Quarterback  Special Teamer
+##   22   3  Quarterback  Special Teamer
+##   22   4  Quarterback  Special Teamer
+##   22   5  Quarterback  Special Teamer
+##   23   1  Quarterback  Special Teamer
+##   23   2  Quarterback  Special Teamer
+##   23   3  Quarterback  Special Teamer
+##   23   4  Quarterback  Special Teamer
+##   23   5  Quarterback  Special Teamer
+##   24   1  Quarterback  Special Teamer
+##   24   2  Quarterback  Special Teamer
+##   24   3  Quarterback  Special Teamer
+##   24   4  Quarterback  Special Teamer
+##   24   5  Quarterback  Special Teamer
+##   25   1  Quarterback  Special Teamer
+##   25   2  Quarterback  Special Teamer
+##   25   3  Quarterback  Special Teamer
+##   25   4  Quarterback  Special Teamer
+##   25   5  Quarterback  Special Teamer
+##   26   1  Quarterback  Special Teamer
+##   26   2  Quarterback  Special Teamer
+##   26   3  Quarterback  Special Teamer
+##   26   4  Quarterback  Special Teamer
+##   26   5  Quarterback  Special Teamer
+##   27   1  Quarterback  Special Teamer
+##   27   2  Quarterback  Special Teamer
+##   27   3  Quarterback  Special Teamer
+##   27   4  Quarterback  Special Teamer
+##   27   5  Quarterback  Special Teamer
+##   28   1  Quarterback  Special Teamer
+##   28   2  Quarterback  Special Teamer
+##   28   3  Quarterback  Special Teamer
+##   28   4  Quarterback  Special Teamer
+##   28   5  Quarterback  Special Teamer
+##   29   1  Quarterback  Special Teamer
+##   29   2  Quarterback  Special Teamer
+##   29   3  Quarterback  Special Teamer
+##   29   4  Quarterback  Special Teamer
+##   29   5  Quarterback  Special Teamer
+##   30   1  Quarterback  Special Teamer
+##   30   2  Quarterback  Special Teamer
+##   30   3  Quarterback  Special Teamer
+##   30   4  Quarterback  Special Teamer
+##   30   5  Quarterback  Special Teamer
+##   31   1  Quarterback  Special Teamer
+##   31   2  Quarterback  Special Teamer
+##   31   3  Quarterback  Special Teamer
+##   31   4  Quarterback  Special Teamer
+##   31   5  Quarterback  Special Teamer
+##   32   1  Quarterback  Special Teamer
+##   32   2  Quarterback  Special Teamer
+##   32   3  Quarterback  Special Teamer
+##   32   4  Quarterback  Special Teamer
+##   32   5  Quarterback  Special Teamer
+##   33   1  Quarterback  Special Teamer
+##   33   2  Quarterback  Special Teamer
+##   33   3  Quarterback  Special Teamer
+##   33   4  Quarterback  Special Teamer
+##   33   5  Quarterback  Special Teamer
+##   34   1  Quarterback  Special Teamer
+##   34   2  Quarterback  Special Teamer
+##   34   3  Quarterback  Special Teamer
+##   34   4  Quarterback  Special Teamer
+##   34   5  Quarterback  Special Teamer
+##   35   1  Quarterback  Special Teamer
+##   35   2  Quarterback  Special Teamer
+##   35   3  Quarterback  Special Teamer
+##   35   4  Quarterback  Special Teamer
+##   35   5  Quarterback  Special Teamer
+##   36   1  Quarterback  Special Teamer
+##   36   2  Quarterback  Special Teamer
+##   36   3  Quarterback  Special Teamer
+##   36   4  Quarterback  Special Teamer
+##   36   5  Quarterback  Special Teamer
+##   37   1  Quarterback  Special Teamer
+##   37   2  Quarterback  Special Teamer
+##   37   3  Quarterback  Special Teamer
+##   37   4  Quarterback  Special Teamer
+##   37   5  Quarterback  Special Teamer
+##   38   1  Quarterback  Special Teamer
+##   38   2  Quarterback  Special Teamer
+##   38   3  Quarterback  Special Teamer
+##   38   4  Quarterback  Special Teamer
+##   38   5  Quarterback  Special Teamer
+##   39   1  Quarterback  Special Teamer
+##   39   2  Quarterback  Special Teamer
+##   39   3  Quarterback  Special Teamer
+##   39   4  Quarterback  Special Teamer
+##   39   5  Quarterback  Special Teamer
+##   40   1  Quarterback  Special Teamer
+##   40   2  Quarterback  Special Teamer
+##   40   3  Quarterback  Special Teamer
+##   40   4  Quarterback  Special Teamer
+##   40   5  Quarterback  Special Teamer
+##   41   1  Quarterback  Special Teamer
+##   41   2  Quarterback  Special Teamer
+##   41   3  Quarterback  Special Teamer
+##   41   4  Quarterback  Special Teamer
+##   41   5  Quarterback  Special Teamer
+##   42   1  Quarterback  Special Teamer
+##   42   2  Quarterback  Special Teamer
+##   42   3  Quarterback  Special Teamer
+##   42   4  Quarterback  Special Teamer
+##   42   5  Quarterback  Special Teamer
+##   43   1  Quarterback  Special Teamer
+##   43   2  Quarterback  Special Teamer
+##   43   3  Quarterback  Special Teamer
+##   43   4  Quarterback  Special Teamer
+##   43   5  Quarterback  Special Teamer
+##   44   1  Quarterback  Special Teamer
+##   44   2  Quarterback  Special Teamer
+##   44   3  Quarterback  Special Teamer
+##   44   4  Quarterback  Special Teamer
+##   44   5  Quarterback  Special Teamer
+##   45   1  Quarterback  Special Teamer
+##   45   2  Quarterback  Special Teamer
+##   45   3  Quarterback  Special Teamer
+##   45   4  Quarterback  Special Teamer
+##   45   5  Quarterback  Special Teamer
+##   46   1  Quarterback  Special Teamer
+##   46   2  Quarterback  Special Teamer
+##   46   3  Quarterback  Special Teamer
+##   46   4  Quarterback  Special Teamer
+##   46   5  Quarterback  Special Teamer
+##   47   1  Quarterback  Special Teamer
+##   47   2  Quarterback  Special Teamer
+##   47   3  Quarterback  Special Teamer
+##   47   4  Quarterback  Special Teamer
+##   47   5  Quarterback  Special Teamer
+##   48   1  Quarterback  Special Teamer
+##   48   2  Quarterback  Special Teamer
+##   48   3  Quarterback  Special Teamer
+##   48   4  Quarterback  Special Teamer
+##   48   5  Quarterback  Special Teamer
+##   49   1  Quarterback  Special Teamer
+##   49   2  Quarterback  Special Teamer
+##   49   3  Quarterback  Special Teamer
+##   49   4  Quarterback  Special Teamer
+##   49   5  Quarterback  Special Teamer
+##   50   1  Quarterback  Special Teamer
+##   50   2  Quarterback  Special Teamer
+##   50   3  Quarterback  Special Teamer
+##   50   4  Quarterback  Special Teamer
+##   50   5  Quarterback  Special Teamer</code></pre>
+<p>The last step is to transform this into a complete dataframe with the function <code>complete()</code> and check if we still have missing values.</p>
+<pre class="r"><code>nfl_complete &lt;- mice::complete(nfl_new,1)
+
+sum(is.na(nfl_complete))</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>As a result, there are no missing values in our data frame.</p>
+<p>And that’s it for today’s post! I hope this mini tutorial helps you in dealing with missing values in R. Thanks for reading us and keep coding in R.</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="../../../tags/missing-values/">missing values</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/09/combine-data-frames-in-r/" data-tooltip="Combine Data frames in R">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 Hugo Toscano. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/09/combine-data-frames-in-r/" data-tooltip="Combine Data frames in R">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoscano84.github.io%2F2018%2F10%2Fhints-to-deal-with-missing-values-in-r%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftoscano84.github.io%2F2018%2F10%2Fhints-to-deal-with-missing-values-in-r%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Hugo Toscano</h4>
+    
+      <div id="about-card-bio">Contact: hugo_toscano@outlook.com</div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Stuttgart, Germany
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
+                <h3 class="media-heading">Hints to deal with Missing Values in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
+                <h3 class="media-heading">Combine Data frames in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
+                <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post talks about making interactive visualizations in R with leaflet(). In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+                <h3 class="media-heading">Tuition costs and gdp per capita: A linear regression analysis</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
+I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
+                <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">As the title of this post implies we will analyze, using the statistical programming language R, the German Federal Election which took place on 24 September of 2017. It will not be an exhaustive analysis of the results. I’m only interested in visualizing the share of the vote that each party represented in the Parliament (i.e. Bundestag) received in each one of the 16 States of Germany.
+In order to make this visualization possible in R, loading the respective packages is the first step.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/about-me/">
+                <h3 class="media-heading">About me</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to my blog!
+I&rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Not yet Machine Learning, still exploring it.
+My goal is to try to help you improve your R skills, by sharing what I am currently learning.
+Other interests I also have, non-data related, are history, tv shows and literature, which I can eventually blog about.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         6 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/dabczf7ag/image/upload/v1533024537/cover_new2.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="../../../js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/toscano84.github.io\/2018\/10\/hints-to-deal-with-missing-values-in-r\/';
+          
+            this.page.identifier = '\/2018\/10\/hints-to-deal-with-missing-values-in-r\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'toscano84';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
