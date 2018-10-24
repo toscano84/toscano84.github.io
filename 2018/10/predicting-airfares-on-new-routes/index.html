@@ -1,0 +1,1184 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.49.2 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression</title>
+    <meta name="author" content="Hugo Toscano">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../favicon.png">
+    
+
+    
+    <meta name="description" content="This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.">
+    <meta property="og:description" content="This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression">
+    <meta property="og:url" content="/2018/10/predicting-airfares-on-new-routes/">
+    <meta property="og:site_name" content="Hugo Toscano">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo Toscano">
+    <meta name="twitter:description" content="This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="../../../css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">Hugo Toscano</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="../../../#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="../../../#about">
+          <img class="sidebar-profile-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Hugo Toscano</h4>
+        
+          <h5 class="sidebar-profile-bio">Contact: hugo_toscano@outlook.com</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../2018/07/about-me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+      
+      <span class="sidebar-button-desc">About me</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/toscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-10-24T00:00:00Z">
+        
+  October 24, 2018
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="../../../categories/predictive-analytics">Predictive Analytics</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you. During the tutorial, we will build various multiple linear regression models. Next, we will evaluate these models, choose the more accurate one and evaluate how well the model generalizes to new data.</p>
+<p>Throughout the post we will be using data extracted from the excellent book ‘Data Mining for Business Analytics: Concepts, Techniques, and Applications in R’. The data is called Airfares and it’s from the 90s. The data frame has several variables as you will be able to ascertain soon. The challenge related to this data frame is how the deregulation of airlines in the 70’s, and consequently the entrance of new carriers with lower prices like Southwest airlines, influence the prices of airfares. The business problem is to predict how much it will cost the airfares in a new flight route. So, imagine that you are working for an airline company that intends to open a new route in the USA and it has data related to the characteristics of airports, economic and demographic information about the cities where flights arrive and depart, flight distances and average price of air flights. The company to whom we work wants to open a new route, but doesn’t know which average price should ask for. The goal of your job in this to find a model that can better predict the average price of airfares.</p>
+<div id="loading-and-exploring-our-data-frame" class="section level2">
+<h2>Loading and Exploring our Data Frame</h2>
+<p>Now, let’s first load the packages to be used in our analysis.</p>
+<pre class="r"><code>library(here) # set directory
+library(tidyverse) # data wrangling and visualization
+library(caret) # machine learning techniques
+library(corrr) # visualize correlations
+library(ggcorrplot) # visualize correlations
+library(lmtest) # check homoscedasticity
+library(MASS) # create stepwise regression models
+library(car) # analyse homoscedasticity
+library(yardstick) # check regression models metrics
+library(broom) # tidy statistical models
+options(scipen = 999) # disable scientific notation</code></pre>
+<p>Next , we open our dataset and start to explore it.</p>
+<pre class="r"><code># open file
+airfares &lt;- read_csv(here(&quot;airfares.csv&quot;)) %&gt;% 
+  rename_all(str_to_lower) # all variables&#39; names to lower case
+
+# explore structure of the data frame
+glimpse(airfares)</code></pre>
+<pre><code>## Observations: 638
+## Variables: 18
+## $ s_code   &lt;chr&gt; &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;ORD&quot;, &quot;MDW&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;,...
+## $ s_city   &lt;chr&gt; &quot;Dallas/Fort Worth   TX&quot;, &quot;Atlanta             GA&quot;, &quot;...
+## $ e_code   &lt;chr&gt; &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;, &quot;*&quot;...
+## $ e_city   &lt;chr&gt; &quot;Amarillo            TX&quot;, &quot;Baltimore/Wash Intl MD&quot;, &quot;...
+## $ coupon   &lt;dbl&gt; 1.00, 1.06, 1.06, 1.06, 1.06, 1.01, 1.28, 1.15, 1.33,...
+## $ new      &lt;int&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 1, 3, 3, 3, 3, 3, 3,...
+## $ vacation &lt;chr&gt; &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;No&quot;...
+## $ sw       &lt;chr&gt; &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;Yes&quot;, ...
+## $ hi       &lt;dbl&gt; 5291.99, 5419.16, 9185.28, 2657.35, 2657.35, 3408.11,...
+## $ s_income &lt;int&gt; 28637, 26993, 30124, 29260, 29260, 26046, 28637, 2675...
+## $ e_income &lt;int&gt; 21112, 29838, 29838, 29838, 29838, 29838, 29838, 2983...
+## $ s_pop    &lt;int&gt; 3036732, 3532657, 5787293, 7830332, 7830332, 2230955,...
+## $ e_pop    &lt;int&gt; 205711, 7145897, 7145897, 7145897, 7145897, 7145897, ...
+## $ slot     &lt;chr&gt; &quot;Free&quot;, &quot;Free&quot;, &quot;Free&quot;, &quot;Controlled&quot;, &quot;Free&quot;, &quot;Free&quot;,...
+## $ gate     &lt;chr&gt; &quot;Free&quot;, &quot;Free&quot;, &quot;Free&quot;, &quot;Free&quot;, &quot;Free&quot;, &quot;Free&quot;, &quot;Free...
+## $ distance &lt;int&gt; 312, 576, 364, 612, 612, 309, 1220, 921, 1249, 964, 2...
+## $ pax      &lt;int&gt; 7864, 8820, 6452, 25144, 25144, 13386, 4625, 5512, 78...
+## $ fare     &lt;dbl&gt; 64.11, 174.47, 207.76, 85.47, 85.47, 56.76, 228.00, 1...</code></pre>
+<p>A <code>glimpse()</code> of our variables show that we have 18 variables. In the following table copied from the book ‘Data Mining for Business Analytics’, you can see a more extensive description of each variable.</p>
+<div class="figure">
+<img src="../../../post/2018-10-23-predicting-airfares-prices-on-new-routes-a-supervised-learning-approach-with-multiple-linear-regression_files/variables.PNG" style="width:80.0%" />
+
+</div>
+<p>Let’s further explore our dataset by using the <code>summary()</code> function to check our data.</p>
+<pre class="r"><code># explore dataset
+summary(airfares)</code></pre>
+<pre><code>##     s_code             s_city             e_code         
+##  Length:638         Length:638         Length:638        
+##  Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character  
+##                                                          
+##                                                          
+##                                                          
+##     e_city              coupon           new          vacation        
+##  Length:638         Min.   :1.000   Min.   :0.000   Length:638        
+##  Class :character   1st Qu.:1.040   1st Qu.:3.000   Class :character  
+##  Mode  :character   Median :1.150   Median :3.000   Mode  :character  
+##                     Mean   :1.202   Mean   :2.754                     
+##                     3rd Qu.:1.298   3rd Qu.:3.000                     
+##                     Max.   :1.940   Max.   :3.000                     
+##       sw                  hi           s_income        e_income    
+##  Length:638         Min.   : 1230   Min.   :14600   Min.   :14600  
+##  Class :character   1st Qu.: 3090   1st Qu.:24706   1st Qu.:23903  
+##  Mode  :character   Median : 4208   Median :28637   Median :26409  
+##                     Mean   : 4442   Mean   :27760   Mean   :27664  
+##                     3rd Qu.: 5481   3rd Qu.:29694   3rd Qu.:31981  
+##                     Max.   :10000   Max.   :38813   Max.   :38813  
+##      s_pop             e_pop             slot               gate          
+##  Min.   :  29838   Min.   : 111745   Length:638         Length:638        
+##  1st Qu.:1862106   1st Qu.:1228816   Class :character   Class :character  
+##  Median :3532657   Median :2195215   Mode  :character   Mode  :character  
+##  Mean   :4557004   Mean   :3194503                                        
+##  3rd Qu.:7830332   3rd Qu.:4549784                                        
+##  Max.   :9056076   Max.   :9056076                                        
+##     distance           pax             fare       
+##  Min.   : 114.0   Min.   : 1504   Min.   : 42.47  
+##  1st Qu.: 455.0   1st Qu.: 5328   1st Qu.:106.29  
+##  Median : 850.0   Median : 7792   Median :144.60  
+##  Mean   : 975.7   Mean   :12782   Mean   :160.88  
+##  3rd Qu.:1306.2   3rd Qu.:14090   3rd Qu.:209.35  
+##  Max.   :2764.0   Max.   :73892   Max.   :402.02</code></pre>
+<p>Moreover, we will check if there are any missing values.</p>
+<pre class="r"><code>sum(is.na(airfares)) # check if there are missing values</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>We don’t have any missing values.</p>
+<p>Now we can visualize the distribution of our dependent variable named fare.</p>
+<pre class="r"><code># visualize our dependent variable
+ggplot(airfares, aes(fare)) +
+  geom_histogram(binwidth = 10)</code></pre>
+<p><img src="../../../post/2018-10-23-predicting-airfares-prices-on-new-routes-a-supervised-learning-approach-with-multiple-linear-regression_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Next, we will remove the first four variables from our data frame (s_code, s_city, e_code, and e_city).</p>
+<pre class="r"><code># remove variables 
+airfares &lt;- airfares %&gt;%
+  dplyr::select(-c(1:4)) # remove variables 1 to 4. These correspond to variables (s_code, s_city, e_code, and e_city)
+
+
+glimpse(airfares)</code></pre>
+<pre><code>## Observations: 638
+## Variables: 14
+## $ coupon   &lt;dbl&gt; 1.00, 1.06, 1.06, 1.06, 1.06, 1.01, 1.28, 1.15, 1.33,...
+## $ new      &lt;int&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 1, 3, 3, 3, 3, 3, 3,...
+## $ vacation &lt;chr&gt; &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;No&quot;...
+## $ sw       &lt;chr&gt; &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;Yes&quot;, ...
+## $ hi       &lt;dbl&gt; 5291.99, 5419.16, 9185.28, 2657.35, 2657.35, 3408.11,...
+## $ s_income &lt;int&gt; 28637, 26993, 30124, 29260, 29260, 26046, 28637, 2675...
+## $ e_income &lt;int&gt; 21112, 29838, 29838, 29838, 29838, 29838, 29838, 2983...
+## $ s_pop    &lt;int&gt; 3036732, 3532657, 5787293, 7830332, 7830332, 2230955,...
+## $ e_pop    &lt;int&gt; 205711, 7145897, 7145897, 7145897, 7145897, 7145897, ...
+## $ slot     &lt;chr&gt; &quot;Free&quot;, &quot;Free&quot;, &quot;Free&quot;, &quot;Controlled&quot;, &quot;Free&quot;, &quot;Free&quot;,...
+## $ gate     &lt;chr&gt; &quot;Free&quot;, &quot;Free&quot;, &quot;Free&quot;, &quot;Free&quot;, &quot;Free&quot;, &quot;Free&quot;, &quot;Free...
+## $ distance &lt;int&gt; 312, 576, 364, 612, 612, 309, 1220, 921, 1249, 964, 2...
+## $ pax      &lt;int&gt; 7864, 8820, 6452, 25144, 25144, 13386, 4625, 5512, 78...
+## $ fare     &lt;dbl&gt; 64.11, 174.47, 207.76, 85.47, 85.47, 56.76, 228.00, 1...</code></pre>
+<p>Now, we will keep exploring the data and check for correlations between the numeric variables of our data frame.</p>
+<p>We will use the package <code>ggcorrplot</code> for this.</p>
+<pre class="r"><code># check for correlations
+
+# create correlations dataframe
+cor_df &lt;- airfares %&gt;% 
+  select_if(is.numeric) %&gt;%
+  cor()
+
+# visualize correlations with ggcorrplot
+ggcorrplot(cor_df, hc.order = TRUE, type = &quot;lower&quot;, 
+           lab = TRUE)</code></pre>
+<p><img src="../../../post/2018-10-23-predicting-airfares-prices-on-new-routes-a-supervised-learning-approach-with-multiple-linear-regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>From these correlations, we can verify that the prices of airlines have a high positive correlation with the variables coupon and distance. Note: coupon and distance are highly correlated which can be a problem due to the multicollinearity assumption of the regression.</p>
+<p>Here with the function <code>network_plot()</code> from the <code>corrr</code> package we can see that above 0.3, only distance, coupon and e_income are correlated with the variable fare.</p>
+<pre class="r"><code># network plot
+cor_df %&gt;%
+  network_plot(min_cor = 0.3) # check network plot of correlations above 0.3 in the positive and negative direction</code></pre>
+<p><img src="../../../post/2018-10-23-predicting-airfares-prices-on-new-routes-a-supervised-learning-approach-with-multiple-linear-regression_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="creation-of-regression-models" class="section level2">
+<h2>Creation of Regression Models</h2>
+<p>In the following step, <strong>we will create a train and a test dataset</strong>, so that we can fit our training model and apply it to a test dataset in order to validate it and see whether it generalizes into a new data frame. We will use the <code>createDataPartition()</code> function from the <code>caret</code> package to make this partition.</p>
+<pre class="r"><code># partition the data
+set.seed(1234)
+partition &lt;- createDataPartition(airfares$fare, p = 0.7, list = FALSE) # 70% corresponds to the train data frame and 30% to the data frame
+
+# create train and test dataframes
+train_airfares &lt;- airfares[partition, ]
+
+test_airfares &lt;- airfares[-partition, ]</code></pre>
+<p>Let us now create our first regression model with our training set. We will name it <strong>model0</strong>.</p>
+<pre class="r"><code># creation of model0
+model0 &lt;- lm(fare ~ ., data = train_airfares)
+summary(model0)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = fare ~ ., data = train_airfares)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -100.556  -19.352   -1.793   20.303  106.427 
+## 
+## Coefficients:
+##                   Estimate     Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)   9.9488140255  31.5652926156   0.315             0.752775    
+## coupon       15.0645997501  13.6701254718   1.102             0.271067    
+## new          -4.4309062496   2.1911643532  -2.022             0.043770 *  
+## vacationYes -36.0936214515   4.0706698108  -8.867 &lt; 0.0000000000000002 ***
+## swYes       -39.3376061587   4.2770307496  -9.197 &lt; 0.0000000000000002 ***
+## hi            0.0066408541   0.0011529652   5.760        0.00000001594 ***
+## s_income      0.0013104057   0.0006152507   2.130             0.033743 *  
+## e_income      0.0016628700   0.0004437508   3.747             0.000203 ***
+## s_pop         0.0000037053   0.0000007535   4.918        0.00000124446 ***
+## e_pop         0.0000048570   0.0000008752   5.550        0.00000004978 ***
+## slotFree    -16.1624509148   4.4742546626  -3.612             0.000339 ***
+## gateFree    -24.3946178248   4.7186388124  -5.170        0.00000035795 ***
+## distance      0.0682020180   0.0040489197  16.844 &lt; 0.0000000000000002 ***
+## pax          -0.0009939716   0.0001674994  -5.934        0.00000000604 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 33.97 on 435 degrees of freedom
+## Multiple R-squared:  0.8027, Adjusted R-squared:  0.7968 
+## F-statistic: 136.1 on 13 and 435 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<p>We can see that all variables, but coupon and new, significantly predict the mean price of airlines flights. As mentioned before, this data has in mind the entrance of new players with low prices, as the Southwest Airlines, in the price of tickets flights. The regression shows that the presence of Southwest Airlines(SW) can decrease the mean price of fares in 39.338$.</p>
+<p>As an example , we can check some assumptions of the regression in our model. Note: We will not do it for the models created afterwards. It’s just for you to have an idea on how to test some of the regression assumptions. First, we can check for multicollinearity, that is, if there is a high linear association between the predictor variables of our model. To check it , we can use the <code>vif()</code> function.</p>
+<pre class="r"><code># test assumption of multicollinearity
+car::vif(model0)</code></pre>
+<pre><code>##   coupon      new vacation       sw       hi s_income e_income    s_pop 
+## 3.054571 1.037796 1.331906 1.520914 1.530992 1.837109 1.567817 2.049647 
+##    e_pop     slot     gate distance      pax 
+## 2.299528 1.601839 1.305077 2.691463 2.035736</code></pre>
+<p>All values are below 5, meaning that we don’t have multicollinearity in our model.</p>
+<p>Second, we can check if our residuals show <strong>homoscedasticity</strong>. We will use the <code>augment()</code> function from the <code>broom</code> package to get the predicted and residuals of our model. After that we will visualize how the residuals distribute themselves.</p>
+<pre class="r"><code># test assumptions of heteroskedasticity
+aug &lt;- augment(model0)
+
+# visualiza the residuals
+aug %&gt;%
+  ggplot(aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  ggtitle(&quot;Residuals vs Fitted&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../post/2018-10-23-predicting-airfares-prices-on-new-routes-a-supervised-learning-approach-with-multiple-linear-regression_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>It looks like we have heteroscedasticity. The residuals are not distributed uniformly along zero. Using the <code>bptest()</code> function from the <code>lmtest</code> package we can come to that conclusion.</p>
+<pre class="r"><code>lmtest::bptest(model0)</code></pre>
+<pre><code>## 
+##  studentized Breusch-Pagan test
+## 
+## data:  model0
+## BP = 51.155, df = 13, p-value = 0.000001886</code></pre>
+<p>The p-value is below 0.05, so the assumption of homoscedasticity is not satisfied. This result may suggest an incomplete model, but for the purposes of this post we will not give it too much attention. Nonetheless, you should know how to check the regression assumptions.</p>
+<p>Putting aside the assumptions of the regression, let’s go back to fit our training data. Now, we will use a stepwise regression method, in order to find a model that minimizes the error. We can use the <code>stepAIC()</code> function from the <code>MASS</code> package.</p>
+<pre class="r"><code># create stepwise regression model
+step_model &lt;- stepAIC(model0, direction = &quot;both&quot;)</code></pre>
+<pre><code>## Start:  AIC=3179.78
+## fare ~ coupon + new + vacation + sw + hi + s_income + e_income + 
+##     s_pop + e_pop + slot + gate + distance + pax
+## 
+##            Df Sum of Sq    RSS    AIC
+## - coupon    1      1402 503512 3179.0
+## &lt;none&gt;                  502111 3179.8
+## - new       1      4720 506831 3182.0
+## - s_income  1      5236 507347 3182.4
+## - slot      1     15062 517173 3191.1
+## - e_income  1     16209 518319 3192.0
+## - s_pop     1     27913 530024 3202.1
+## - gate      1     30851 532961 3204.6
+## - e_pop     1     35553 537663 3208.5
+## - hi        1     38294 540404 3210.8
+## - pax       1     40647 542758 3212.7
+## - vacation  1     90748 592859 3252.4
+## - sw        1     97643 599754 3257.6
+## - distance  1    327511 829622 3403.2
+## 
+## Step:  AIC=3179.03
+## fare ~ new + vacation + sw + hi + s_income + e_income + s_pop + 
+##     e_pop + slot + gate + distance + pax
+## 
+##            Df Sum of Sq     RSS    AIC
+## &lt;none&gt;                   503512 3179.0
+## + coupon    1      1402  502111 3179.8
+## - s_income  1      4829  508342 3181.3
+## - new       1      4921  508433 3181.4
+## - e_income  1     15884  519396 3191.0
+## - slot      1     16329  519842 3191.4
+## - s_pop     1     27075  530587 3200.5
+## - gate      1     31081  534594 3203.9
+## - e_pop     1     35944  539456 3208.0
+## - hi        1     37169  540682 3209.0
+## - pax       1     55269  558781 3223.8
+## - vacation  1     93001  596514 3253.1
+## - sw        1    101235  604748 3259.3
+## - distance  1    653326 1156839 3550.5</code></pre>
+<p>Now we can check which variables were dropped in the stepwise regression:</p>
+<pre class="r"><code>step_model</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = fare ~ new + vacation + sw + hi + s_income + e_income + 
+##     s_pop + e_pop + slot + gate + distance + pax, data = train_airfares)
+## 
+## Coefficients:
+##   (Intercept)            new    vacationYes          swYes             hi  
+##  30.873320641   -4.521016297  -36.433723009  -39.832892403    0.006293746  
+##      s_income       e_income          s_pop          e_pop       slotFree  
+##   0.001254125    0.001645024    0.000003637    0.000004882  -16.720450234  
+##      gateFree       distance            pax  
+## -24.482100200    0.071206980   -0.001066315</code></pre>
+<p>This function reflects a model that dropped the variables coupon and new. Let’s check this model and call it <strong>model1</strong>.</p>
+<pre class="r"><code>model1 &lt;- lm(fare ~ vacation + sw + hi + s_income + e_income + s_pop + e_pop + slot + gate + distance + pax, data = train_airfares)
+
+summary(model1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = fare ~ vacation + sw + hi + s_income + e_income + 
+##     s_pop + e_pop + slot + gate + distance + pax, data = train_airfares)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -99.494 -20.583  -1.079  19.404 107.004 
+## 
+## Coefficients:
+##                   Estimate     Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)  21.0906196576  24.8650602431   0.848             0.396789    
+## vacationYes -36.0005783086   4.0696256253  -8.846 &lt; 0.0000000000000002 ***
+## swYes       -39.7430471198   4.2700177449  -9.307 &lt; 0.0000000000000002 ***
+## hi            0.0061071890   0.0011098100   5.503      0.0000000637592 ***
+## s_income      0.0012155887   0.0006152769   1.976             0.048820 *  
+## e_income      0.0016050610   0.0004447919   3.609             0.000344 ***
+## s_pop         0.0000036527   0.0000007538   4.845      0.0000017573978 ***
+## e_pop         0.0000049468   0.0000008778   5.636      0.0000000313070 ***
+## slotFree    -16.1206963093   4.4536261111  -3.620             0.000330 ***
+## gateFree    -24.2961731658   4.7358432038  -5.130      0.0000004358992 ***
+## distance      0.0705369455   0.0029872119  23.613 &lt; 0.0000000000000002 ***
+## pax          -0.0010711740   0.0001546931  -6.925      0.0000000000157 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 34.11 on 437 degrees of freedom
+## Multiple R-squared:  0.8002, Adjusted R-squared:  0.7952 
+## F-statistic: 159.1 on 11 and 437 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<p>All variables significantly predict the airfares.</p>
+<p>So, we have 2 models - <strong>model0</strong> and <strong>model1</strong> - and now we will create two more models - <strong>model2</strong> and <strong>model3</strong>. Afterwards, we will assess the performance metrics of each one of the 4 models.</p>
+<p>For <strong>model2</strong>, we will remove the variables s_pop, e_pop, slot, and gate.</p>
+<pre class="r"><code># create model2
+model2 &lt;- lm(fare ~ vacation + sw + hi + s_income + e_income + distance + pax, data = train_airfares)
+
+summary(model2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = fare ~ vacation + sw + hi + s_income + e_income + 
+##     distance + pax, data = train_airfares)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -108.318  -23.866   -1.843   23.735  106.494 
+## 
+## Coefficients:
+##                Estimate  Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)  -0.1679937  24.1969685  -0.007              0.99446    
+## vacationYes -49.7678724   4.1505747 -11.991 &lt; 0.0000000000000002 ***
+## swYes       -53.9011515   4.4273744 -12.175 &lt; 0.0000000000000002 ***
+## hi            0.0049267   0.0011901   4.140           0.00004164 ***
+## s_income      0.0015086   0.0005732   2.632              0.00878 ** 
+## e_income      0.0022815   0.0004674   4.882           0.00000147 ***
+## distance      0.0717944   0.0031951  22.470 &lt; 0.0000000000000002 ***
+## pax          -0.0004592   0.0001491  -3.079              0.00220 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 37.95 on 441 degrees of freedom
+## Multiple R-squared:  0.7504, Adjusted R-squared:  0.7464 
+## F-statistic: 189.4 on 7 and 441 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<p>For <strong>model3</strong>, we will keep only the variables vacation, sw, distance, and pax.</p>
+<pre class="r"><code># create model3
+model3 &lt;- lm(fare ~ vacation + sw + distance + pax, data = train_airfares)
+
+summary(model3)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = fare ~ vacation + sw + distance + pax, data = train_airfares)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -106.473  -25.127   -3.374   23.979  124.562 
+## 
+## Coefficients:
+##                Estimate  Std. Error t value            Pr(&gt;|t|)    
+## (Intercept) 133.0357263   4.7533427  27.988 &lt;0.0000000000000002 ***
+## vacationYes -55.7762784   4.1795977 -13.345 &lt;0.0000000000000002 ***
+## swYes       -64.5156905   4.2763749 -15.087 &lt;0.0000000000000002 ***
+## distance      0.0680762   0.0030424  22.376 &lt;0.0000000000000002 ***
+## pax          -0.0003274   0.0001399  -2.341              0.0197 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 39.92 on 444 degrees of freedom
+## Multiple R-squared:  0.722,  Adjusted R-squared:  0.7195 
+## F-statistic: 288.2 on 4 and 444 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+</div>
+<div id="assssment-of-the-regression-models" class="section level2">
+<h2>Assssment of the Regression Models</h2>
+<p>So, we’ve built our models, however we haven’t assessed which one performs better. In the following assessment, we will center our attention in two key performance metrics: the <strong>root mean squared error(RMSE)</strong> and the <strong>R-squared</strong>. I will show you how to assess the models with the <code>caret</code> and <code>yardstick</code> packages.</p>
+<pre class="r"><code># Assessing model Performance
+# model0
+lm0 &lt;- train(fare ~ ., method = &quot;lm&quot;, data = train_airfares,
+                trControl = trainControl(method = &quot;none&quot;))
+
+# model1
+lm1 &lt;- train(fare ~ vacation + sw + hi + s_income + e_income + 
+               s_pop + e_pop + slot + gate + distance + pax, method = &quot;lm&quot;, data = train_airfares,
+                 trControl = trainControl(method = &quot;none&quot;))
+
+# model2
+lm2 &lt;- train(fare ~ vacation + sw + hi + s_income + e_income + distance + pax, method = &quot;lm&quot;, data = train_airfares,
+                 trControl = trainControl(method = &quot;none&quot;))
+
+# model3
+lm3 &lt;- train(fare ~ vacation + sw + distance + pax, method = &quot;lm&quot;, data = train_airfares,
+                 trControl = trainControl(method = &quot;none&quot;))
+
+
+# create dataframe with the 4 models
+agg_data &lt;- train_airfares %&gt;%
+  mutate(regression0 = predict(lm0, train_airfares),
+         regression1 = predict(lm1, train_airfares),
+         regression2 = predict(lm2, train_airfares),
+         regression3 = predict(lm3, train_airfares))
+
+# use the function metrics from the yardstick package to assess the models
+# metrics model0
+metrics(agg_data, truth = fare, estimate = regression0)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    rmse   rsq
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  33.4 0.803</code></pre>
+<pre class="r"><code># metrics model1
+metrics(agg_data, truth = fare, estimate = regression1)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    rmse   rsq
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  33.7 0.800</code></pre>
+<pre class="r"><code># metrics model2
+metrics(agg_data, truth = fare, estimate = regression2)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    rmse   rsq
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  37.6 0.750</code></pre>
+<pre class="r"><code># metrics model3
+metrics(agg_data, truth = fare, estimate = regression3)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    rmse   rsq
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  39.7 0.722</code></pre>
+<p>Thus, the metrics of these models show that <strong>model0</strong> and <strong>model1</strong> are the best ones. They have a lower <strong>RMSE</strong> and a higher <strong>R-squared</strong>. Between these two, we should choose model1 as it includes less variables. Nonetheless, we are still left with 2 steps.</p>
+<p>First step, let’s check these 4 models visually.</p>
+<pre class="r"><code># visualized assessment of the models
+agg_data %&gt;%
+  gather(type_of_lm, output, regression0:regression3) %&gt;%
+  ggplot(aes(fare, output, color = type_of_lm)) +
+  geom_point(size = 1.5, alpha = 0.5) +
+  facet_wrap(~type_of_lm) +
+  geom_abline(lty = 2, color = &quot;gray50&quot;) +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<p><img src="../../../post/2018-10-23-predicting-airfares-prices-on-new-routes-a-supervised-learning-approach-with-multiple-linear-regression_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>It supports what we have said before, <strong>models 0 and 1</strong> are the best ones. The regression line of both models is closer to the grey dashed line than the models 2 and 3.</p>
+</div>
+<div id="generalization-of-the-regression-models-to-new-data" class="section level2">
+<h2>Generalization of the Regression Models to new Data</h2>
+<p>The last step is a critical one in machine learning.</p>
+<p>Firstly, we have created and fitted the models.</p>
+<p>Secondly, we have assessed the models and it seems <strong>model0</strong> and <strong>model1</strong> are the best fit. However , we still do not know how the models compare when making predictions on new data. So, in this last step we need to check how our models work in our test data.</p>
+<pre class="r"><code># generalization to new data
+# create dataframe with the 4 models
+tests_agg_data &lt;- test_airfares %&gt;%
+  mutate(regression0t = predict(lm0, test_airfares),
+         regression1t = predict(lm1, test_airfares),
+         regression2t = predict(lm2, test_airfares),
+         regression3t = predict(lm3, test_airfares))
+
+# use the yardstick package to check metrics
+# metrics model0
+metrics(tests_agg_data, truth = fare, estimate = regression0t)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    rmse   rsq
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  39.6 0.739</code></pre>
+<pre class="r"><code># metrics model1
+metrics(tests_agg_data, truth = fare, estimate = regression1t)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    rmse   rsq
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  39.2 0.746</code></pre>
+<pre class="r"><code># metrics model2
+metrics(tests_agg_data, truth = fare, estimate = regression2t)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    rmse   rsq
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  40.6 0.726</code></pre>
+<pre class="r"><code># metrics model3
+metrics(tests_agg_data, truth = fare, estimate = regression3t)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    rmse   rsq
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  43.6 0.688</code></pre>
+<p>We should also visualize our models.</p>
+<pre class="r"><code># visualized assessment of the models
+tests_agg_data %&gt;%
+  gather(type_of_lm, output, regression0t:regression3t) %&gt;%
+  ggplot(aes(fare, output, color = type_of_lm)) +
+  geom_point(size = 1.5, alpha = 0.5) +
+  facet_wrap(~type_of_lm) +
+  geom_abline(lty = 2, color = &quot;gray50&quot;) +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<p><img src="../../../post/2018-10-23-predicting-airfares-prices-on-new-routes-a-supervised-learning-approach-with-multiple-linear-regression_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>The generalization shows that <strong>models0</strong> and <strong>models1</strong> still have a higher <strong>R-squared</strong> and a lower <strong>RMSE</strong> that the other models. However, we can attest that in test data the <strong>RMSE</strong> is higher and the <strong>R-squared</strong> is lower than in the train data. This means our model is slightly overfit.</p>
+</div>
+<div id="choosing-the-model" class="section level2">
+<h2>Choosing the Model</h2>
+<p>In sum, we have created, assessed and evaluated our models. Now, we need to choose the model. Given the lower RMSE and higher R-squared compared to <strong>model2</strong> and <strong>model3</strong>, as well as a lower number of variables than <strong>model0</strong>, we should choose <strong>model1</strong> to make predictions.</p>
+<p>Now that we have our final model, <strong>model1</strong>, let us imagine that we needed to predict the average fare on a route with these characteristics: <strong>vacation</strong> = no, <strong>sw</strong> = yes, <strong>hi</strong> = 3980, <strong>s_income</strong> = $35,000, <strong>e_income</strong> = $45,344, <strong>s_pop</strong> = 3,975,003, <strong>e_pop</strong> = 6,327,987, <strong>slot</strong> = free, <strong>gate</strong> = free, <strong>distance</strong> = 2410 miles, <strong>pax</strong> = 14200.</p>
+<p>First, we should create a new data frame with this data.</p>
+<pre class="r"><code># making predictions
+new_df &lt;- data.frame(vacation = &quot;Yes&quot;, 
+                     sw = &quot;Yes&quot;,
+                     hi = 3980,
+                     s_income = 35000,
+                     e_income = 45344,
+                     s_pop = 3975003,
+                     e_pop = 6327987,
+                     slot = &quot;Free&quot;,
+                     gate = &quot;Free&quot;,
+                     distance = 2410,
+                     pax = 14200)</code></pre>
+<p>Next, we should use the <code>predict()</code> function with two arguments: <strong>model1</strong> and the new data frame.</p>
+<pre class="r"><code>predict(model1, newdata = new_df)</code></pre>
+<pre><code>##        1 
+## 245.1689</code></pre>
+<p>Our model predicts that a route with these characteristics will have an average price of <strong>$245.169</strong>.</p>
+<p>That’s the amazing thing with machine learning: Its predictive ability constantly persuades me to learn more and more about it. Of course we should not take it at face value. Our model has limitations and a more advanced algorithm would likely given us more predictive power.</p>
+<p>I hope you have enjoyed this post. I’m still giving my first steps in machine learning and in case I have made any mistake please free to point it out. Thanks a lot and keep coding!</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="../../../tags/machine-learning/">machine learning</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/multiple-linear-regression/">multiple linear regression</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/predictive-analytics/">predictive analytics</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/10/hints-to-deal-with-missing-values-in-r/" data-tooltip="Hints to deal with Missing Values in R">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 Hugo Toscano. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/10/hints-to-deal-with-missing-values-in-r/" data-tooltip="Hints to deal with Missing Values in R">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoscano84.github.io%2F2018%2F10%2Fpredicting-airfares-on-new-routes%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftoscano84.github.io%2F2018%2F10%2Fpredicting-airfares-on-new-routes%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Hugo Toscano</h4>
+    
+      <div id="about-card-bio">Contact: hugo_toscano@outlook.com</div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Stuttgart, Germany
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+                <h3 class="media-heading">Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
+                <h3 class="media-heading">Hints to deal with Missing Values in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
+                <h3 class="media-heading">Combine Data frames in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
+                <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post talks about making interactive visualizations in R with leaflet(). In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+                <h3 class="media-heading">Tuition costs and gdp per capita: A linear regression analysis</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
+I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
+                <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">As the title of this post implies we will analyze, using the statistical programming language R, the German Federal Election which took place on 24 September of 2017. It will not be an exhaustive analysis of the results. I’m only interested in visualizing the share of the vote that each party represented in the Parliament (i.e. Bundestag) received in each one of the 16 States of Germany.
+In order to make this visualization possible in R, loading the respective packages is the first step.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/about-me/">
+                <h3 class="media-heading">About me</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to my blog!
+I&rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I&rsquo;m still exploring it.
+My goal is to try to help you improve your R skills, by sharing what I am currently learning.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         7 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/dabczf7ag/image/upload/v1533024537/cover_new2.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="../../../js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/toscano84.github.io\/2018\/10\/predicting-airfares-on-new-routes\/';
+          
+            this.page.identifier = '\/2018\/10\/predicting-airfares-on-new-routes\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'toscano84';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

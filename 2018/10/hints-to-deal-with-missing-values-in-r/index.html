@@ -19,7 +19,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.41 with theme Tranquilpeak 0.4.3-BETA">
+    <meta name="generator" content="Hugo 0.49.2 with theme Tranquilpeak 0.4.3-BETA">
     <title>Hints to deal with Missing Values in R</title>
     <meta name="author" content="Hugo Toscano">
     <meta name="keywords" content="">
@@ -65,7 +65,7 @@
 
     
       
-<script>
+<script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -464,7 +464,7 @@ nfl %&gt;%
 ## # ... with 790 more rows, and 6 more variables: Quarterback &lt;dbl&gt;,
 ## #   `Running Back` &lt;dbl&gt;, Safety &lt;dbl&gt;, `Special Teamer` &lt;dbl&gt;, `Tight
 ## #   End` &lt;dbl&gt;, `Wide Receiver` &lt;dbl&gt;</code></pre>
-<p>Alternatively, we could use a robust package for imputing missing values. In this case, we will use the <code>mice package</code> - there are other alternatives like the <code>Hmisc</code> or the <code>mi</code> packages, just to name a couple of examples. The package <code>mice</code> means Multivariate Imputation via Chained Equations. First, let us start by checking the pattern of our missing values with function <code>md.pattern()</code>.</p>
+<p>Alternatively, we could use a robust package for imputing missing values. In this case, we will use the <code>mice</code> package - there are other alternatives like the <code>Hmisc</code> or the <code>mi</code> packages, just to name a couple of examples. The package mice means Multivariate Imputation via Chained Equations. First, let us start by checking the pattern of our missing values with function <code>md.pattern()</code>.</p>
 <pre class="r"><code>md.pattern(nfl)</code></pre>
 <pre><code>##     year Cornerback Defensive Lineman Linebacker Offensive Lineman
 ## 745    1          1                 1          1                 1
@@ -482,7 +482,7 @@ nfl %&gt;%
 ##   1  2
 ##     56</code></pre>
 <p>This shows that we have 745 cases where we did not have any missing values, 54 cases where the only missing values were present in the Quarterback column, and 1 case where the missing values were in the Quarterback and Special Teamer columns.</p>
-<p>Now, let us impute the missing values using the function <code>mice()</code>. The m() value corresponds to the number of imputed data frames and its default value is 5. The <code>meth()</code> function is related to the imputation method. I have tried to use the “pmm” method which implies predictive mean matching, but it was showing as error. Therefore, I chose the “cart” method which means using classification and regression trees as the imputation method.</p>
+<p>Now, let us impute the missing values using the function <code>mice()</code>. The <code>m()</code> value corresponds to the number of imputed data frames and its default value is 5. The <code>meth()</code> function is related to the imputation method. I have tried to use the “pmm” method which implies predictive mean matching, but it was showing as error. Therefore, I chose the “cart” method which means using classification and regression trees as the imputation method.</p>
 <pre class="r"><code>nfl_new &lt;- mice(nfl, m= 5, maxit = 50, meth = &quot;cart&quot;, seed = 100)</code></pre>
 <pre><code>## 
 ##  iter imp variable
@@ -768,7 +768,7 @@ sum(is.na(nfl_complete))</code></pre>
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/10/predicting-airfares-on-new-routes/" data-tooltip="Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -848,7 +848,7 @@ sum(is.na(nfl_complete))</code></pre>
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/10/predicting-airfares-on-new-routes/" data-tooltip="Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -971,6 +971,23 @@ sum(is.na(nfl_complete))</code></pre>
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+                <h3 class="media-heading">Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
                 <h3 class="media-heading">Hints to deal with Missing Values in R</h3>
               </a>
@@ -1068,9 +1085,8 @@ In order to make this visualization possible in R, loading the respective packag
                 </span>
               </span>
               <div class="media-content hide-xs font-merryweather">Welcome to my blog!
-I&rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Not yet Machine Learning, still exploring it.
-My goal is to try to help you improve your R skills, by sharing what I am currently learning.
-Other interests I also have, non-data related, are history, tv shows and literature, which I can eventually blog about.</div>
+I&rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I&rsquo;m still exploring it.
+My goal is to try to help you improve your R skills, by sharing what I am currently learning.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -1083,7 +1099,7 @@ Other interests I also have, non-data related, are history, tv shows and literat
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         6 posts found
+         7 posts found
       </p>
     </div>
   </div>

@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/</loc>
+    <lastmod>2018-10-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/</loc>
     <lastmod>2018-10-02T00:00:00+00:00</lastmod>
   </url>
@@ -92,7 +97,7 @@
   
   <url>
     <loc>https://toscano84.github.io/</loc>
-    <lastmod>2018-10-02T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -121,6 +126,12 @@
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/tags/machine-learning/</loc>
+    <lastmod>2018-10-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/tags/maps/</loc>
     <lastmod>2018-07-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -133,8 +144,26 @@
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/tags/multiple-linear-regression/</loc>
+    <lastmod>2018-10-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/post/</loc>
-    <lastmod>2018-10-02T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/tags/predictive-analytics/</loc>
+    <lastmod>2018-10-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/categories/predictive-analytics/</loc>
+    <lastmod>2018-10-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

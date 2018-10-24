@@ -19,7 +19,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.41 with theme Tranquilpeak 0.4.3-BETA">
+    <meta name="generator" content="Hugo 0.49.2 with theme Tranquilpeak 0.4.3-BETA">
     <title>Combine Data frames in R</title>
     <meta name="author" content="Hugo Toscano">
     <meta name="keywords" content="">
@@ -68,7 +68,7 @@ Firstly, we will show examples related to what is called mutating joins.">
 
     
       
-<script>
+<script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -259,6 +259,11 @@ if (!doNotTrack) {
 <div id="mutating-joins" class="section level2">
 <h2>Mutating Joins</h2>
 <p>For this tutorial I have created small datasets just for the sole purpose of writing this blog. Therefore, the data was created by myself and if there is any relationship between the variables, it is not real.</p>
+<p>Here you can see a Venn diagram of the different types of mutating joins (source: <a href="http://r4ds.had.co.nz/relational-data.html" class="uri">http://r4ds.had.co.nz/relational-data.html</a>):</p>
+<div class="figure">
+<img src="../../../post/2018-10-23-predicting-airfares-prices-on-new-routes-a-supervised-learning-approach-with-multiple-linear-regression_files/joins.PNG" style="width:80.0%" />
+
+</div>
 <p>First, we will load the packages and data frames needed for this tutorial.</p>
 <pre class="r"><code>library(here)
 library(tibble)
@@ -569,18 +574,18 @@ df_u </code></pre>
 <pre><code>## # A tibble: 12 x 5
 ##       Id Face  Sex      Dom   Str
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
-##  1    13 C     Male      10     8
-##  2     1 A     Female     3     3
-##  3     3 C     Female     6     5
-##  4     7 G     Male       3     4
-##  5    15 B     Male       9     3
-##  6     5 E     Female     8     1
-##  7     2 B     Female     5     4
-##  8     9 I     Male       5     3
-##  9     6 F     Female     1     3
-## 10     4 D     Female     7     6
-## 11     8 H     Male       4     2
-## 12    10 A     Male       8     4</code></pre>
+##  1    15 B     Male       9     3
+##  2     7 G     Male       3     4
+##  3     2 B     Female     5     4
+##  4    13 C     Male      10     8
+##  5     4 D     Female     7     6
+##  6    10 A     Male       8     4
+##  7     8 H     Male       4     2
+##  8     5 E     Female     8     1
+##  9     3 C     Female     6     5
+## 10     6 F     Female     1     3
+## 11     1 A     Female     3     3
+## 12     9 I     Male       5     3</code></pre>
 <p>Now, we have only 12 rows, because 6 of the rows in df3 were the same as in df1. Remember, the union function returns only the unique rows. In this case, we have 12 observations that are unique within both data frames.</p>
 <p>In other cases, we can use the <code>setdiff()</code> if we want only the observation in df1 not in common with df3.</p>
 <pre class="r"><code>df_dif &lt;- df1 %&gt;% 
@@ -956,6 +961,23 @@ head(us_reunited)</code></pre>
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+                <h3 class="media-heading">Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
                 <h3 class="media-heading">Hints to deal with Missing Values in R</h3>
               </a>
@@ -1053,9 +1075,8 @@ In order to make this visualization possible in R, loading the respective packag
                 </span>
               </span>
               <div class="media-content hide-xs font-merryweather">Welcome to my blog!
-I&rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Not yet Machine Learning, still exploring it.
-My goal is to try to help you improve your R skills, by sharing what I am currently learning.
-Other interests I also have, non-data related, are history, tv shows and literature, which I can eventually blog about.</div>
+I&rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I&rsquo;m still exploring it.
+My goal is to try to help you improve your R skills, by sharing what I am currently learning.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -1068,7 +1089,7 @@ Other interests I also have, non-data related, are history, tv shows and literat
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         6 posts found
+         7 posts found
       </p>
     </div>
   </div>
