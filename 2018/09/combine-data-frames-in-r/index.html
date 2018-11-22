@@ -574,18 +574,18 @@ df_u </code></pre>
 <pre><code>## # A tibble: 12 x 5
 ##       Id Face  Sex      Dom   Str
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
-##  1     8 H     Male       4     2
-##  2     2 B     Female     5     4
-##  3    15 B     Male       9     3
-##  4     4 D     Female     7     6
-##  5    10 A     Male       8     4
-##  6    13 C     Male      10     8
-##  7     6 F     Female     1     3
-##  8     3 C     Female     6     5
-##  9     7 G     Male       3     4
-## 10     9 I     Male       5     3
-## 11     5 E     Female     8     1
-## 12     1 A     Female     3     3</code></pre>
+##  1    13 C     Male      10     8
+##  2     9 I     Male       5     3
+##  3     1 A     Female     3     3
+##  4     5 E     Female     8     1
+##  5     3 C     Female     6     5
+##  6    15 B     Male       9     3
+##  7    10 A     Male       8     4
+##  8     7 G     Male       3     4
+##  9     8 H     Male       4     2
+## 10     6 F     Female     1     3
+## 11     4 D     Female     7     6
+## 12     2 B     Female     5     4</code></pre>
 <p>Now, we have only 12 rows, because 6 of the rows in df3 were the same as in df1. Remember, the union function returns only the unique rows. In this case, we have 12 observations that are unique within both data frames.</p>
 <p>In other cases, we can use the <code>setdiff()</code> if we want only the observation in df1 not in common with df3.</p>
 <pre class="r"><code>df_dif &lt;- df1 %&gt;% 

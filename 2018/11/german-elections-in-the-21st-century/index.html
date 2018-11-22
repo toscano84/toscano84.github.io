@@ -559,7 +559,7 @@ legend.position = &quot;bottom&quot;) +
 
 }</code></pre>
 <p><img src="../../../post/2018-11-14-german-elections-in-the-21st-century_files/figure-html/unnamed-chunk-15-1.png" width="864" style="display: block; margin: auto;" /><img src="../../../post/2018-11-14-german-elections-in-the-21st-century_files/figure-html/unnamed-chunk-15-2.png" width="864" style="display: block; margin: auto;" /><img src="../../../post/2018-11-14-german-elections-in-the-21st-century_files/figure-html/unnamed-chunk-15-3.png" width="864" style="display: block; margin: auto;" /><img src="../../../post/2018-11-14-german-elections-in-the-21st-century_files/figure-html/unnamed-chunk-15-4.png" width="864" style="display: block; margin: auto;" /><img src="../../../post/2018-11-14-german-elections-in-the-21st-century_files/figure-html/unnamed-chunk-15-5.png" width="864" style="display: block; margin: auto;" /><img src="../../../post/2018-11-14-german-elections-in-the-21st-century_files/figure-html/unnamed-chunk-15-6.png" width="864" style="display: block; margin: auto;" /></p>
-<p>We can visually check the changes in the share of vote of each party over this century. Importantly, the two major parties, SPD and CDU, seem to have decreased the number of voters they had at the beginning of the new century. In reality, this decrease is even more pronounced for the SPD party. So, in this last step and with the help of the awesome <code>gganimate</code> package we can visualize in more detail the evolution of the share of vote of SPD.</p>
+<p>We can visually check the changes in the share of vote of each party over this century. Importantly, the two major parties, SPD and CDU, seem to have decreased the number of voters they had at the beginning of the new century. In reality, this decrease is even more pronounced forthe SPD party.</p>
 <ul>
 <li><strong>SPD Results</strong></li>
 </ul>
@@ -613,7 +613,10 @@ legend.position = &quot;bottom&quot;) +
   theme(plot.title = element_text(size = 24)) +
   transition_states(year, 1, 3, wrap = FALSE) +
   ease_aes(&#39;linear&#39;)</code></pre>
-<p><img src="../../../post/2018-11-14-german-elections-in-the-21st-century_files/figure-html/unnamed-chunk-16-1.gif" /><!-- --></p>
+<div class="figure">
+<img src="../../../post/2018-11-14-german-elections-in-the-21st-century_files/spd_gif.gif" />
+
+</div>
 <p>Hope you liked the visual power that R gives us to explore, analyze and animate data. Thank you again and keep coding!</p>
 </div>
 
