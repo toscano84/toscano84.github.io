@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://toscano84.github.io/2018/11/german-elections-in-the-21st-century/</loc>
+    <lastmod>2018-11-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/</loc>
     <lastmod>2018-10-24T00:00:00+00:00</lastmod>
   </url>
@@ -38,6 +43,22 @@
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/1/01/</loc>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/1/01/</loc>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/1/01/</loc>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/1/01/</loc>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/archives/</loc>
     <priority>0</priority>
   </url>
@@ -66,6 +87,12 @@
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/categories/data-visualization/</loc>
+    <lastmod>2018-11-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/tags/dplyr/</loc>
     <lastmod>2018-09-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -78,6 +105,12 @@
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/tags/german-elections/</loc>
+    <lastmod>2018-11-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/tags/germany/</loc>
     <lastmod>2018-07-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -85,7 +118,7 @@
   
   <url>
     <loc>https://toscano84.github.io/tags/ggplot2/</loc>
-    <lastmod>2018-07-05T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -97,7 +130,7 @@
   
   <url>
     <loc>https://toscano84.github.io/</loc>
-    <lastmod>2018-10-24T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -151,7 +184,7 @@
   
   <url>
     <loc>https://toscano84.github.io/post/</loc>
-    <lastmod>2018-10-24T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

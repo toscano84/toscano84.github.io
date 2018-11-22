@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Visualization on Hugo Toscano</title>
+    <link>https://toscano84.github.io/categories/data-visualization/</link>
+    <description>Recent content in Data Visualization on Hugo Toscano</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 21 Nov 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://toscano84.github.io/categories/data-visualization/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>German Elections in the 21st Century</title>
+      <link>https://toscano84.github.io/2018/11/german-elections-in-the-21st-century/</link>
+      <pubDate>Wed, 21 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/2018/11/german-elections-in-the-21st-century/</guid>
+      <description>In this blogpost, we will come back to the subject of the German Elections. We will try to show, mostly visually, the changes in election results during the 21st century. Thus, we will use data from the elections in 2002 to the last ones in 2017. The main focus will be mapping the results of the parties represented in the current Bundestag (German Parliament) during this time span. Let’s start our coding.</description>
+    </item>
+    
+  </channel>
+</rss>
