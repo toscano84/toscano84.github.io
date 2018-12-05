@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Logistic Regression on Hugo Toscano</title>
-    <link>https://toscano84.github.io/tags/logistic-regression/</link>
+    <link>/tags/logistic-regression/</link>
     <description>Recent content in Logistic Regression on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 30 Nov 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://toscano84.github.io/tags/logistic-regression/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/logistic-regression/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Creating a Model to Predict if a Bank Customer accepts Personal Loans</title>
-      <link>https://toscano84.github.io/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/</link>
+      <link>/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/</link>
       <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://toscano84.github.io/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/</guid>
+      <guid>/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/</guid>
       <description>In this post, we will fit a multiple logistic regression model to predict the probability of a bank customer accepting a personal loan based on multiple variables to be described later. Logistic regression is a supervised learning algorithm were the independent variable has a qualitative nature. In this case, corresponding to the acceptance or rejection of a personal loan. This tutorial will build multiple logistic regression models and assess them.</description>
     </item>
     
