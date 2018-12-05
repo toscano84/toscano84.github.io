@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Predictive Analytics on Hugo Toscano</title>
-    <link>/tags/predictive-analytics/</link>
+    <link>https://toscano84.github.io/tags/predictive-analytics/</link>
     <description>Recent content in Predictive Analytics on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 30 Nov 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/predictive-analytics/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://toscano84.github.io/tags/predictive-analytics/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Creating a Model to Predict if a Bank Customer accepts Personal Loans</title>
-      <link>/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/</link>
+      <link>https://toscano84.github.io/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/</link>
       <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/</guid>
+      <guid>https://toscano84.github.io/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/</guid>
       <description>In this post, we will fit a multiple logistic regression model to predict the probability of a bank customer accepting a personal loan based on multiple variables to be described later. Logistic regression is a supervised learning algorithm were the independent variable has a qualitative nature. In this case, corresponding to the acceptance or rejection of a personal loan. This tutorial will build multiple logistic regression models and assess them.</description>
     </item>
     
     <item>
       <title>Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression</title>
-      <link>/2018/10/predicting-airfares-on-new-routes/</link>
+      <link>https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/</link>
       <pubDate>Wed, 24 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/predicting-airfares-on-new-routes/</guid>
+      <guid>https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/</guid>
       <description>This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.</description>
     </item>
     

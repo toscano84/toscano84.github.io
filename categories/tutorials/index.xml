@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tutorials on Hugo Toscano</title>
-    <link>/categories/tutorials/</link>
+    <link>https://toscano84.github.io/categories/tutorials/</link>
     <description>Recent content in Tutorials on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 02 Oct 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/tutorials/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://toscano84.github.io/categories/tutorials/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Hints to deal with Missing Values in R</title>
-      <link>/2018/10/hints-to-deal-with-missing-values-in-r/</link>
+      <link>https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/</link>
       <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/hints-to-deal-with-missing-values-in-r/</guid>
+      <guid>https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/</guid>
       <description>In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?</description>
     </item>
     
     <item>
       <title>Combine Data frames in R</title>
-      <link>/2018/09/combine-data-frames-in-r/</link>
+      <link>https://toscano84.github.io/2018/09/combine-data-frames-in-r/</link>
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/combine-data-frames-in-r/</guid>
+      <guid>https://toscano84.github.io/2018/09/combine-data-frames-in-r/</guid>
       <description>Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
 Firstly, we will show examples related to what is called mutating joins.</description>
     </item>

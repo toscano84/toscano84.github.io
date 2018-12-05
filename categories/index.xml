@@ -2,56 +2,56 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Hugo Toscano</title>
-    <link>/categories/</link>
+    <link>https://toscano84.github.io/categories/</link>
     <description>Recent content in Categories on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://toscano84.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Ggplot2</title>
-      <link>/categories/ggplot2/</link>
+      <link>https://toscano84.github.io/categories/ggplot2/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/ggplot2/</guid>
+      <guid>https://toscano84.github.io/categories/ggplot2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Leaflet</title>
-      <link>/categories/leaflet/</link>
+      <link>https://toscano84.github.io/categories/leaflet/</link>
       <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/leaflet/</guid>
+      <guid>https://toscano84.github.io/categories/leaflet/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Predictive Analytics</title>
-      <link>/categories/predictive-analytics/</link>
+      <link>https://toscano84.github.io/categories/predictive-analytics/</link>
       <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/predictive-analytics/</guid>
+      <guid>https://toscano84.github.io/categories/predictive-analytics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Statistics</title>
-      <link>/categories/statistics/</link>
+      <link>https://toscano84.github.io/categories/statistics/</link>
       <pubDate>Fri, 27 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/statistics/</guid>
+      <guid>https://toscano84.github.io/categories/statistics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tutorials</title>
-      <link>/categories/tutorials/</link>
+      <link>https://toscano84.github.io/categories/tutorials/</link>
       <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/tutorials/</guid>
+      <guid>https://toscano84.github.io/categories/tutorials/</guid>
       <description></description>
     </item>
     

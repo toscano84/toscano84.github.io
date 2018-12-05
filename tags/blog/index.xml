@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blog on Hugo Toscano</title>
-    <link>/tags/blog/</link>
+    <link>https://toscano84.github.io/tags/blog/</link>
     <description>Recent content in Blog on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 04 Jul 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://toscano84.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>About me</title>
-      <link>/2018/07/about-me/</link>
+      <link>https://toscano84.github.io/2018/07/about-me/</link>
       <pubDate>Wed, 04 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/07/about-me/</guid>
+      <guid>https://toscano84.github.io/2018/07/about-me/</guid>
       <description>Welcome to my blog!
 I&amp;rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I&amp;rsquo;m still exploring it.
 My goal is to try to help you improve your R skills, by sharing what I am currently learning.</description>
