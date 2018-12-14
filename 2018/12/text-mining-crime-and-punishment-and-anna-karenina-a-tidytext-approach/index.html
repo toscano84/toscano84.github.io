@@ -1,0 +1,2067 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.49.2 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach</title>
+    <meta name="author" content="Hugo Toscano">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../favicon.png">
+    
+
+    
+    <meta name="description" content="Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.">
+    <meta property="og:description" content="Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach">
+    <meta property="og:url" content="/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
+    <meta property="og:site_name" content="Hugo Toscano">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo Toscano">
+    <meta name="twitter:description" content="Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="../../../css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">Hugo Toscano</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="../../../#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="../../../#about">
+          <img class="sidebar-profile-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Hugo Toscano</h4>
+        
+          <h5 class="sidebar-profile-bio">Contact: hugo_toscano@outlook.com</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../2018/07/about-me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+      
+      <span class="sidebar-button-desc">About me</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/toscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-12-14T00:00:00Z">
+        
+  December 14, 2018
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="../../../categories/text-mining">Text Mining</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible <code>tidytext</code> package developed by <a href="https://twitter.com/juliasilge">Julia Silge</a> and <a href="https://twitter.com/drob">David Robinson</a>. You can read more about this package in the book of the same authors <a href="https://www.tidytextmining.com">Text Mining with R: A Tidytext Approach</a>.</p>
+<p>Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</p>
+<pre class="r"><code># load libraries
+library(gutenbergr) # load books
+library(tidytext) # text mining
+library(tidyverse) # wrangling, visualization of data
+library(kableExtra) # create tables
+library(knitr) # create tables
+library(forcats) # manipulate factor variables
+library(extrafont) # add extra fonts to R
+library(scales) # add percent format
+library(wordcloud) # create wordclouds
+library(viridis) # viridis color scale
+library(igraph) # network graph
+library(ggraph) # network graph
+library(widyr) # correlation of words
+
+options(scipen = 999)</code></pre>
+<div id="loading-the-books-and-building-tidy-datasets" class="section level2">
+<h2>Loading the books and Building Tidy Datasets</h2>
+<p>In this first section of our analysis, we will use the function <code>gutenberg_metadata</code> from the package <code>gutenbergr</code> to check the id of the books we are interested in analyzing.</p>
+<pre class="r"><code># check the id of crime and punishment
+gutenberg_metadata %&gt;%
+  filter(title == &quot;Crime and Punishment&quot;)</code></pre>
+<pre><code>## # A tibble: 1 x 8
+##   gutenberg_id title author gutenberg_autho~ language gutenberg_books~
+##          &lt;int&gt; &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;           
+## 1         2554 Crim~ Dosto~              314 en       Best Books Ever~
+## # ... with 2 more variables: rights &lt;chr&gt;, has_text &lt;lgl&gt;</code></pre>
+<pre class="r"><code># check the id of Anna Karenina
+gutenberg_metadata %&gt;%
+  filter(title == &quot;Anna Karenina&quot;)</code></pre>
+<pre><code>## # A tibble: 3 x 8
+##   gutenberg_id title author gutenberg_autho~ language gutenberg_books~
+##          &lt;int&gt; &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;           
+## 1         1399 Anna~ Tolst~              136 en       Harvard Classic~
+## 2        13214 Anna~ Tolst~              136 nl       Harvard Classics
+## 3        49487 Anna~ Tolst~              136 fi       &lt;NA&gt;            
+## # ... with 2 more variables: rights &lt;chr&gt;, has_text &lt;lgl&gt;</code></pre>
+<p>So, the gutenberg_id of “Crime and Punishment” is 2554 and of “Anna Karenina” is 1399 for the English version.</p>
+<p>Now, we will load both books with the <code>gutenberg_download()</code> function.</p>
+<pre class="r"><code># load both books
+crime_punishment &lt;- gutenberg_download(2554)</code></pre>
+<pre><code>## Determining mirror for Project Gutenberg from http://www.gutenberg.org/robot/harvest</code></pre>
+<pre><code>## Using mirror http://aleph.gutenberg.org</code></pre>
+<pre class="r"><code>glimpse(crime_punishment)</code></pre>
+<pre><code>## Observations: 22,061
+## Variables: 2
+## $ gutenberg_id &lt;int&gt; 2554, 2554, 2554, 2554, 2554, 2554, 2554, 2554, 2...
+## $ text         &lt;chr&gt; &quot;CRIME AND PUNISHMENT&quot;, &quot;&quot;, &quot;By Fyodor Dostoevsky...</code></pre>
+<pre class="r"><code>anna_karenina &lt;- gutenberg_download(1399)
+glimpse(anna_karenina)</code></pre>
+<pre><code>## Observations: 39,898
+## Variables: 2
+## $ gutenberg_id &lt;int&gt; 1399, 1399, 1399, 1399, 1399, 1399, 1399, 1399, 1...
+## $ text         &lt;chr&gt; &quot;                             Anna Karenina&quot;, &quot;&quot;,...</code></pre>
+<p>We can now tidy our datasets.</p>
+<pre class="r"><code># tidying both books
+# crime and punishment
+crime_punishment_tidy &lt;- crime_punishment %&gt;%
+  slice(-c(1:102)) %&gt;%
+  mutate(line_num = row_number(),# create new variable line_num
+         part = cumsum(str_detect(text, regex(&quot;^PART [\\divxlc]&quot;,
+                                                  ignore_case = TRUE)))) %&gt;% # create variable part: Crime and Punishment has 7 parts %&gt;%
+         group_by(part) %&gt;%
+         mutate(chapter = cumsum(str_detect(text, regex(&quot;^CHAPTER [\\divxlc]&quot;,
+                                                          ignore_case = TRUE)))) %&gt;% # create new variable number of Chapter per part %&gt;%
+         ungroup()
+
+# anna karenina
+anna_karenina_tidy &lt;- anna_karenina %&gt;%
+  slice(-c(1:12)) %&gt;%
+  mutate(line_num = row_number(), # create new varibale line_num
+         text = str_replace(text, c(&quot;PART ONE&quot;), 
+                            c(&quot;PART 1&quot;)),
+         text = str_replace(text, &quot;PART TWO&quot;, 
+                     &quot;PART 2&quot;),
+         text = str_replace(text, &quot;PART THREE&quot;, 
+                            &quot;PART 3&quot;),
+         text = str_replace(text, &quot;PART FOUR&quot;, 
+                            &quot;PART 4&quot;),
+         text = str_replace(text, &quot;PART FIVE&quot;, 
+                            &quot;PART 5&quot;),
+         text = str_replace(text, &quot;PART SIX&quot;, 
+                            &quot;PART 6&quot;),
+         text = str_replace(text, &quot;PART SEVEN&quot;, 
+                            &quot;PART 7&quot;),
+         text = str_replace(text, &quot;PART EIGHT&quot;, 
+                            &quot;PART 8&quot;), # put the text related to the part in a digit format
+         part = cumsum(str_detect(text, 
+                                  regex(&quot;^part [:digit:]&quot;,
+                                                 ignore_case = TRUE)))) %&gt;% # create new variable part: Anna Karenina has 8 parts %&gt;%
+  group_by(part) %&gt;%
+  mutate(chapter = cumsum(str_detect(text, regex(&quot;^CHAPTER [\\divxlc]&quot;,
+                                                 ignore_case = TRUE)))) %&gt;% # create new varible number of Chapter per part  #%&gt;%
+  ungroup()</code></pre>
+<p>Let us take a look at our datasets.</p>
+<pre class="r"><code>glimpse(crime_punishment_tidy)</code></pre>
+<pre><code>## Observations: 21,959
+## Variables: 5
+## $ gutenberg_id &lt;int&gt; 2554, 2554, 2554, 2554, 2554, 2554, 2554, 2554, 2...
+## $ text         &lt;chr&gt; &quot;PART I&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;CHAPTER I&quot;, &quot;&quot;, &quot;On an exc...
+## $ line_num     &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15...
+## $ part         &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...
+## $ chapter      &lt;int&gt; 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...</code></pre>
+<pre class="r"><code>glimpse(anna_karenina_tidy)</code></pre>
+<pre><code>## Observations: 39,886
+## Variables: 5
+## $ gutenberg_id &lt;int&gt; 1399, 1399, 1399, 1399, 1399, 1399, 1399, 1399, 1...
+## $ text         &lt;chr&gt; &quot;PART 1&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;Chapter 1&quot;, &quot;&quot;, &quot;&quot;, &quot;Happy...
+## $ line_num     &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15...
+## $ part         &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...
+## $ chapter      &lt;int&gt; 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...</code></pre>
+<p>We still have all words from the novels in a column called text. Our goal is to create a new column where each row corresponds to only one word. To get one word per row, we need to use the function <code>unnest_tokens</code> from the <code>tidytext</code> package.</p>
+<pre class="r"><code># crime and punishment
+cp &lt;- crime_punishment_tidy %&gt;% 
+  unnest_tokens(word, text) %&gt;%
+  mutate(word = str_replace(word, &quot;_&quot;, &quot;&quot;)) # remove underscores from words
+
+
+
+# anna karenina
+ak &lt;- anna_karenina_tidy %&gt;% 
+  unnest_tokens(word, text) %&gt;%
+  mutate(word = str_replace(word, &quot;_&quot;, &quot;&quot;)) # remove underscores from words</code></pre>
+<p>Now we can see that each row corresponds to a word in the “Crime and Punishment” dataset.</p>
+<pre class="r"><code># crime and punishment
+cp %&gt;%
+  head(20) %&gt;% # only the first 20 rows
+  kable() </code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+gutenberg_id
+</th>
+<th style="text-align:right;">
+line_num
+</th>
+<th style="text-align:right;">
+part
+</th>
+<th style="text-align:right;">
+chapter
+</th>
+<th style="text-align:left;">
+word
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+part
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+i
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+chapter
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+i
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+on
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+an
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+exceptionally
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+hot
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+evening
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+early
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+in
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+july
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+a
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+young
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+man
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+came
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+out
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+of
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+the
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2554
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+garret
+</td>
+</tr>
+</tbody>
+</table>
+<p>As well as in the “Anna Karenina” dataset.</p>
+<pre class="r"><code># anna karenina
+ak %&gt;%
+  head(20) %&gt;% #only the first 20 rows
+  kable()</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+gutenberg_id
+</th>
+<th style="text-align:right;">
+line_num
+</th>
+<th style="text-align:right;">
+part
+</th>
+<th style="text-align:right;">
+chapter
+</th>
+<th style="text-align:left;">
+word
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+part
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+chapter
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+happy
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+families
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+are
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+all
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+alike
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+every
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+unhappy
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+family
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+is
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+unhappy
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+in
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+its
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+own
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+way
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+everything
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1399
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+was
+</td>
+</tr>
+</tbody>
+</table>
+<p>So far so good! We have one word per row, but we still need to remove stop words from our word column. Stop words are commonly used words such as “the”, “a”, “and”, etc. To remove them we should use the <code>anti_join()</code> function. We will also add a new stop word, “said”, mentioned several times in “Anna Karenina”.</p>
+<pre class="r"><code># remove stopwords
+# crime and punishment
+cp_new &lt;- cp %&gt;%
+  anti_join(stop_words, by = &quot;word&quot;)
+
+# anna karenina
+ak_new &lt;- ak %&gt;%
+  anti_join(stop_words, by = &quot;word&quot;)
+
+# add stopword &quot;said&quot;
+stop_w &lt;- data.frame(word = &quot;said&quot;)
+
+# remove stopword &quot;said&quot; in anna karenina
+ak_new &lt;- ak_new %&gt;%
+  anti_join(stop_w, by = &quot;word&quot;)</code></pre>
+</div>
+<div id="analyzing-word-frequency" class="section level2">
+<h2>Analyzing Word Frequency</h2>
+<p>In this section , we will analyze the word frequency of both novels. First, we are interested in knowing which words are used more in each novel:</p>
+<p><strong>Crime and Punishment</strong></p>
+<pre class="r"><code># top 10 words used in Crime and Punishment
+cp_new %&gt;%
+  count(word, sort = TRUE) %&gt;%
+  top_n(10, n) %&gt;%
+  ggplot(aes(x = fct_reorder(word, n), y = n, fill = word)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_viridis_d(option = &quot;magma&quot;) +
+  coord_flip() +
+  xlab(NULL) +
+  labs(title = &quot;Crime and Punishment: Top 10 words used&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Here we have the ten most used words in “Crime and Punishment”. Unsurprisingly, the word used more often corresponds to the name of the main character, Raskolnikov. We can also use a word cloud:</p>
+<pre class="r"><code>cp_new %&gt;%
+  count(word) %&gt;%
+  with(wordcloud(word, n, 
+                 max.words = 50, 
+                 color = &quot;red&quot;))</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>As expected, Raskolnikov is the most mentioned word.</p>
+<p>Let’s now analyze “Anna Karenina”</p>
+<p><strong>Anna Karenina</strong></p>
+<pre class="r"><code>ak_new %&gt;%
+  count(word, sort = TRUE) %&gt;%
+  top_n(10, n) %&gt;%
+  ggplot(aes(x = fct_reorder(word, n), y = n, fill = word)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_viridis_d(option = &quot;magma&quot;) +
+  coord_flip() +
+  xlab(NULL) +
+  labs(title = &quot;Anna Karenina: Top 10 words used&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>80 percent of the top 10 words used in “Anna Karenina” correspond to characters. Anna and her lover Vronsky occupy 2 of the first 3 positions. Nonetheless, the most used word corresponds to Levin which is not surprising at all. Firstly, Levin is to some extent Tolstoy’s alter ego. Importantly, Anna and Levin are the two main characters in the novel and both convey two different messages. While Anna is unfaithful to her husband and only finds sorrow along her journey, Levin finds love, gets married and becomes a father whilst experiencing a spiritual awakening. He becomes hopeful, whereas Anna falls into despair and no longer able to face reality, ends up killing herself.</p>
+<p>We can also build a word cloud:</p>
+<pre class="r"><code>ak_new %&gt;%
+  count(word) %&gt;%
+  with(wordcloud(word, n, 
+                 max.words = 50,
+                 color = &quot;navyblue&quot;))</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Let’s now try to check the frequency of common words in both novels. We will bind together the two datasets:</p>
+<pre class="r"><code>ak_cp &lt;- bind_rows(mutate(ak_new, author = &quot;Tolstoi&quot;),
+                   mutate(cp_new, author = &quot;Dostoievski&quot;)) %&gt;%
+  mutate(word = str_extract(word, &quot;[a-z&#39;]+&quot;)) %&gt;%
+  count(author, word) %&gt;%
+  group_by(author) %&gt;%
+  mutate(prop = n / sum(n)) %&gt;%
+  select(-n) %&gt;%
+  spread(author, prop) %&gt;%
+  gather(author, prop, &quot;Tolstoi&quot;) </code></pre>
+<p>And plot it:</p>
+<pre class="r"><code># plot
+ggplot(ak_cp, aes(x = prop, y = `Dostoievski`,
+                      color = abs(`Dostoievski` - prop))) +
+  geom_abline(color = &quot;grey75&quot;, lty = 2, size = 1) +
+  geom_jitter(alpha = 0.05, size = 2.75, width = 0.3, height = 0.4) +
+  geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
+  scale_x_log10(labels = percent_format()) +
+  scale_y_log10(labels = percent_format()) +
+  scale_color_viridis() +
+  guides(color = FALSE) +
+  theme(legend.position=&quot;none&quot;) +
+  labs(y = &quot;Dostoyevski&quot;, x = &quot;Tolstoy&quot;) +
+  theme_minimal() +
+  theme(panel.grid = element_blank())</code></pre>
+<pre><code>## Warning: Removed 9279 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 9280 rows containing missing values (geom_text).</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Words near the dash line are the ones equally frequent in both novels. For instance, the words “time”, “attend”, and “abandoned” have about the same frequency in “Crime and Punishment” and “Anna Karenina”. Words that are further from the dash line have different frequencies in these two masterpieces. Words such as “murder”, “blood”, “flat” are much more frequent in “Crime and Punishment” given that the novel is about Alyona Ivanovna’s assassination and how Raskolnikov struggles with it. In “Anna Karenina” the words “baby”, “grass”“, and”countess&quot; are mentioned more frequently.</p>
+<p>We can conclude this part of our analysis by looking into the correlations of the word frequencies by using the <code>cor.test()</code> function.</p>
+<pre class="r"><code># correlation test
+
+cor.test(data = ak_cp, ~ prop + `Dostoievski`)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  prop and Dostoievski
+## t = 72.676, df = 6069, p-value &lt; 0.00000000000000022
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.6684599 0.6953681
+## sample estimates:
+##       cor 
+## 0.6821449</code></pre>
+<p>In summary, the word frequencies of “Crime and Punishment” and “Anna Karenina” have a positive correlation of 0.68.</p>
+</div>
+<div id="sentiment-analysis" class="section level2">
+<h2>Sentiment Analysis</h2>
+<p>In the last section of this analysis, we dealt with word frequency. While interesting, word frequency does not tell us much about the emotions/states of mind present in the two novels. For this reason, we will go ahead with a sentiment analysis of “Crime and Punishment” and “Anna Karenina”.</p>
+<p>First, we will use two sentiment lexicons. One called “nrc” which has the following emotion categories: positive, negative, anger, anticipation, disgust, fear, joy, sadness, surprise, and trust; and another called “afinn” which corresponds to a sentiment score from -5 (very negative) to 5 (very positive). Each sentiment lexicon we be bound together with each novel dataset. Afterwards, we will wrangle our dataset and plot it.</p>
+<p><strong>Crime and Punishment</strong></p>
+<pre class="r"><code># crime and punishment - method  nrc
+cp_new %&gt;%
+  inner_join(get_sentiments(&quot;nrc&quot;)) %&gt;%
+  count(index = line_num %/% 70, sentiment) %&gt;% # index of 70 lines of text
+  spread(sentiment, n, fill = 0) %&gt;%
+  mutate(sentiment = positive - negative) %&gt;%
+  ggplot(aes(x = index, sentiment)) +
+  geom_col(fill = &quot;red&quot;, show.legend = FALSE) +
+  labs(title = &quot;Sentiment Analysis of Crime and Punishment&quot;,
+       subtitle = &quot;Method NRC&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre class="r"><code># crime and punishment - method  afinn
+cp_new %&gt;%
+  inner_join(get_sentiments(&quot;afinn&quot;)) %&gt;%
+  group_by(index = line_num %/% 70) %&gt;% # index of 70 lines of text
+  summarise(sentiment = sum(score)) %&gt;%
+  ggplot(aes(x = index, sentiment, fill = &quot;red&quot;)) +
+  geom_col(fill = &quot;red&quot;, show.legend = FALSE) + 
+  guides(fill = FALSE) +
+  labs(title = &quot;Sentiment Analysis of Crime and Punishment&quot;,
+       subtitle = &quot;Method AFINN&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<p>From these visualizations, we can see that “Crime and Punishment” reflects a more negative sentiment than positive one. We can check the proportion of each sentiment using <code>ggplot2</code>:</p>
+<pre class="r"><code>cp_new %&gt;%
+  inner_join(get_sentiments(&quot;nrc&quot;)) %&gt;%
+  count(sentiment) %&gt;%
+  mutate(total = sum(n),
+         prop = n / total) %&gt;%
+  ggplot(aes(fct_reorder(sentiment, prop), y = prop, fill = sentiment)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_viridis_d(option = &quot;magma&quot;) +
+  xlab(NULL) +
+  ggtitle(&quot;Sentiment Analysis of Crime and Punishment&quot;) +
+  coord_flip() +
+  theme_minimal()</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<pre class="r"><code>cp_new %&gt;%
+  inner_join(get_sentiments(&quot;afinn&quot;)) %&gt;%
+  mutate(sentiment = case_when(score &gt; 0 ~ &quot;positive&quot;,
+         score &lt; 0 ~ &quot;negative&quot;,
+         score == 0 ~ &quot;neutral&quot;)) %&gt;%
+  count(sentiment) %&gt;%
+  mutate(total = sum(n),
+         prop = n /total) %&gt;%
+  ggplot(aes(sentiment, y = prop, fill = sentiment)) +
+  geom_col() +
+  coord_flip() +
+  theme_minimal()</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<p>Let us check now “Anna Karenina”.</p>
+<p><strong>Anna Karenina</strong></p>
+<pre class="r"><code># anna karenina - method  nrc
+ak_new %&gt;%
+  inner_join(get_sentiments(&quot;nrc&quot;)) %&gt;%
+  count(index = line_num %/% 70, sentiment) %&gt;% # index of 70 lines of text
+  spread(sentiment, n, fill = 0) %&gt;%
+  mutate(sentiment = positive - negative) %&gt;%
+  ggplot(aes(x = index, sentiment)) +
+  geom_col(fill = &quot;navyblue&quot;, show.legend = FALSE) +
+  xlab(NULL) +
+  labs(title = &quot;Sentiment Analysis of Anna Karenina&quot;,
+       subtitle = &quot;Method NRC&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<pre class="r"><code># anna karenina - method nrc
+ak_new %&gt;%
+  inner_join(get_sentiments(&quot;afinn&quot;)) %&gt;%
+  group_by(index = line_num %/% 70) %&gt;% # index of 70 lines of text
+  summarise(sentiment = sum(score)) %&gt;%
+  ggplot(aes(x = index, sentiment)) +
+  geom_col(fill = &quot;navyblue&quot;, show.legend = FALSE) + 
+  guides(fill = FALSE) +
+  labs(title = &quot;Sentiment Analysis of Anna Karenina&quot;,
+       subtitle = &quot;Method AFINN&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
+<p>Positive seems to be more present than negative sentiment. We can also build a bar plot to check this:</p>
+<pre class="r"><code>ak_new %&gt;%
+  inner_join(get_sentiments(&quot;nrc&quot;)) %&gt;%
+  count(sentiment) %&gt;%
+  mutate(total = sum(n),
+         prop = n / total) %&gt;%
+  ggplot(aes(fct_reorder(sentiment, prop), y = prop, fill = sentiment)) +
+  geom_col(show.legend = FALSE) +
+  xlab(NULL) +
+  ggtitle(&quot;Sentiment Analysis of Anna Karenina&quot;) +
+  scale_fill_viridis_d(option = &quot;magma&quot;) +
+  coord_flip() +
+  theme_minimal()</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<pre class="r"><code>ak_new %&gt;%
+  inner_join(get_sentiments(&quot;afinn&quot;)) %&gt;%
+  mutate(sentiment = case_when(score &gt; 0 ~ &quot;positive&quot;,
+         score &lt; 0 ~ &quot;negative&quot;,
+         score == 0 ~ &quot;neutral&quot;)) %&gt;%
+  count(sentiment) %&gt;%
+  mutate(total = sum(n),
+         prop = n /total) %&gt;%
+  ggplot(aes(sentiment, y = prop, fill = sentiment)) +
+  geom_col() +
+  coord_flip() +
+  theme_minimal()</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-20-2.png" width="672" /></p>
+<p>Positive sentiment is more frequent than negative sentiment in “Anna Karenina”.</p>
+<p>To finalize the sentiment analysis, we will build a word cloud with the most frequent words for this emotional axis: joy versus sadness.</p>
+<p><strong>Crime and Punishment</strong></p>
+<pre class="r"><code>cp_new %&gt;%
+  inner_join(get_sentiments(&quot;nrc&quot;)) %&gt;%
+  count(word, sentiment, sort = TRUE) %&gt;%
+  filter(sentiment %in% c(&quot;joy&quot;, &quot;sadness&quot;)) %&gt;%
+   spread(sentiment, n, fill = 0) %&gt;% 
+  as.data.frame() %&gt;% 
+  remove_rownames() %&gt;% 
+  column_to_rownames(&quot;word&quot;) %&gt;% 
+  comparison.cloud(colors = c(&quot;darkgreen&quot;, &quot;grey75&quot;), 
+                   max.words = 100,
+                   title.size = 1.5)</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>These word clouds show the most common word for each sentiment that is not present in both variants . For instance, the word “feeling” showed a high frequency in both joy and sadness sentiments, but it was not displayed in the word cloud because this only shows words present in one of the variants. Taking that into account, “Money”&quot; is the most frequent word as joy sentiment and “ill” the most common for sadness sentiment.</p>
+<p><strong>Anna Karenina</strong></p>
+<pre class="r"><code>ak_new %&gt;%
+  inner_join(get_sentiments(&quot;nrc&quot;)) %&gt;%
+  count(word, sentiment, sort = TRUE) %&gt;%
+  filter(sentiment %in% c(&quot;joy&quot;, &quot;sadness&quot;)) %&gt;%
+  spread(sentiment, n, fill = 0) %&gt;% 
+  as.data.frame() %&gt;% 
+  remove_rownames() %&gt;% 
+  column_to_rownames(&quot;word&quot;) %&gt;% 
+  comparison.cloud(colors = c(&quot;darkgreen&quot;, &quot;grey75&quot;), 
+                   max.words = 100,
+                   title.size = 1.5)</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>In Anna Karenina’s novel, “love” is the more frequent word as joy sentiment, while the word “impossible” is the one more frequent for sadness.</p>
+</div>
+<div id="relationships-between-words" class="section level2">
+<h2>Relationships between words</h2>
+<p>Until this point, we have analyzed individual words and have not considered the relationships between them . In this section, we will analyze the sequence of words, termed n-grams and also the correlation between pairs of words.</p>
+<p>Let’s start with the n-grams analysis. In this case we are interested in analyzing bigrams, that is, the pairs of words being mentioned consecutively in higher frequency in each novel.</p>
+<p>First, we have to resort again to the function <code>unnest_tokens</code> from the <code>tidytext</code> package, but now using the argument bigram with n equals 2.</p>
+<pre class="r"><code># bigrams
+# crime and punishment
+cp_ngram &lt;- crime_punishment_tidy %&gt;% 
+  unnest_tokens(bigram, text, token = &quot;ngrams&quot;, n = 2) %&gt;%
+  na.omit()
+
+
+# anna karenina
+ak_ngram &lt;- anna_karenina_tidy %&gt;% unnest_tokens(bigram, text,
+                                                 token = &quot;ngrams&quot;,
+                                                 n = 2) %&gt;%
+  na.omit()</code></pre>
+<p>Now, we should separate the bigram column in two, in order to remove stop words and count the most common bigrams:</p>
+<p><strong>Crime and Punishment</strong></p>
+<pre class="r"><code># bigrams crime and punishment
+bigrams_cp &lt;- cp_ngram %&gt;%
+  separate(bigram, c(&quot;w1&quot;, &quot;w2&quot;), sep = &quot; &quot;) %&gt;%
+  filter(!w1 %in% stop_words$word) %&gt;%
+  filter(!w2 %in% stop_words$word) %&gt;%
+  count(w1, w2, sort = TRUE)
+
+bigrams_cp </code></pre>
+<pre><code>## # A tibble: 10,462 x 3
+##    w1        w2               n
+##    &lt;chr&gt;     &lt;chr&gt;        &lt;int&gt;
+##  1 katerina  ivanovna       163
+##  2 pyotr     petrovitch     140
+##  3 avdotya   romanovna       98
+##  4 pulcheria alexandrovna    97
+##  5 rodion    romanovitch     78
+##  6 porfiry   petrovitch      71
+##  7 marfa     petrovna        64
+##  8 sofya     semyonovna      59
+##  9 amalia    ivanovna        46
+## 10 ha        ha              37
+## # ... with 10,452 more rows</code></pre>
+<p>Katerina Ivanovna, Sonia’s stepmom and Raskolnikov’s girlfriend in “Crime and Punishement, is the most common bigram.</p>
+<p><strong>Anna Karenina</strong></p>
+<pre class="r"><code>bigrams_ak &lt;- ak_ngram %&gt;%
+  separate(bigram, c(&quot;w1&quot;, &quot;w2&quot;), sep = &quot; &quot;) %&gt;%
+  filter(!w1 %in% stop_words$word) %&gt;%
+  filter(!w2 %in% stop_words$word) %&gt;%
+  count(w1, w2, sort = TRUE)
+
+bigrams_ak </code></pre>
+<pre><code>## # A tibble: 18,970 x 3
+##    w1         w2                 n
+##    &lt;chr&gt;      &lt;chr&gt;          &lt;int&gt;
+##  1 stepan     arkadyevitch     435
+##  2 alexey     alexandrovitch   428
+##  3 sergey     ivanovitch       242
+##  4 darya      alexandrovna     166
+##  5 lidia      ivanovna          85
+##  6 countess   lidia             74
+##  7 agafea     mihalovna         53
+##  8 anna       arkadyevna        50
+##  9 konstantin levin             44
+## 10 looked     round             43
+## # ... with 18,960 more rows</code></pre>
+<p>In “Anna Karenina” the most common bigram is Anna’s brother and Levin’s best friend, Stepan Arkadyevitch.</p>
+<p>In the following steps we will plot the network of bigrams for each novel with the help of <code>ggraph</code>.</p>
+<p><strong>Crime and Punishment</strong></p>
+<pre class="r"><code># plot bigrams of crime and punishment
+graph_cp &lt;- bigrams_cp %&gt;%
+  filter(n &gt; 10) %&gt;%
+  graph_from_data_frame()
+
+set.seed(999)
+
+seta &lt;- grid::arrow(type = &quot;closed&quot;, length = unit(.15, &quot;inches&quot;))
+ggraph(graph_cp, layout = &quot;fr&quot;) +
+  geom_edge_link(aes(edge_alpha = n), show.legend = FALSE,
+                 arrow = seta, end_cap = circle(.07, &#39;inches&#39;)) +
+  geom_node_point(color = &quot;lightblue&quot;, size = 5) +
+  geom_node_text(aes(label = name), vjust = 1, hjust = 1, repel = TRUE) +
+  theme_void()</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>Here you can see the words more frequently correlated to the main character, Raskolnikov, are “answered”, “walked,”looked“,”cried“.</p>
+<p><strong>Anna Karenina</strong></p>
+<pre class="r"><code>graph_ak &lt;- bigrams_ak %&gt;%
+  filter(n &gt; 10) %&gt;%
+  graph_from_data_frame()
+
+set.seed(999)
+
+seta &lt;- grid::arrow(type = &quot;closed&quot;, length = unit(.15, &quot;inches&quot;))
+ggraph(graph_ak, layout = &quot;fr&quot;) +
+  geom_edge_link(aes(edge_alpha = n), show.legend = FALSE,
+                 arrow = seta, end_cap = circle(.07, &#39;inches&#39;)) +
+  geom_node_point(color = &quot;lightblue&quot;, size = 5) +
+  geom_node_text(aes(label = name), vjust = 1, hjust = 1, repel = TRUE) +
+  theme_void()</code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>In “Anna Karenina”, the word Levin is more frequently paired with “Konstantin”, his first name, “answered”, “looked”, and “heard”.</p>
+<p>To finalize our analysis, we will use the <code>widyr</code> package to see the correlations between pairs of words. With the <code>pairwise_cor()</code> we can compute these correlations for each novel.</p>
+<pre class="r"><code># widyr use of pairwise_cor function
+# crime and punishment
+cp_new %&gt;%
+  mutate(section = row_number() %/% 20) %&gt;%
+  add_count(word) %&gt;%
+  filter(section &gt; 0, n &gt; 200) %&gt;%
+  pairwise_cor(word, section, sort = TRUE) </code></pre>
+<pre><code>## # A tibble: 182 x 3
+##    item1       item2       correlation
+##    &lt;chr&gt;       &lt;chr&gt;             &lt;dbl&gt;
+##  1 katerina    ivanovna         0.790 
+##  2 ivanovna    katerina         0.790 
+##  3 sonia       katerina         0.163 
+##  4 katerina    sonia            0.163 
+##  5 sonia       ivanovna         0.141 
+##  6 ivanovna    sonia            0.141 
+##  7 looked      eyes             0.108 
+##  8 eyes        looked           0.108 
+##  9 razumihin   raskolnikov      0.0559
+## 10 raskolnikov razumihin        0.0559
+## # ... with 172 more rows</code></pre>
+<pre class="r"><code>words_cors_cp &lt;- cp_new %&gt;%
+  mutate(section = row_number() %/% 20) %&gt;%
+  filter(section &gt; 0) %&gt;%
+  group_by(word) %&gt;%
+  filter(n() &gt; 100) %&gt;%
+  pairwise_cor(word, section, sort = TRUE)
+
+# anna karenina
+ak_new %&gt;%
+  mutate(section = row_number() %/% 20) %&gt;%
+  add_count(word) %&gt;%
+  filter(section &gt; 0, n &gt; 200) %&gt;%
+  pairwise_cor(word, section, sort = TRUE) </code></pre>
+<pre><code>## # A tibble: 1,980 x 3
+##    item1          item2          correlation
+##    &lt;chr&gt;          &lt;chr&gt;                &lt;dbl&gt;
+##  1 arkadyevitch   stepan               0.922
+##  2 stepan         arkadyevitch         0.922
+##  3 ivanovitch     sergey               0.910
+##  4 sergey         ivanovitch           0.910
+##  5 alexandrovitch alexey               0.885
+##  6 alexey         alexandrovitch       0.885
+##  7 looked         round                0.145
+##  8 round          looked               0.145
+##  9 ivanovitch     brother              0.137
+## 10 brother        ivanovitch           0.137
+## # ... with 1,970 more rows</code></pre>
+<pre class="r"><code>words_cors_ak &lt;- ak_new %&gt;%
+  mutate(section = row_number() %/% 20) %&gt;%
+  filter(section &gt; 0) %&gt;%
+  group_by(word) %&gt;%
+  filter(n() &gt; 100) %&gt;%
+  pairwise_cor(word, section, sort = TRUE)</code></pre>
+<p>The most correlated pair of words in “Crime and Punishment” is Katerina-Ivanovna and in “Anna Karenina” is Stepan-Arkadyevitch.</p>
+<p>Now, we will plot these correlations with the help of <code>ggraph</code>.</p>
+<p><strong>Crime and Punishment</strong></p>
+<pre class="r"><code># graph of pairwise correlation of words in crime and punishment
+set.seed(999)
+words_cors_cp %&gt;%
+  filter(correlation &gt; .10) %&gt;%
+  graph_from_data_frame() %&gt;%
+  ggraph(layout = &quot;fr&quot;) +
+  geom_edge_link(aes(edge_alpha = correlation, edge_width = correlation), 
+                 edge_colour = &quot;black&quot;) +
+  geom_node_point(color = &quot;orange&quot;, size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 8, color = &quot;white&quot;, family = &quot;Agency FB&quot;) +
+  scale_color_viridis() +
+  labs(title = &quot;Pairwise Correlation of Words in Crime and Punishment&quot;,
+       subtitle = &quot;Pairs with less than 0.10 were removed&quot;) +
+  theme_void() +
+  theme(
+    text = element_text(family = &quot;Agency FB&quot;, face = &quot;bold&quot;),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    legend.position = &quot;bottom&quot;,
+    plot.background = element_rect(fill = &quot;#81BEF7&quot;),
+    plot.title = element_text(size = 20, color = &quot;White&quot;,face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 12, color = &quot;White&quot;,face = &quot;bold&quot;),
+    legend.text = element_text(color = &quot;white&quot;, face = &quot;bold&quot;),
+    legend.title = element_text(color = &quot;white&quot;, face = &quot;bold&quot;, size = 14)
+  ) </code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><strong>Anna Karenina</strong></p>
+<pre class="r"><code># graph of pairwise correlation of words in anna karenina
+set.seed(999)
+words_cors_ak %&gt;%
+  filter(correlation &gt; .10) %&gt;%
+  graph_from_data_frame() %&gt;%
+  ggraph(layout = &quot;fr&quot;) +
+  geom_edge_link(aes(edge_alpha = correlation, edge_width = correlation), 
+                 edge_colour = &quot;darkgreen&quot;) +
+  geom_node_point(color = &quot;#808080&quot;, size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 6, color = &quot;white&quot;, family = &quot;Agency FB&quot;) +
+  scale_color_viridis() +
+  labs(title = &quot;Pairwise Correlation of Words in Anna Karenina&quot;,
+       subtitle = &quot;Pairs with less than 0.10 were removed&quot;) +
+  theme_void() +
+  theme(
+    text = element_text(family = &quot;Agency FB&quot;, face = &quot;bold&quot;),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    legend.position = &quot;bottom&quot;,
+    plot.background = element_rect(fill = &quot;grey75&quot;),
+    plot.title = element_text(size = 20, color = &quot;White&quot;,face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 12, color = &quot;White&quot;,face = &quot;bold&quot;),
+    legend.text = element_text(color = &quot;white&quot;, face = &quot;bold&quot;),
+    legend.title = element_text(color = &quot;white&quot;, face = &quot;bold&quot;, size = 14)
+  ) </code></pre>
+<p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>I hope you liked this peculiar post. The <code>tidytext</code> package is a great tool and text mining is indeed pretty cool. I’d anyhow recommend you to read the books above-mentioned. Happy coding and reading!</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="../../../tags/tidytext/">tidytext</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/text-mining/">text mining</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/r/">R</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/tolstoy/">Tolstoy</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/dostoyevsky/">Dostoyevsky</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/" data-tooltip="Creating a Model to Predict if a Bank Customer accepts Personal Loans">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 Hugo Toscano. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/" data-tooltip="Creating a Model to Predict if a Bank Customer accepts Personal Loans">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoscano84.github.io%2F2018%2F12%2Ftext-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftoscano84.github.io%2F2018%2F12%2Ftext-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Hugo Toscano</h4>
+    
+      <div id="about-card-bio">Contact: hugo_toscano@outlook.com</div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Stuttgart, Germany
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
+                <h3 class="media-heading">Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/">
+                <h3 class="media-heading">Creating a Model to Predict if a Bank Customer accepts Personal Loans</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post, we will fit a multiple logistic regression model to predict the probability of a bank customer accepting a personal loan based on multiple variables to be described later. Logistic regression is a supervised learning algorithm were the independent variable has a qualitative nature. In this case, corresponding to the acceptance or rejection of a personal loan. This tutorial will build multiple logistic regression models and assess them.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/11/german-elections-in-the-21st-century/">
+                <h3 class="media-heading">German Elections in the 21st Century</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this blogpost, we will come back to the subject of the German Elections. We will try to show, mostly visually, the changes in election results during the 21st century. Thus, we will use data from the elections in 2002 to the last ones in 2017. The main focus will be mapping the results of the parties represented in the current Bundestag (German Parliament) during this time span. Let’s start our coding.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+                <h3 class="media-heading">Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
+                <h3 class="media-heading">Hints to deal with Missing Values in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
+                <h3 class="media-heading">Combine Data frames in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
+                <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post talks about making interactive visualizations in R with leaflet(). In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+                <h3 class="media-heading">Tuition costs and gdp per capita: A linear regression analysis</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
+I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/">
+                <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">As the title of this post implies we will analyze, using the statistical programming language R, the German Federal Election which took place on 24 September of 2017. It will not be an exhaustive analysis of the results. I’m only interested in visualizing the share of the vote that each party represented in the Parliament (i.e. Bundestag) received in each one of the 16 States of Germany.
+In order to make this visualization possible in R, loading the respective packages is the first step.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/about-me/">
+                <h3 class="media-heading">About me</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to my blog!
+I’m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I’m still exploring it.
+My goal is to try to help you improve your R skills, by sharing what I am currently learning.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         11 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/dabczf7ag/image/upload/v1533024537/cover_new2.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="../../../js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/toscano84.github.io\/2018\/12\/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach\/';
+          
+            this.page.identifier = '\/2018\/12\/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'toscano84';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

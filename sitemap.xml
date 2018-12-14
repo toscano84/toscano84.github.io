@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/</loc>
+    <lastmod>2018-12-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/</loc>
     <lastmod>2018-11-30T00:00:00+00:00</lastmod>
   </url>
@@ -48,6 +53,11 @@
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/2018/07/about-me/</loc>
+    <lastmod>2018-07-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/archives/</loc>
     <priority>0</priority>
   </url>
@@ -76,6 +86,12 @@
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/tags/dostoyevsky/</loc>
+    <lastmod>2018-12-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/tags/dplyr/</loc>
     <lastmod>2018-09-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -94,20 +110,20 @@
   </url>
   
   <url>
-    <loc>https://toscano84.github.io/tags/ggplot2/</loc>
-    <lastmod>2018-07-05T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://toscano84.github.io/categories/ggplot2/</loc>
     <lastmod>2018-07-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/tags/ggplot2/</loc>
+    <lastmod>2018-07-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/</loc>
-    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -118,13 +134,13 @@
   </url>
   
   <url>
-    <loc>https://toscano84.github.io/tags/leaflet/</loc>
+    <loc>https://toscano84.github.io/categories/leaflet/</loc>
     <lastmod>2018-08-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://toscano84.github.io/categories/leaflet/</loc>
+    <loc>https://toscano84.github.io/tags/leaflet/</loc>
     <lastmod>2018-08-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -167,6 +183,12 @@
   
   <url>
     <loc>https://toscano84.github.io/post/</loc>
+    <lastmod>2018-12-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/categories/predictive-analytics/</loc>
     <lastmod>2018-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -178,14 +200,8 @@
   </url>
   
   <url>
-    <loc>https://toscano84.github.io/categories/predictive-analytics/</loc>
-    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://toscano84.github.io/tags/r/</loc>
-    <lastmod>2018-08-01T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -198,6 +214,30 @@
   <url>
     <loc>https://toscano84.github.io/tags/</loc>
     <lastmod>2018-07-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/categories/text-mining/</loc>
+    <lastmod>2018-12-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/tags/text-mining/</loc>
+    <lastmod>2018-12-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/tags/tidytext/</loc>
+    <lastmod>2018-12-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/tags/tolstoy/</loc>
+    <lastmod>2018-12-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
