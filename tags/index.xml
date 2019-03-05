@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Cluster</title>
+      <link>https://toscano84.github.io/tags/cluster/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/tags/cluster/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Coffee Chains</title>
       <link>https://toscano84.github.io/tags/coffee-chains/</link>
       <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
@@ -41,7 +50,7 @@
     <item>
       <title>Dostoyevsky</title>
       <link>https://toscano84.github.io/tags/dostoyevsky/</link>
-      <pubDate>Fri, 14 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/dostoyevsky/</guid>
       <description></description>
@@ -84,11 +93,29 @@
     </item>
     
     <item>
+      <title>Hierarchical Clustering</title>
+      <link>https://toscano84.github.io/tags/hierarchical-clustering/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/tags/hierarchical-clustering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Joins</title>
       <link>https://toscano84.github.io/tags/joins/</link>
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/joins/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>K Means Clustering</title>
+      <link>https://toscano84.github.io/tags/k-means-clustering/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/tags/k-means-clustering/</guid>
       <description></description>
     </item>
     
@@ -167,7 +194,7 @@
     <item>
       <title>R</title>
       <link>https://toscano84.github.io/tags/r/</link>
-      <pubDate>Fri, 14 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/r/</guid>
       <description></description>
@@ -176,7 +203,7 @@
     <item>
       <title>Text Mining</title>
       <link>https://toscano84.github.io/tags/text-mining/</link>
-      <pubDate>Fri, 14 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/text-mining/</guid>
       <description></description>
@@ -185,7 +212,7 @@
     <item>
       <title>Tidytext</title>
       <link>https://toscano84.github.io/tags/tidytext/</link>
-      <pubDate>Fri, 14 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/tidytext/</guid>
       <description></description>
@@ -194,9 +221,18 @@
     <item>
       <title>Tolstoy</title>
       <link>https://toscano84.github.io/tags/tolstoy/</link>
-      <pubDate>Fri, 14 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/tolstoy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Unsupervised Learning</title>
+      <link>https://toscano84.github.io/tags/unsupervised-learning/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/tags/unsupervised-learning/</guid>
       <description></description>
     </item>
     

@@ -28,9 +28,9 @@
     
 
     
-    <meta name="description" content="Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+    <meta name="description" content="Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
 Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.">
-    <meta property="og:description" content="Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+    <meta property="og:description" content="Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
 Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.">
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach">
@@ -38,7 +38,7 @@ Let us start the analysis of “Crime and Punishment” and “Anna Karenina” 
     <meta property="og:site_name" content="Hugo Toscano">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Hugo Toscano">
-    <meta name="twitter:description" content="Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+    <meta name="twitter:description" content="Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
 Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.">
     
     
@@ -233,9 +233,9 @@ if (!doNotTrack) {
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-12-14T00:00:00Z">
+      <time itemprop="datePublished" datetime="2018-12-13T00:00:00Z">
         
-  December 14, 2018
+  December 13, 2018
 
       </time>
     
@@ -244,7 +244,7 @@ if (!doNotTrack) {
   
     <span>in</span>
     
-      <a class="category-link" href="../../../categories/text-mining">Text Mining</a>
+      <a class="category-link" href="../../../categories/tidytext">tidytext</a>
     
   
 
@@ -254,22 +254,23 @@ if (!doNotTrack) {
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible <code>tidytext</code> package developed by <a href="https://twitter.com/juliasilge">Julia Silge</a> and <a href="https://twitter.com/drob">David Robinson</a>. You can read more about this package in the book of the same authors <a href="https://www.tidytextmining.com">Text Mining with R: A Tidytext Approach</a>.</p>
+              <p>Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible <code>tidytext</code> package developed by <a href="https://twitter.com/juliasilge">Julia Silge</a> and <a href="https://twitter.com/drob">David Robinson</a>. You can read more about this package in the book of the same authors <a href="https://www.tidytextmining.com">Text Mining with R: A Tidytext Approach</a>.</p>
 <p>Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</p>
 <pre class="r"><code># load libraries
-library(gutenbergr) # load books
-library(tidytext) # text mining
-library(tidyverse) # wrangling, visualization of data
-library(kableExtra) # create tables
-library(knitr) # create tables
-library(forcats) # manipulate factor variables
-library(extrafont) # add extra fonts to R
-library(scales) # add percent format
-library(wordcloud) # create wordclouds
-library(viridis) # viridis color scale
-library(igraph) # network graph
-library(ggraph) # network graph
-library(widyr) # correlation of words
+library(gutenbergr)
+library(tidytext)
+library(tidyverse)
+library(kableExtra)
+library(knitr)
+library(forcats)
+library(extrafont)
+library(scales)
+library(wordcloud)
+library(reshape2)
+library(viridis)
+library(igraph)
+library(ggraph)
+library(widyr)
 
 options(scipen = 999)</code></pre>
 <div id="loading-the-books-and-building-tidy-datasets" class="section level2">
@@ -1134,7 +1135,7 @@ ak_new &lt;- ak_new %&gt;%
 </div>
 <div id="analyzing-word-frequency" class="section level2">
 <h2>Analyzing Word Frequency</h2>
-<p>In this section , we will analyze the word frequency of both novels. First, we are interested in knowing which words are used more in each novel:</p>
+<p>In thissection , we will analyze the word frequency of both novels. First, we are interested in knowing which use words are used more in each novel:</p>
 <p><strong>Crime and Punishment</strong></p>
 <pre class="r"><code># top 10 words used in Crime and Punishment
 cp_new %&gt;%
@@ -1352,7 +1353,7 @@ ak_new %&gt;%
                    max.words = 100,
                    title.size = 1.5)</code></pre>
 <p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
-<p>These word clouds show the most common word for each sentiment that is not present in both variants . For instance, the word “feeling” showed a high frequency in both joy and sadness sentiments, but it was not displayed in the word cloud because this only shows words present in one of the variants. Taking that into account, “Money”&quot; is the most frequent word as joy sentiment and “ill” the most common for sadness sentiment.</p>
+<p>These word clouds show the most common word for each sentiment that is not present in bothvariants . For instance, the word “feeling” showed a high frequency in both positive and negative sentiments, but it was not displayed in the word cloud because this only shows words present in one of the variants. Taking that into account, “Money”&quot; is the most frequent word as joy sentiment and “ill” the most common for sadness sentiment.</p>
 <p><strong>Anna Karenina</strong></p>
 <pre class="r"><code>ak_new %&gt;%
   inner_join(get_sentiments(&quot;nrc&quot;)) %&gt;%
@@ -1578,7 +1579,7 @@ words_cors_ak %&gt;%
     legend.title = element_text(color = &quot;white&quot;, face = &quot;bold&quot;, size = 14)
   ) </code></pre>
 <p><img src="../../../post/2018-12-11-text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
-<p>I hope you liked this peculiar post. The <code>tidytext</code> package is a great tool and text mining is indeed pretty cool. I’d anyhow recommend you to read the books above-mentioned. Happy coding and reading!</p>
+<p>I hope you liked this peculiar post. The <code>tidytext</code> package is a great tool and ! text mining is indeed pretty cool. I’d anyhow recommend you to read the books above-mentioned Happy coding and reading!</p>
 </div>
 
               
@@ -1613,7 +1614,7 @@ words_cors_ak %&gt;%
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2019/03/clustering-the-pharmaceutical-industry-stocks/" data-tooltip="Clustering the Pharmaceutical Industry Stocks">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -1680,7 +1681,7 @@ words_cors_ak %&gt;%
         </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
-    &copy; 2018 Hugo Toscano. All Rights Reserved
+    &copy; 2019 Hugo Toscano. All Rights Reserved
   </span>
 </footer>
 
@@ -1693,7 +1694,7 @@ words_cors_ak %&gt;%
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2019/03/clustering-the-pharmaceutical-industry-stocks/" data-tooltip="Clustering the Pharmaceutical Industry Stocks">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -1816,6 +1817,23 @@ words_cors_ak %&gt;%
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/03/clustering-the-pharmaceutical-industry-stocks/">
+                <h3 class="media-heading">Clustering the Pharmaceutical Industry Stocks</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
                 <h3 class="media-heading">Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach</h3>
               </a>
@@ -1824,7 +1842,7 @@ words_cors_ak %&gt;%
                   Dec 12, 2018
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+              <div class="media-content hide-xs font-merryweather">Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
 Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</div>
             </div>
             <div style="clear:both;"></div>
@@ -1970,25 +1988,6 @@ In order to make this visualization possible in R, loading the respective packag
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/about-me/">
-                <h3 class="media-heading">About me</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jul 7, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Welcome to my blog!
-I’m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I’m still exploring it.
-My goal is to try to help you improve your R skills, by sharing what I am currently learning.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -1996,7 +1995,7 @@ My goal is to try to help you improve your R skills, by sharing what I am curren
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         10 posts found
+         12 posts found
       </p>
     </div>
   </div>

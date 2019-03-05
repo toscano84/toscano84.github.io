@@ -1,0 +1,1120 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.49.2 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Clustering the Pharmaceutical Industry</title>
+    <meta name="author" content="Hugo Toscano">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../favicon.png">
+    
+
+    
+    <meta name="description" content="In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.">
+    <meta property="og:description" content="In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Clustering the Pharmaceutical Industry">
+    <meta property="og:url" content="/2019/03/clustering-the-pharmaceutical-industry/">
+    <meta property="og:site_name" content="Hugo Toscano">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo Toscano">
+    <meta name="twitter:description" content="In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="../../../css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">Hugo Toscano</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="../../../#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="../../../#about">
+          <img class="sidebar-profile-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Hugo Toscano</h4>
+        
+          <h5 class="sidebar-profile-bio">Contact: hugo_toscano@outlook.com</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://toscano84.github.io/2018/07/about-me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+      
+      <span class="sidebar-button-desc">About me</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/toscano84">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Clustering the Pharmaceutical Industry
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-03-06T00:00:00Z">
+        
+  March 6, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="../../../categories/clustering">Clustering</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</p>
+<p><em>Note:</em> This data is not up-to-date and some of these companies are no longer active.</p>
+<pre class="r"><code>library(tidyverse) # group of packages to wrangle and visualize data
+library(cluster) # cluster analysis
+library(factoextra) # visualize clusters and principal components
+library(dendextend) # visualize dendrograms
+library(here) # create a file directory
+library(ggrepel) # repel overlapping text labels
+library(clustree) # visualize clusters
+library(FactoMineR) # explore multivariate data
+library(ggcorrplot) # visualize correlations
+library(clValid) # compute cluster metrics
+library(broom) # tidy algorithm outputs
+library(umap) # dimension reduction
+library(tidyquant) # in this case theme and color for clusters visualization</code></pre>
+<p>The next step is to load our file and <code>glimpse</code> it.</p>
+<pre class="r"><code># load the file
+pharmaceuticals &lt;- read_csv(here::here(&quot;pharmaceuticals.csv&quot;))
+
+# explore the data
+glimpse(pharmaceuticals)</code></pre>
+<pre><code>## Observations: 21
+## Variables: 14
+## $ Symbol                &lt;chr&gt; &quot;ABT&quot;, &quot;AGN&quot;, &quot;AHM&quot;, &quot;AZN&quot;, &quot;AVE&quot;, &quot;BAY&quot;...
+## $ Name                  &lt;chr&gt; &quot;Abbott Laboratories&quot;, &quot;Allergan, Inc.&quot;,...
+## $ Market_Cap            &lt;dbl&gt; 68.44, 7.58, 6.30, 67.63, 47.16, 16.90, ...
+## $ Beta                  &lt;dbl&gt; 0.32, 0.41, 0.46, 0.52, 0.32, 1.11, 0.50...
+## $ PE_Ratio              &lt;dbl&gt; 24.7, 82.5, 20.7, 21.5, 20.1, 27.9, 13.9...
+## $ ROE                   &lt;dbl&gt; 26.4, 12.9, 14.9, 27.4, 21.8, 3.9, 34.8,...
+## $ ROA                   &lt;dbl&gt; 11.8, 5.5, 7.8, 15.4, 7.5, 1.4, 15.1, 4....
+## $ Asset_Turnover        &lt;dbl&gt; 0.7, 0.9, 0.9, 0.9, 0.6, 0.6, 0.9, 0.6, ...
+## $ Leverage              &lt;dbl&gt; 0.42, 0.60, 0.27, 0.00, 0.34, 0.00, 0.57...
+## $ Rev_Growth            &lt;dbl&gt; 7.54, 9.16, 7.05, 15.00, 26.81, -3.17, 2...
+## $ Net_Profit_Margin     &lt;dbl&gt; 16.1, 5.5, 11.2, 18.0, 12.9, 2.6, 20.6, ...
+## $ Median_Recommendation &lt;chr&gt; &quot;Moderate Buy&quot;, &quot;Moderate Buy&quot;, &quot;Strong ...
+## $ Location              &lt;chr&gt; &quot;US&quot;, &quot;CANADA&quot;, &quot;UK&quot;, &quot;UK&quot;, &quot;FRANCE&quot;, &quot;G...
+## $ Exchange              &lt;chr&gt; &quot;NYSE&quot;, &quot;NYSE&quot;, &quot;NYSE&quot;, &quot;NYSE&quot;, &quot;NYSE&quot;, ...</code></pre>
+<p>We have 14 variables related to the financial information of 21 pharmaceutical companies:</p>
+<div class="figure">
+<img src="../../../post/2018-10-23-predicting-airfares-prices-on-new-routes-a-supervised-learning-approach-with-multiple-linear-regression_files/pharma.PNG" style="width:80.0%" />
+
+</div>
+<div id="data-exploration" class="section level1">
+<h1>Data Exploration</h1>
+<p>Before we start with our clustering analysis, we should explore our data. First, we will check the correlations between our numeric variables.</p>
+<p><strong>Note</strong>: for this clustering analysis we will only use the numeric variables.</p>
+<pre class="r"><code># create correlation matrix
+pharmaceuticals_cor &lt;- pharmaceuticals %&gt;%
+  select_if(is.numeric) %&gt;%
+  cor()
+
+# visualize correlations
+ggcorrplot(pharmaceuticals_cor, 
+           outline.color = &quot;grey50&quot;, 
+           lab = TRUE,
+           hc.order = TRUE,
+           type = &quot;full&quot;) </code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>We can identify strong positive correlations between <em>Revenue on Assets</em>, <em>Revenue on Equity</em>, <em>Net Profit Margin</em>, and <em>Market Cap</em> which might indicate that these variables form a cluster.</p>
+<p>Another way to recognize the likely number of clusters before we do our clustering analysis is to use a Principal Component Analysis(PCA). Let’s use the <code>PCA</code> from the <code>FactoMineR</code> and the <code>fviz_screeplot</code> function from the <code>factoextra</code> package to check how much variance is explained by each dimension.</p>
+<pre class="r"><code># use a data frame only with numeric values and scale the variables because they were measured in different scales
+pharmaceuticals_tbl &lt;- na.omit(pharmaceuticals) %&gt;%
+  dplyr::select(-c(1, 12, 13, 14)) %&gt;% 
+  column_to_rownames(var = &quot;Name&quot;) %&gt;%
+  scale(.) %&gt;% # standardize the values 
+  as.data.frame() # convert to data frame</code></pre>
+<pre><code>## Warning: Setting row names on a tibble is deprecated.</code></pre>
+<pre class="r"><code>## use PCA to check how many dimensions we have
+# PCA of our dataframe
+new_pca &lt;- PCA(pharmaceuticals_tbl)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code># check eigenvalues and percentage of variance
+new_pca$eig</code></pre>
+<pre><code>##        eigenvalue percentage of variance cumulative percentage of variance
+## comp 1  3.8080296             42.3114401                          42.31144
+## comp 2  1.7028349             18.9203881                          61.23183
+## comp 3  1.1435807             12.7064523                          73.93828
+## comp 4  0.8157384              9.0637604                          83.00204
+## comp 5  0.7071235              7.8569272                          90.85897
+## comp 6  0.4538979              5.0433098                          95.90228
+## comp 7  0.2337408              2.5971197                          98.49940
+## comp 8  0.1154565              1.2828502                          99.78225
+## comp 9  0.0195977              0.2177522                         100.00000</code></pre>
+<pre class="r"><code># visualization of how much variance each dimension explains
+fviz_screeplot(new_pca, addlabels = TRUE)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-4-3.png" width="672" /> So, we have 4 Principal Components that capture more than 80% of the variance. The first Principal Component explains 42.3% and the second 18.92%. Regarding the eigenvalues, we have 3 components with eigenvalues above 1.</p>
+<p>We can still check the contribution of the top 5 variables for the first 4 Principal Components using the <code>fviz_contrib</code> function from the <code>factoextra</code> package.</p>
+<pre class="r"><code># get each variable PCA results
+var &lt;- get_pca_var(new_pca)
+
+# each variable contribution to PC1 - top 5
+fviz_contrib(new_pca, choice = &quot;var&quot;, axes = 1, top = 5)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code># each variable contribution to PC2 - top 5
+fviz_contrib(new_pca, choice = &quot;var&quot;, axes = 2, top = 5)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<pre class="r"><code># each variable contribution to PC3 - top 5
+fviz_contrib(new_pca, choice = &quot;var&quot;, axes = 3, top = 5)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
+<pre class="r"><code># each variable contribution to PC - top 5
+fviz_contrib(new_pca, choice = &quot;var&quot;, axes = 4, top = 5)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-5-4.png" width="672" /> In the first component <em>Revenue on assets</em>, <em>Market Cap</em>, <em>Revenue on Equity</em>, and <em>Net Profit Margin</em> are the variables with highest contribution. For the second component, <em>Price/Earnings Ratio</em> and <em>Asset turnover</em> are the highest contributors. In the third component <em>Leverage</em> and <em>Revenue Growth</em> have the highest contribution. Finally, in the fourth component the variables with the highest contribution are <em>Revenue Growth</em> and <em>Beta</em>.</p>
+<p>Visualize the contribution of the variables for the first two components is possible through an axis.</p>
+<pre class="r"><code># visualization of the first two components and the contributions of each variable
+fviz_pca_var(new_pca, col.var=&quot;contrib&quot;,
+             gradient.cols = c(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;),
+             repel = TRUE 
+             ) + 
+  labs( title = &quot;Variables - PCA&quot;)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>From this visualization, it’s clear that <em>Revenue on assets</em>, <em>Revenue on equity</em>, <em>Net Profit Margin</em>, <em>Market Cap</em>, and <em>Asset Turnover</em> tend to increase together and are the highest contributors to the first component.</p>
+<p>Following the exploration of our data, let’s us start our clustering analysis.</p>
+<div id="hierarchical-cluster-analysis" class="section level2">
+<h2>Hierarchical Cluster Analysis</h2>
+<p>Hierarchical clustering is an approach to identify groups within a data frame where there is noneed to pre-specify the number of clusters intended to be extracted.</p>
+<p>As we have already scaled our data including the removal of any missing values, we can start our clustering process. First, we should measure the similarity between our observations using an <em>euclidean</em> distance measure - other measures can be used such as the Manhattan distance. These distances can be visualized with the function <code>fviz_dist</code> from the <code>factoextra</code>.</p>
+<pre class="r"><code># compute distance measure
+dt &lt;- dist(pharmaceuticals_tbl, method = &quot;euclidean&quot;)
+
+
+# visualize distance
+fviz_dist(dt, gradient = list(low = &quot;red&quot;, mid = &quot;white&quot;, high = &quot;blue&quot;))</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Choosing a method of linkage is the next step. It can be: <em>complete</em> which considers the maximal distance between clusters, <em>simple</em> where is taken into account the smallest distance between clusters, <em>average</em> where the average distance between clusters is considered, and <em>ward</em> method where the pair of clusters with the lowest distance is merged. We can create a function with <code>agnes</code> function - it’s also an agglomerative hierarchical clustering method - to check which method gives higher agglomerative coefficient, that is, a greater clustering structure.</p>
+<pre class="r"><code>m &lt;- c(&quot;average&quot;, &quot;single&quot;, &quot;complete&quot;, &quot;ward&quot;)
+names(m) &lt;- c(&quot;average&quot;, &quot;single&quot;, &quot;complete&quot;, &quot;ward&quot;)
+
+
+#function to check the best (means higher value) linkage method 
+ac &lt;- function(x) {
+  agnes(dt, method = x)$ac
+}
+
+map_dbl(m, ac)</code></pre>
+<pre><code>##   average    single  complete      ward 
+## 0.5600652 0.4600348 0.6990833 0.7943164</code></pre>
+<p>Thus, the <em>ward</em> method give us a higher agglomerative coefficient. From now on, we will use this linkage method in our hierarchical clustering analysis.</p>
+<pre class="r"><code># hierarchical clustering 
+set.seed(88)
+hclust_1 &lt;- hclust(dt, method = &quot;ward.D2&quot;) # ward.D2 corresponds to the ward                                                method in the hclust function
+
+# plot hierarchical clustering
+plot(hclust_1, cex = 0.6)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Now, we should determine the optimal number of clusters - this process will also be used to determine the number of clusters in the following k-means algorithm. We will use two methods: <em>elbow</em> and <em>average silhouette</em>.</p>
+<pre class="r"><code># elbow method
+fviz_nbclust(pharmaceuticals_tbl, FUNcluster = hcut, method = &quot;wss&quot;)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code># sillhouette method
+fviz_nbclust(pharmaceuticals_tbl, FUNcluster = hcut, method = &quot;silhouette&quot;)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<p>From these visualizations we should have two clusters. Let’s use the <code>cutree</code> function to cut our dendogram in 2 clusters.</p>
+<pre class="r"><code># cutree function
+cl_1 &lt;- cutree(hclust_1, k = 2)
+
+# table function check the number of pharmaceutical companies in each cluster
+table(cl_1)</code></pre>
+<pre><code>## cl_1
+##  1  2 
+## 11 10</code></pre>
+<p>Consequently, 11 and 10 companies are displayed in <em>cluster 1</em> and <em>cluster 2</em> respectively.</p>
+<p>More important, we can visualize how the pharmaceutical companies are distributed in each cluster.</p>
+<pre class="r"><code>plot(hclust_1, cex = 0.6)
+rect.hclust(hclust_1, k = 2, border= 2:5)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>We can also visualize in a two-dimensional graph our two clusters.</p>
+<pre class="r"><code># fviz_cluster function to visualize the clusters
+fviz_cluster(list(data = pharmaceuticals_tbl, cluster = cl_1, repel = TRUE)) +
+  theme_minimal()</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Now that we have our clusters and recognize the pharmaceutical companies belonging to each one, we need to check the most relevant characteristics and describe each cluster better. However, we still need to understand what each cluster is really about. For this, we need to create a cluster variable in our cutree cluster dataframe generated before. Afterwards, we should aggregate our data by cluster and verify the mean of each variable.</p>
+<pre class="r"><code># create cluster variable
+pharmaceuticals_tbl$cluster &lt;- cl_1
+
+# aggregate by cluster our variables
+pharmaceuticals_tbl %&gt;%
+  group_by(cluster) %&gt;%
+  summarise_all(mean)</code></pre>
+<pre><code>## # A tibble: 2 x 10
+##   cluster Market_Cap   Beta PE_Ratio    ROE    ROA Asset_Turnover Leverage
+##     &lt;int&gt;      &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt;
+## 1       1      0.673 -0.359   -0.276  0.657  0.834          0.461   -0.333
+## 2       2     -0.741  0.395    0.304 -0.722 -0.918         -0.507    0.366
+## # ... with 2 more variables: Rev_Growth &lt;dbl&gt;, Net_Profit_Margin &lt;dbl&gt;</code></pre>
+<p>Cluster 1 is characterized by pharmaceutical companies that are more profitable, have a higher market value, and are more efficient. While cluster 2 has companies that borrow more money (higher leverage), show more volatility(higher beta), but where the revenues increased more, but not the profits.</p>
+<p>In a few words, cluster 1 can be described as <em>profitable and low-risk investment</em> type of pharmaceutical companies. Cluster 2 as <em>non-profitable and high-risk investment</em>.</p>
+</div>
+<div id="k-means-cluster-analysis" class="section level2">
+<h2>K-Means Cluster Analysis</h2>
+<p>Now, we will start with the K-means clustering. In this type of clustering method, we have to determine the number of clusters before we do our analysis. Because of that, we could use the <em>elbow</em> and <em>silhouette</em> method.</p>
+<p><strong>Note</strong> Other methods to determine the optimal number of clusters will be used later.</p>
+<pre class="r"><code># use a data frame only with numeric values and scale the variables because they were measured in different scales
+pharmaceuticals_tbl &lt;- na.omit(pharmaceuticals) %&gt;%
+  dplyr::select(-c(1, 12, 13, 14)) %&gt;% 
+  column_to_rownames(var = &quot;Name&quot;) %&gt;%
+  scale(.) %&gt;% # standardize the values 
+  as.data.frame() # convert to data frame</code></pre>
+<pre><code>## Warning: Setting row names on a tibble is deprecated.</code></pre>
+<pre class="r"><code># elbow method
+fviz_nbclust(pharmaceuticals_tbl, FUNcluster = kmeans, method = &quot;wss&quot;)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code># sillhouette method
+fviz_nbclust(pharmaceuticals_tbl, FUNcluster = kmeans, method = &quot;silhouette&quot;)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
+<p>From the elbow method we could choose 2, 3, or maybe 4 clusters. However, the silhouette method indicates that 2 clusters correspond to the optimal number.</p>
+<p>Now, we can build our K-means cluster with two clusters.</p>
+<pre class="r"><code>set.seed(88)
+k_cluster2 &lt;- kmeans(pharmaceuticals_tbl, centers = 2, nstart = 50,
+                    iter.max = 10) # k equals 2 clusters
+
+table(k_cluster2$cluster)</code></pre>
+<pre><code>## 
+##  1  2 
+## 10 11</code></pre>
+<p>As we have seen in the hierarchical clustering, we have 10 pharmaceutical in one cluster and 11 in the other one. Regardless, we could check some metrics of compactness and separation with the function <code>glance</code> from the <code>broom</code> package and with the <code>dunn</code> function.</p>
+<pre class="r"><code># check total within and between sum of squares
+glance(k_cluster2)</code></pre>
+<pre><code>## # A tibble: 1 x 4
+##   totss tot.withinss betweenss  iter
+##   &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;
+## 1   180         119.      61.4     1</code></pre>
+<pre class="r"><code># dunn index
+dunn_k2 &lt;- dunn(clusters = k_cluster2$cluster, Data = pharmaceuticals_tbl)
+dunn_k2</code></pre>
+<pre><code>## [1] 0.2546142</code></pre>
+<p>We have a total within sum of squares (WSS) of 118.57 and between sum of squares (BSS) of 66.67. The WSS is a measure of compactness where a lower value is better, whereas BSS measures separation whose high value reflects a better outcome. The dunn index is 0.30. A higher value is considerably superior as the clusters are better separated and/ or more compact.</p>
+<p>We can now try to see if with 3 clusters our performance metrics will be better. If so, we will segment our pharmaceutical with K equals 3. First, we will build or K-means cluster.</p>
+<pre class="r"><code>set.seed(88)
+k_cluster3 &lt;- kmeans(pharmaceuticals_tbl, centers = 3, nstart = 50,
+                     iter.max = 10) # centers equals 3 clusters
+
+
+
+table(k_cluster3$cluster)</code></pre>
+<pre><code>## 
+##  1  2  3 
+##  6  4 11</code></pre>
+<p>The table of this k-means clustering shows 6 pharmaceutical companies in cluster 1, 4 in cluster 2, and 11 in cluster 3.</p>
+<p>Now with the functions <code>glance</code> and <code>dunn</code> we will take a look at the performance metrics.</p>
+<pre class="r"><code># check wSS and BSS
+glance(k_cluster3)</code></pre>
+<pre><code>## # A tibble: 1 x 4
+##   totss tot.withinss betweenss  iter
+##   &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;
+## 1   180         96.0      84.0     3</code></pre>
+<pre class="r"><code>tidy(k_cluster3)</code></pre>
+<pre><code>## # A tibble: 3 x 12
+##       x1     x2     x3     x4     x5     x6     x7     x8     x9  size
+## *  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;
+## 1 -0.826  0.478 -0.370 -0.563 -0.851 -0.999  0.850  0.916 -0.332     6
+## 2 -0.613  0.270  1.31  -0.961 -1.02   0.231 -0.359 -0.576 -1.38      4
+## 3  0.673 -0.359 -0.276  0.657  0.834  0.461 -0.333 -0.290  0.682    11
+## # ... with 2 more variables: withinss &lt;dbl&gt;, cluster &lt;fct&gt;</code></pre>
+<pre class="r"><code># check dunn index
+dunn_k3 &lt;- dunn(clusters = k_cluster3$cluster, Data = pharmaceuticals_tbl)
+dunn_k3</code></pre>
+<pre><code>## [1] 0.3076927</code></pre>
+<p>The WSS shows a lower value and the BSS a higher value compared with the K-means clustering with 2 clusters. The dunn index also has a higher value which means that with K equals 3 the clusters are more separated and have more compactness. In sum, the performance metrics of our k-means algorithm seem to be better with 3 clusters than with 2.</p>
+<p>Moving on in our analysis, now we will use a different approach from the one described above where we used the <code>fviz_cluster</code> function to map our clusters in 2D format. In this case, we will use the UMAP (Uniform Manifold Approximation and Projection) algorithm, which is a dimension reduction algorithm similar to PCA. The UMAP algorithm reduces the variables in a data frame with two columns/dimensions corresponding to x and y coordinates. These two dimensions will capture the variability of our data in a two-dimensional set. So, it becomes possible to project in a two-dimensional graph the position of each pharmaceutical companies in each cluster.</p>
+<p>Firstly, we will use the use the function <code>umap</code> in our data frame. The following step will be extracting the variable layout from the UMAP object to create a data frame with the coordinates of the respective pharmaceutical companies.</p>
+<pre class="r"><code># umap our data frame
+umap_pharma &lt;- pharmaceuticals_tbl %&gt;%
+  umap()
+
+# create umap dataframe
+umap_obj &lt;- umap_pharma$layout %&gt;%
+  as.data.frame() %&gt;%
+  rownames_to_column(var = &quot;Pharma&quot;)
+
+umap_obj</code></pre>
+<pre><code>##                                Pharma         V1          V2
+## 1                 Abbott Laboratories -0.5599971  0.46196012
+## 2                      Allergan, Inc.  0.9289384  1.43291560
+## 3                        Amersham plc  0.3354541  0.34965708
+## 4                     AstraZeneca PLC -0.5293549 -0.56448968
+## 5                             Aventis  1.5377670 -0.09310394
+## 6                            Bayer AG  0.9640006  0.72732919
+## 7        Bristol-Myers Squibb Company -1.1071940 -0.01250234
+## 8                        Chattem, Inc  0.5180765  1.05588066
+## 9               Elan Corporation, plc  0.9458157 -0.47147116
+## 10              Eli Lilly and Company -1.1430508  0.76003736
+## 11                GlaxoSmithKline plc -1.4867707 -1.15857252
+## 12                   IVAX Corporation  0.8873017  0.18199628
+## 13                  Johnson &amp; Johnson -1.1974953 -0.74347125
+## 14 Medicis Pharmaceutical Corporation  1.2166261 -0.93939240
+## 15                  Merck &amp; Co., Inc. -0.7444749 -1.11176241
+## 16                        Novartis AG -0.7579310  1.06683888
+## 17                         Pfizer Inc -1.4173004 -1.53152437
+## 18              Pharmacia Corporation  1.6203149  0.77533872
+## 19        Schering-Plough Corporation -0.1964202  0.04833752
+## 20       Watson Pharmaceuticals, Inc.  1.8203646 -0.47752432
+## 21                              Wyeth -1.6346701  0.24352297</code></pre>
+<p>We can also visualize the position of each pharmaceutical company in this UMAP 2D projection.</p>
+<pre class="r"><code># visualize umap dataframe
+umap_obj %&gt;%
+  ggplot(aes(V1, V2)) +
+  geom_point() +
+  geom_label_repel(aes(label = Pharma))</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Yet our goal is to map these pharmaceutical companies with the respective cluster assignment. We will use <code>augment</code> from the <code>broom</code> package to assign each cluster to our respective pharmaceutical company. Right after , we will join the K-means data frame with the <code>umap</code> object.</p>
+<pre class="r"><code># use augment to assign the clusters to our pharmaceutical companies
+kmeans_tbl &lt;- augment(k_cluster3, pharmaceuticals_tbl) %&gt;% 
+  dplyr::select(pharma = .rownames, .cluster)
+
+# join the kmeans data frame with the umap object
+kmeans_umap &lt;- kmeans_tbl %&gt;% 
+  left_join(umap_obj, by = c(&quot;pharma&quot; = &quot;Pharma&quot;))
+
+kmeans_umap</code></pre>
+<pre><code>## # A tibble: 21 x 4
+##    pharma                       .cluster     V1      V2
+##    &lt;chr&gt;                        &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Abbott Laboratories          3        -0.560  0.462 
+##  2 Allergan, Inc.               2         0.929  1.43  
+##  3 Amersham plc                 2         0.335  0.350 
+##  4 AstraZeneca PLC              3        -0.529 -0.564 
+##  5 Aventis                      1         1.54  -0.0931
+##  6 Bayer AG                     2         0.964  0.727 
+##  7 Bristol-Myers Squibb Company 3        -1.11  -0.0125
+##  8 Chattem, Inc                 1         0.518  1.06  
+##  9 Elan Corporation, plc        1         0.946 -0.471 
+## 10 Eli Lilly and Company        3        -1.14   0.760 
+## # ... with 11 more rows</code></pre>
+<p>Now, we can visualize the clusters in a 2D projection.</p>
+<pre class="r"><code>kmeans_umap %&gt;% 
+  mutate(label_pharma = str_glue(&quot;Company: {pharma}
+                                 Cluster:{.cluster}&quot;)) %&gt;%
+  ggplot(aes(V1, V2, color = .cluster)) +
+  geom_point() +
+  geom_label_repel(aes(label = label_pharma), size = 2.5) +
+  guides(color = FALSE) +
+  theme_minimal() +
+  scale_color_tq() +
+  labs(title = &quot;Pharmaceutical Companies Segmentation&quot;,
+       subtitle = &quot;K-Means Cluster Algorithm with UMAP Projection&quot;)</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>As we did in the hierarchical clustering analysis, we need to check which are the characteristics associated with each cluster. So, we still need to find the real meaning of these clusters. We will use again the <code>augment</code> function to create a data frame of our K-means algorithm and find out how the variables profile in each cluster.</p>
+<pre class="r"><code>k_cluster3 %&gt;%
+  augment(pharmaceuticals_tbl) %&gt;%
+  dplyr::select(-.rownames) %&gt;%
+  group_by(.cluster) %&gt;% 
+  summarise_all(mean)</code></pre>
+<pre><code>## # A tibble: 3 x 10
+##   .cluster Market_Cap   Beta PE_Ratio    ROE    ROA Asset_Turnover Leverage
+##   &lt;fct&gt;         &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt;
+## 1 1            -0.826  0.478   -0.370 -0.563 -0.851         -0.999    0.850
+## 2 2            -0.613  0.270    1.31  -0.961 -1.02           0.231   -0.359
+## 3 3             0.673 -0.359   -0.276  0.657  0.834          0.461   -0.333
+## # ... with 2 more variables: Rev_Growth &lt;dbl&gt;, Net_Profit_Margin &lt;dbl&gt;</code></pre>
+<p>Cluster 3 shows a similar pattern as Cluster 1 from the Hierarchical Clustering algorithm. It is comprised of high profitable companies representing a low risk investment. Cluster 2 is composed of non-profit companies and overpriced stocks showing a high volatility (high Beta).Additionally, these companies do not seem to borrow a lot of money (low Leverage). Cluster 1 includes non-profit and high volatility companies as the companies in Cluster 2, and even considering revenue growth and high levels of borrowings, their stocks look underpriced.</p>
+<p>Let’s create a tibble with the <code>tribble</code> function with the cluster number and the respective characteristics.</p>
+<pre class="r"><code># create tibble withthe characteristics of the 3 cluster
+cluster_tibble &lt;- tibble::tribble(~.cluster, ~cluster.label,
+                                  1, &quot;Non Profitable/High Risk Investment/Underpriced Stocks&quot;,
+                                  2, &quot;Non Profitable/High Risk Investment/Overpriced Stocks&quot;,
+                                  3, &quot;Profitable/Low Risk Investment&quot;)
+
+
+# make .cluster variable a factor
+cluster_tibble &lt;- cluster_tibble %&gt;%
+  mutate(.cluster = as.factor(as.character(.cluster)))</code></pre>
+<p>Now, we can visualize the clusters with respective description of such characteristics.</p>
+<pre class="r"><code># clusters visualization
+kmeans_umap %&gt;%
+  left_join(cluster_tibble) %&gt;%
+  mutate(label_pharma = str_glue(&quot;Company: {pharma}
+                                 Cluster:{.cluster}
+                                 {cluster.label}&quot;)) %&gt;%
+  ggplot(aes(V1, V2, color = .cluster)) +
+  geom_point() +
+  geom_label_repel(aes(label = label_pharma), size = 2.5) +
+  guides(color = FALSE) +
+  theme_tq() +
+  scale_color_tq() +
+  labs(title = &quot;Pharmaceutical Companies Segmentation&quot;,
+       subtitle = &quot;UMAP 2D Projection with the K-Means Cluster Algorithm&quot;)</code></pre>
+<pre><code>## Joining, by = &quot;.cluster&quot;</code></pre>
+<p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>Hope you have enjoyed this introduction to clustering analysis. Despite the plethora of cluster algorithms, the goal was to show the power of this unsupervised algorithm to segment any kind of business. Talk to you through the following posts. in the meantimekeep coding!</p>
+</div>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="../../../tags/unsupervised-learning/">unsupervised learning</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/cluster/">cluster</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/k-means-clustering/">k-means clustering</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/hierarchical-clustering/">hierarchical clustering</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/r/">R</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/" data-tooltip="Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/03/clustering-the-pharmaceutical-industry/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2019/03/clustering-the-pharmaceutical-industry/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Hugo Toscano. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/" data-tooltip="Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/03/clustering-the-pharmaceutical-industry/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2019/03/clustering-the-pharmaceutical-industry/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2019%2F03%2Fclustering-the-pharmaceutical-industry%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2019%2F03%2Fclustering-the-pharmaceutical-industry%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Hugo Toscano</h4>
+    
+      <div id="about-card-bio">Contact: hugo_toscano@outlook.com</div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Stuttgart, Germany
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2019/03/clustering-the-pharmaceutical-industry/">
+                <h3 class="media-heading">Clustering the Pharmaceutical Industry</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
+                <h3 class="media-heading">Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/">
+                <h3 class="media-heading">Creating a Model to Predict if a Bank Customer accepts Personal Loans</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post, we will fit a multiple logistic regression model to predict the probability of a bank customer accepting a personal loan based on multiple variables to be described later. Logistic regression is a supervised learning algorithm were the independent variable has a qualitative nature. In this case, corresponding to the acceptance or rejection of a personal loan. This tutorial will build multiple logistic regression models and assess them.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/11/german-elections-in-the-21st-century/">
+                <h3 class="media-heading">German Elections in the 21st Century</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this blogpost, we will come back to the subject of the German Elections. We will try to show, mostly visually, the changes in election results during the 21st century. Thus, we will use data from the elections in 2002 to the last ones in 2017. The main focus will be mapping the results of the parties represented in the current Bundestag (German Parliament) during this time span. Let’s start our coding.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/10/predicting-airfares-on-new-routes/">
+                <h3 class="media-heading">Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/10/hints-to-deal-with-missing-values-in-r/">
+                <h3 class="media-heading">Hints to deal with Missing Values in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/09/combine-data-frames-in-r/">
+                <h3 class="media-heading">Combine Data frames in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
+                <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post talks about making interactive visualizations in R with leaflet(). In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/07/linear-regression-in-r-a-simple-analysis/">
+                <h3 class="media-heading">Tuition costs and gdp per capita: A linear regression analysis</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
+I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../2018/07/using-r-to-analyse-the-german-federal-election/">
+                <h3 class="media-heading">Using R to analyse the German Federal Election</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">As the title of this post implies we will analyze, using the statistical programming language R, the German Federal Election which took place on 24 September of 2017. It will not be an exhaustive analysis of the results. I’m only interested in visualizing the share of the vote that each party represented in the Parliament (i.e. Bundestag) received in each one of the 16 States of Germany.
+In order to make this visualization possible in R, loading the respective packages is the first step.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         12 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/dabczf7ag/image/upload/v1533024537/cover_new2.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="../../../js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2019\/03\/clustering-the-pharmaceutical-industry\/';
+          
+            this.page.identifier = '\/2019\/03\/clustering-the-pharmaceutical-industry\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'toscano84';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

@@ -17,7 +17,7 @@
       <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/</guid>
-      <description>Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+      <description>Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
 Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</description>
     </item>
     

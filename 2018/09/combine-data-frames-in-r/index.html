@@ -270,10 +270,10 @@ library(tibble)
 library(tidyverse) # load packages related to data cleaning(in this tutorial dplyr for joins and set operators,  and purrr to use the reduce() function)
 library(readxl) # load excel files
 # dataframes
-df1 &lt;- read_excel(here(&quot;df1.xlsx&quot;))
-df2 &lt;- read_excel(here(&quot;df2.xlsx&quot;))
-df3 &lt;- read_excel(here(&quot;df3.xlsx&quot;))
-df4 &lt;- read_excel(here(&quot;df4.xlsx&quot;))</code></pre>
+df1 &lt;- read_excel(here::here(&quot;df1.xlsx&quot;))
+df2 &lt;- read_excel(here::here(&quot;df2.xlsx&quot;))
+df3 &lt;- read_excel(here::here(&quot;df3.xlsx&quot;))
+df4 &lt;- read_excel(here::here(&quot;df4.xlsx&quot;))</code></pre>
 <p>Let us start with the data frames df1 and df2.</p>
 <p>df1:</p>
 <pre class="r"><code>df1 </code></pre>
@@ -466,18 +466,18 @@ df6 </code></pre>
 
 df_sit2</code></pre>
 <pre><code>## # A tibble: 10 x 4
-##       Id `WhiteBloodCellBefore Tre~ SES           `WhiteBloodCellAfter Tr~
-##    &lt;int&gt;                      &lt;dbl&gt; &lt;chr&gt;                            &lt;dbl&gt;
-##  1     1                        900 Middle Class                      1000
-##  2     2                        910 Middle Class                       980
-##  3     3                       1000 Middle Class                      1200
-##  4     4                        250 Upper Middle~                      500
-##  5     5                        300 Middle Class                       500
-##  6     6                        600 Middle Class                       700
-##  7     7                        300 Middle Class                       300
-##  8     8                        800 Upper Middle~                     1000
-##  9     9                        200 Lower Middle~                      400
-## 10    10                        100 Lower Middle~                      300</code></pre>
+##       Id `WhiteBloodCellBefore Tre~ SES           `WhiteBloodCellAfter Tre~
+##    &lt;int&gt;                      &lt;dbl&gt; &lt;chr&gt;                             &lt;dbl&gt;
+##  1     1                        900 Middle Class                       1000
+##  2     2                        910 Middle Class                        980
+##  3     3                       1000 Middle Class                       1200
+##  4     4                        250 Upper Middle~                       500
+##  5     5                        300 Middle Class                        500
+##  6     6                        600 Middle Class                        700
+##  7     7                        300 Middle Class                        300
+##  8     8                        800 Upper Middle~                      1000
+##  9     9                        200 Lower Middle~                       400
+## 10    10                        100 Lower Middle~                       300</code></pre>
 </div>
 </div>
 <div id="filtering-joins" class="section level2">
@@ -574,18 +574,18 @@ df_u </code></pre>
 <pre><code>## # A tibble: 12 x 5
 ##       Id Face  Sex      Dom   Str
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
-##  1     8 H     Male       4     2
+##  1     7 G     Male       3     4
 ##  2     1 A     Female     3     3
-##  3     2 B     Female     5     4
-##  4    15 B     Male       9     3
-##  5    13 C     Male      10     8
-##  6    10 A     Male       8     4
-##  7     9 I     Male       5     3
-##  8     6 F     Female     1     3
-##  9     4 D     Female     7     6
-## 10     7 G     Male       3     4
-## 11     3 C     Female     6     5
-## 12     5 E     Female     8     1</code></pre>
+##  3    13 C     Male      10     8
+##  4     2 B     Female     5     4
+##  5    10 A     Male       8     4
+##  6     8 H     Male       4     2
+##  7     3 C     Female     6     5
+##  8     5 E     Female     8     1
+##  9    15 B     Male       9     3
+## 10     4 D     Female     7     6
+## 11     6 F     Female     1     3
+## 12     9 I     Male       5     3</code></pre>
 <p>Now, we have only 12 rows, because 6 of the rows in df3 were the same as in df1. Remember, the union function returns only the unique rows. In this case, we have 12 observations that are unique within both data frames.</p>
 <p>In other cases, we can use the <code>setdiff()</code> if we want only the observation in df1 not in common with df3.</p>
 <pre class="r"><code>df_dif &lt;- df1 %&gt;% 
@@ -825,7 +825,7 @@ head(us_reunited)</code></pre>
         </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
-    &copy; 2018 Hugo Toscano. All Rights Reserved
+    &copy; 2019 Hugo Toscano. All Rights Reserved
   </span>
 </footer>
 
@@ -961,6 +961,23 @@ head(us_reunited)</code></pre>
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/03/clustering-the-pharmaceutical-industry-stocks/">
+                <h3 class="media-heading">Clustering the Pharmaceutical Industry Stocks</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
                 <h3 class="media-heading">Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach</h3>
               </a>
@@ -969,7 +986,7 @@ head(us_reunited)</code></pre>
                   Dec 12, 2018
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+              <div class="media-content hide-xs font-merryweather">Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
 Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</div>
             </div>
             <div style="clear:both;"></div>
@@ -1115,25 +1132,6 @@ In order to make this visualization possible in R, loading the respective packag
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/about-me/">
-                <h3 class="media-heading">About me</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jul 7, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Welcome to my blog!
-I’m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I’m still exploring it.
-My goal is to try to help you improve your R skills, by sharing what I am currently learning.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -1141,7 +1139,7 @@ My goal is to try to help you improve your R skills, by sharing what I am curren
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         10 posts found
+         12 posts found
       </p>
     </div>
   </div>

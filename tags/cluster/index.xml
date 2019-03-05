@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cluster on Hugo Toscano</title>
+    <link>https://toscano84.github.io/tags/cluster/</link>
+    <description>Recent content in Cluster on Hugo Toscano</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 05 Mar 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://toscano84.github.io/tags/cluster/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Clustering the Pharmaceutical Industry Stocks</title>
+      <link>https://toscano84.github.io/2019/03/clustering-the-pharmaceutical-industry-stocks/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/2019/03/clustering-the-pharmaceutical-industry-stocks/</guid>
+      <description>In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</description>
+    </item>
+    
+  </channel>
+</rss>

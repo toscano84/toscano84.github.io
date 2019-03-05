@@ -11,6 +11,15 @@
     
     
     <item>
+      <title>Clustering</title>
+      <link>https://toscano84.github.io/categories/clustering/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/categories/clustering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Ggplot2</title>
       <link>https://toscano84.github.io/categories/ggplot2/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
@@ -47,11 +56,11 @@
     </item>
     
     <item>
-      <title>Text Mining</title>
-      <link>https://toscano84.github.io/categories/text-mining/</link>
-      <pubDate>Fri, 14 Dec 2018 00:00:00 +0000</pubDate>
+      <title>Tidytext</title>
+      <link>https://toscano84.github.io/categories/tidytext/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://toscano84.github.io/categories/text-mining/</guid>
+      <guid>https://toscano84.github.io/categories/tidytext/</guid>
       <description></description>
     </item>
     

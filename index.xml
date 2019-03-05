@@ -6,18 +6,27 @@
     <description>Recent content on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 14 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 05 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://toscano84.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Clustering the Pharmaceutical Industry Stocks</title>
+      <link>https://toscano84.github.io/2019/03/clustering-the-pharmaceutical-industry-stocks/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/2019/03/clustering-the-pharmaceutical-industry-stocks/</guid>
+      <description>In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</description>
+    </item>
+    
+    <item>
       <title>Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach</title>
       <link>https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/</link>
-      <pubDate>Fri, 14 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/</guid>
-      <description>Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+      <description>Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
 Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</description>
     </item>
     
@@ -104,6 +113,17 @@ In order to make this visualization possible in R, loading the respective packag
       <guid>https://toscano84.github.io/2018/07/about-me/</guid>
       <description>Welcome to my blog!
 I’m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I’m still exploring it.
+My goal is to try to help you improve your R skills, by sharing what I am currently learning.</description>
+    </item>
+    
+    <item>
+      <title>About me</title>
+      <link>https://toscano84.github.io/2018/07/about-me/</link>
+      <pubDate>Wed, 04 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/2018/07/about-me/</guid>
+      <description>Welcome to my blog!
+I&amp;rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I&amp;rsquo;m still exploring it.
 My goal is to try to help you improve your R skills, by sharing what I am currently learning.</description>
     </item>
     
