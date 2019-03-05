@@ -617,7 +617,7 @@ kmeans_umap %&gt;%
                                  {cluster.label}&quot;)) %&gt;%
   ggplot(aes(V1, V2, color = .cluster)) +
   geom_point() +
-  geom_label_repel(aes(label = label_pharma), size = 2.5) +
+  geom_label_repel(aes(label = label_pharma), size = 2) +
   guides(color = FALSE) +
   theme_tq() +
   scale_color_tq() +
@@ -1045,7 +1045,7 @@ In order to make this visualization possible in R, loading the respective packag
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         12 posts found
+         11 posts found
       </p>
     </div>
   </div>
