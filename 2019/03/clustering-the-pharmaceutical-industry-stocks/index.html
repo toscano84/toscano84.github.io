@@ -28,15 +28,15 @@
     
 
     
-    <meta name="description" content="In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.">
-    <meta property="og:description" content="In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.">
+    <meta name="description" content="In this post I will use two of the most popular clustering methods, hierarchical clustering and K-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.">
+    <meta property="og:description" content="In this post I will use two of the most popular clustering methods, hierarchical clustering and K-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.">
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Clustering the Pharmaceutical Industry Stocks">
     <meta property="og:url" content="/2019/03/clustering-the-pharmaceutical-industry-stocks/">
     <meta property="og:site_name" content="Hugo Toscano">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Hugo Toscano">
-    <meta name="twitter:description" content="In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.">
+    <meta name="twitter:description" content="In this post I will use two of the most popular clustering methods, hierarchical clustering and K-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.">
     
     
 
@@ -230,9 +230,9 @@ if (!doNotTrack) {
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-03-05T00:00:00Z">
+      <time itemprop="datePublished" datetime="2019-03-06T00:00:00Z">
         
-  March 5, 2019
+  March 6, 2019
 
       </time>
     
@@ -251,7 +251,7 @@ if (!doNotTrack) {
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</p>
+              <p>In this post I will use two of the most popular clustering methods, hierarchical clustering and K-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</p>
 <p><em>Note:</em> This data is not up-to-date and some of these companies are no longer active.</p>
 <pre class="r"><code>library(tidyverse) # group of packages to wrangle and visualize data
 library(cluster) # cluster analysis
@@ -289,8 +289,8 @@ glimpse(pharmaceuticals)</code></pre>
 ## $ Location              &lt;chr&gt; &quot;US&quot;, &quot;CANADA&quot;, &quot;UK&quot;, &quot;UK&quot;, &quot;FRANCE&quot;, &quot;G...
 ## $ Exchange              &lt;chr&gt; &quot;NYSE&quot;, &quot;NYSE&quot;, &quot;NYSE&quot;, &quot;NYSE&quot;, &quot;NYSE&quot;, ...</code></pre>
 <p>We have 14 variables related to the financial information of 21 pharmaceutical companies.</p>
-<div id="data-exploration" class="section level1">
-<h1>Data Exploration</h1>
+<div id="data-exploration" class="section level2">
+<h2>Data Exploration</h2>
 <p>Before we start with our clustering analysis, we should explore our data. First, we will check the correlations between our numeric variables.</p>
 <p><strong>Note</strong>: for this clustering analysis we will only use the numeric variables.</p>
 <pre class="r"><code># create correlation matrix
@@ -305,7 +305,7 @@ ggcorrplot(pharmaceuticals_cor,
            hc.order = TRUE,
            type = &quot;full&quot;) </code></pre>
 <p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>We can identify strong positive correlations between <em>Revenue on Assets</em>, <em>Revenue on Equity</em>, <em>Net Profit Margin</em>, and <em>Market Cap</em> which might indicate that these variables form a cluster.</p>
+<p>We can identify strong positive correlations between <em>Revenue on Assets</em>, <em>Revenue on Equity</em>, <em>Net Profit Margin</em>, and <em>Market Cap</em>.</p>
 <p>Another way to recognize the likely number of clusters before we do our clustering analysis is to use a Principal Component Analysis(PCA). Let’s use the <code>PCA</code> from the <code>FactoMineR</code> and the <code>fviz_screeplot</code> function from the <code>factoextra</code> package to check how much variance is explained by each dimension.</p>
 <pre class="r"><code># use a data frame only with numeric values and scale the variables because they were measured in different scales
 pharmaceuticals_tbl &lt;- na.omit(pharmaceuticals) %&gt;%
@@ -349,7 +349,7 @@ fviz_contrib(new_pca, choice = &quot;var&quot;, axes = 3, top = 5)</code></pre>
 <pre class="r"><code># each variable contribution to PC - top 5
 fviz_contrib(new_pca, choice = &quot;var&quot;, axes = 4, top = 5)</code></pre>
 <p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-5-4.png" width="672" /> In the first component <em>Revenue on assets</em>, <em>Market Cap</em>, <em>Revenue on Equity</em>, and <em>Net Profit Margin</em> are the variables with highest contribution. For the second component, <em>Price/Earnings Ratio</em> and <em>Asset turnover</em> are the highest contributors. In the third component <em>Leverage</em> and <em>Revenue Growth</em> have the highest contribution. Finally, in the fourth component the variables with the highest contribution are <em>Revenue Growth</em> and <em>Beta</em>.</p>
-<p>Visualize the contribution of the variables for the first two components is possible through an axis.</p>
+<p>Visualize the contribution of the variables for the first two components is also possible:</p>
 <pre class="r"><code># visualization of the first two components and the contributions of each variable
 fviz_pca_var(new_pca, col.var=&quot;contrib&quot;,
              gradient.cols = c(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;),
@@ -359,9 +359,10 @@ fviz_pca_var(new_pca, col.var=&quot;contrib&quot;,
 <p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>From this visualization, it’s clear that <em>Revenue on assets</em>, <em>Revenue on equity</em>, <em>Net Profit Margin</em>, <em>Market Cap</em>, and <em>Asset Turnover</em> tend to increase together and are the highest contributors to the first component.</p>
 <p>Following the exploration of our data, let’s us start our clustering analysis.</p>
-<div id="hierarchical-cluster-analysis" class="section level2">
-<h2>Hierarchical Cluster Analysis</h2>
-<p>Hierarchical clustering is an approach to identify groups within a data frame where there is noneed to pre-specify the number of clusters intended to be extracted.</p>
+</div>
+<div id="hierarchical-cluster-analysis" class="section level1">
+<h1>Hierarchical Cluster Analysis</h1>
+<p>Hierarchical clustering is an approach to identify groups within a data frame where there is not a need to pre-specify the number of clusters intended to be extracted.</p>
 <p>As we have already scaled our data including the removal of any missing values, we can start our clustering process. First, we should measure the similarity between our observations using an <em>euclidean</em> distance measure - other measures can be used such as the Manhattan distance. These distances can be visualized with the function <code>fviz_dist</code> from the <code>factoextra</code>.</p>
 <pre class="r"><code># compute distance measure
 dt &lt;- dist(pharmaceuticals_tbl, method = &quot;euclidean&quot;)
@@ -391,7 +392,7 @@ hclust_1 &lt;- hclust(dt, method = &quot;ward.D2&quot;) # ward.D2 corresponds to
 # plot hierarchical clustering
 plot(hclust_1, cex = 0.6)</code></pre>
 <p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>Now, we should determine the optimal number of clusters - this process will also be used to determine the number of clusters in the following k-means algorithm. We will use two methods: <em>elbow</em> and <em>average silhouette</em>.</p>
+<p>Now, we should determine the optimal number of clusters - this process will also be used to determine the number of clusters in the following K-means algorithm. We will use two methods: <em>elbow</em> and <em>average silhouette</em>.</p>
 <pre class="r"><code># elbow method
 fviz_nbclust(pharmaceuticals_tbl, FUNcluster = hcut, method = &quot;wss&quot;)</code></pre>
 <p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
@@ -434,10 +435,10 @@ pharmaceuticals_tbl %&gt;%
 <p>Cluster 1 is characterized by pharmaceutical companies that are more profitable, have a higher market value, and are more efficient. While cluster 2 has companies that borrow more money (higher leverage), show more volatility(higher beta), but where the revenues increased more, but not the profits.</p>
 <p>In a few words, cluster 1 can be described as <em>profitable and low-risk investment</em> type of pharmaceutical companies. Cluster 2 as <em>non-profitable and high-risk investment</em>.</p>
 </div>
-<div id="k-means-cluster-analysis" class="section level2">
-<h2>K-Means Cluster Analysis</h2>
+<div id="k-means-cluster-analysis" class="section level1">
+<h1>K-Means Cluster Analysis</h1>
 <p>Now, we will start with the K-means clustering. In this type of clustering method, we have to determine the number of clusters before we do our analysis. Because of that, we could use the <em>elbow</em> and <em>silhouette</em> method.</p>
-<p><strong>Note</strong> Other methods to determine the optimal number of clusters will be used later.</p>
+<p><strong>Note:</strong> Other methods to determine the optimal number of clusters will be used later.</p>
 <pre class="r"><code># use a data frame only with numeric values and scale the variables because they were measured in different scales
 pharmaceuticals_tbl &lt;- na.omit(pharmaceuticals) %&gt;%
   dplyr::select(-c(1, 12, 13, 14)) %&gt;% 
@@ -461,7 +462,7 @@ table(k_cluster2$cluster)</code></pre>
 <pre><code>## 
 ##  1  2 
 ## 10 11</code></pre>
-<p>As we have seen in the hierarchical clustering, we have 10 pharmaceutical in one cluster and 11 in the other one. Regardless, we could check some metrics of compactness and separation with the function <code>glance</code> from the <code>broom</code> package and with the <code>dunn</code> function.</p>
+<p>As we have seen in the hierarchical clustering, we have 10 pharmaceutical in one cluster and 11 in the other one. Regardless, we could check some metrics of compactness and separation with the function <code>glance</code> from the <code>broom</code> package and with the <code>dunn</code> function from the <code>clValid</code> package.</p>
 <pre class="r"><code># check total within and between sum of squares
 glance(k_cluster2)</code></pre>
 <pre><code>## # A tibble: 1 x 4
@@ -469,10 +470,10 @@ glance(k_cluster2)</code></pre>
 ##   &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;
 ## 1   180         119.      61.4     1</code></pre>
 <pre class="r"><code># dunn index
-dunn_k2 &lt;- dunn(clusters = k_cluster2$cluster, Data = pharmaceuticals_tbl)
+dunn_k2 &lt;-  dunn(clusters = k_cluster2$cluster, Data = pharmaceuticals_tbl)
 dunn_k2</code></pre>
 <pre><code>## [1] 0.2546142</code></pre>
-<p>We have a total within sum of squares (WSS) of 118.57 and between sum of squares (BSS) of 66.67. The WSS is a measure of compactness where a lower value is better, whereas BSS measures separation whose high value reflects a better outcome. The dunn index is 0.30. A higher value is considerably superior as the clusters are better separated and/ or more compact.</p>
+<p>We have a total within sum of squares (WSS) of 118.57 and between sum of squares (BSS) of 66.67. The WSS is a measure of compactness where a lower value is better, whereas BSS measures separation whose high value reflects a better outcome. The dunn index is 0.25. A higher value is considerably superior as the clusters are better separated and/ or more compact.</p>
 <p>We can now try to see if with 3 clusters our performance metrics will be better. If so, we will segment our pharmaceutical with K equals 3. First, we will build or K-means cluster.</p>
 <pre class="r"><code>set.seed(88)
 k_cluster3 &lt;- kmeans(pharmaceuticals_tbl, centers = 3, nstart = 50,
@@ -546,7 +547,7 @@ umap_obj %&gt;%
   geom_point() +
   geom_label_repel(aes(label = Pharma))</code></pre>
 <p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
-<p>Yet our goal is to map these pharmaceutical companies with the respective cluster assignment. We will use <code>augment</code> from the <code>broom</code> package to assign each cluster to our respective pharmaceutical company. Right after , we will join the K-means data frame with the <code>umap</code> object.</p>
+<p>Yet our goal is to map these pharmaceutical companies with the respective cluster assignment. We will use <code>augment</code> from the <code>broom</code> package to assign each cluster to our respective pharmaceutical company. Right after, we will join the K-means data frame with the <code>umap</code> object.</p>
 <pre class="r"><code># use augment to assign the clusters to our pharmaceutical companies
 kmeans_tbl &lt;- augment(k_cluster3, pharmaceuticals_tbl) %&gt;% 
   dplyr::select(pharma = .rownames, .cluster)
@@ -596,7 +597,7 @@ kmeans_umap</code></pre>
 ## 2 2            -0.613  0.270    1.31  -0.961 -1.02           0.231   -0.359
 ## 3 3             0.673 -0.359   -0.276  0.657  0.834          0.461   -0.333
 ## # ... with 2 more variables: Rev_Growth &lt;dbl&gt;, Net_Profit_Margin &lt;dbl&gt;</code></pre>
-<p>Cluster 3 shows a similar pattern as Cluster 1 from the Hierarchical Clustering algorithm. It is comprised of high profitable companies representing a low risk investment. Cluster 2 is composed of non-profit companies and overpriced stocks showing a high volatility (high Beta).Additionally, these companies do not seem to borrow a lot of money (low Leverage). Cluster 1 includes non-profit and high volatility companies as the companies in Cluster 2, and even considering revenue growth and high levels of borrowings, their stocks look underpriced.</p>
+<p>Cluster 3 shows a similar pattern as Cluster 1 from the Hierarchical Clustering algorithm. It is comprised of high profitable companies representing a low risk investment. Cluster 2 is composed of non-profit companies and overpriced stocks showing a high volatility (high Beta). Additionally, these companies do not seem to borrow a lot of money (low Leverage). Cluster 1 includes non-profit and high volatility companies as the companies in Cluster 2, and even considering revenue growth and high levels of borrowings, their stocks look underpriced.</p>
 <p>Let’s create a tibble with the <code>tribble</code> function with the cluster number and the respective characteristics.</p>
 <pre class="r"><code># create tibble withthe characteristics of the 3 cluster
 cluster_tibble &lt;- tibble::tribble(~.cluster, ~cluster.label,
@@ -625,10 +626,9 @@ kmeans_umap %&gt;%
        subtitle = &quot;UMAP 2D Projection with the K-Means Cluster Algorithm&quot;)</code></pre>
 <pre><code>## Joining, by = &quot;.cluster&quot;</code></pre>
 <p><img src="../../../post/2019-01-29-clustering-the-pharmaceutical-industry_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
-</div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
-<p>Hope you have enjoyed this introduction to clustering analysis. Despite the plethora of cluster algorithms, the goal was to show the power of this unsupervised algorithm to segment any kind of business. Talk to you through the following posts. in the meantimekeep coding!</p>
+<p>Hope you have enjoyed this introduction to clustering analysis. Despite the plethora of cluster algorithms, the goal was to show the power of this unsupervised algorithm to segment any kind of business. Talk to you through the following posts. in the meantime keep coding!</p>
 </div>
 </div>
 
@@ -875,7 +875,7 @@ kmeans_umap %&gt;%
                   Mar 3, 2019
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</div>
+              <div class="media-content hide-xs font-merryweather">In this post I will use two of the most popular clustering methods, hierarchical clustering and K-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
