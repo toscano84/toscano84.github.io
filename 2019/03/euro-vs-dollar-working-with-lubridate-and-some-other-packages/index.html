@@ -1,0 +1,2555 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.49.2 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Euro vs Dollar: Working with Lubridate and some other packages</title>
+    <meta name="author" content="Hugo Toscano">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../favicon.png">
+    
+
+    
+    <meta name="description" content="Welcome to this new post about the Euro versus Dollar historical exchange rate since 1999 to the present day. This post will deal with dates, so I will use mainly the lubridate package and some of its most important functions. I will do my best to show you the power and simplicity of this truly magnificent tool within the R universe. Nevertheless, I won’t be restricted only to lubridate and will use some other packages to deal with this type of data.">
+    <meta property="og:description" content="Welcome to this new post about the Euro versus Dollar historical exchange rate since 1999 to the present day. This post will deal with dates, so I will use mainly the lubridate package and some of its most important functions. I will do my best to show you the power and simplicity of this truly magnificent tool within the R universe. Nevertheless, I won’t be restricted only to lubridate and will use some other packages to deal with this type of data.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Euro vs Dollar: Working with Lubridate and some other packages">
+    <meta property="og:url" content="/2019/03/euro-vs-dollar-working-with-lubridate-and-some-other-packages/">
+    <meta property="og:site_name" content="Hugo Toscano">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo Toscano">
+    <meta name="twitter:description" content="Welcome to this new post about the Euro versus Dollar historical exchange rate since 1999 to the present day. This post will deal with dates, so I will use mainly the lubridate package and some of its most important functions. I will do my best to show you the power and simplicity of this truly magnificent tool within the R universe. Nevertheless, I won’t be restricted only to lubridate and will use some other packages to deal with this type of data.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="../../../css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">Hugo Toscano</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="../../../#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="../../../#about">
+          <img class="sidebar-profile-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Hugo Toscano</h4>
+        
+          <h5 class="sidebar-profile-bio">Contact: hugo_toscano@outlook.com</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../2018/07/about-me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+      
+      <span class="sidebar-button-desc">About me</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/toscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Euro vs Dollar: Working with Lubridate and some other packages
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-03-28T00:00:00Z">
+        
+  March 28, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="../../../categories/tutorials">Tutorials</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>Welcome to this new post about the Euro versus Dollar historical exchange rate since 1999 to the present day. This post will deal with dates, so I will use mainly the <code>lubridate</code> package and some of its most important functions. I will do my best to show you the power and simplicity of this truly magnificent tool within the R universe. Nevertheless, I won’t be restricted only to <code>lubridate</code> and will use some other packages to deal with this type of data.</p>
+<p>Let us begin again by loading the packages that we will use throughout this post:</p>
+<pre class="r"><code># load libraries
+library(lubridate) # dealing with dates and times
+library(readxl) # open excel files
+library(xts) # dealing with time series
+library(tidyverse) # wrangling, data iteration and visualization
+library(here) # create a file directory
+library(kableExtra) # visualize html tables
+library(scales) # create different scale values(percent, commas, etc...)
+library(zoo) # deal with time-series data
+library(ggthemes) # add themes to ggplot2</code></pre>
+<p>Now we can load our file with the historical exchange rate of euro versus dollar.</p>
+<pre class="r"><code># load file
+euro_vs_dollar &lt;- read_excel(here::here(&quot;euro-dollar-exchange-rate-historical-chart.xlsx&quot;), skip = 13) # skip the first 13 empty lines of the csv file</code></pre>
+<p>We can now explore our data frame, being possible to check the first cases of our data frame:</p>
+<pre class="r"><code>euro_vs_dollar %&gt;%
+  head(20) %&gt;% # only the first 20 rows
+  kable() </code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:right;">
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1999-01-04
+</td>
+<td style="text-align:right;">
+1.1825
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-05
+</td>
+<td style="text-align:right;">
+1.1774
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-06
+</td>
+<td style="text-align:right;">
+1.1622
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-07
+</td>
+<td style="text-align:right;">
+1.1706
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-08
+</td>
+<td style="text-align:right;">
+1.1577
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-11
+</td>
+<td style="text-align:right;">
+1.1498
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-12
+</td>
+<td style="text-align:right;">
+1.1564
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-13
+</td>
+<td style="text-align:right;">
+1.1663
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-14
+</td>
+<td style="text-align:right;">
+1.1700
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-15
+</td>
+<td style="text-align:right;">
+1.1553
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-19
+</td>
+<td style="text-align:right;">
+1.1605
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-20
+</td>
+<td style="text-align:right;">
+1.1557
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-21
+</td>
+<td style="text-align:right;">
+1.1591
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-22
+</td>
+<td style="text-align:right;">
+1.1585
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-25
+</td>
+<td style="text-align:right;">
+1.1549
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-26
+</td>
+<td style="text-align:right;">
+1.1560
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-27
+</td>
+<td style="text-align:right;">
+1.1423
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-28
+</td>
+<td style="text-align:right;">
+1.1412
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-29
+</td>
+<td style="text-align:right;">
+1.1357
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:right;">
+1.1298
+</td>
+</tr>
+</tbody>
+</table>
+<p>And the last ones:</p>
+<pre class="r"><code>euro_vs_dollar %&gt;%
+  tail(20) %&gt;% # only the first 20 rows
+  kable() </code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:right;">
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2019-03-13
+</td>
+<td style="text-align:right;">
+1.1336
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-14
+</td>
+<td style="text-align:right;">
+1.1307
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-15
+</td>
+<td style="text-align:right;">
+1.1344
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-16
+</td>
+<td style="text-align:right;">
+1.1344
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-18
+</td>
+<td style="text-align:right;">
+1.1335
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-19
+</td>
+<td style="text-align:right;">
+1.1353
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-20
+</td>
+<td style="text-align:right;">
+1.1423
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-21
+</td>
+<td style="text-align:right;">
+1.1377
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-22
+</td>
+<td style="text-align:right;">
+1.1320
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-23
+</td>
+<td style="text-align:right;">
+1.1320
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-25
+</td>
+<td style="text-align:right;">
+1.1315
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-26
+</td>
+<td style="text-align:right;">
+1.1275
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-27
+</td>
+<td style="text-align:right;">
+1.1250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-28
+</td>
+<td style="text-align:right;">
+1.1255
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-29
+</td>
+<td style="text-align:right;">
+1.1232
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-30
+</td>
+<td style="text-align:right;">
+1.1232
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-04-01
+</td>
+<td style="text-align:right;">
+1.1209
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-04-02
+</td>
+<td style="text-align:right;">
+1.1204
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-04-03
+</td>
+<td style="text-align:right;">
+1.1242
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-04-04
+</td>
+<td style="text-align:right;">
+1.1233
+</td>
+</tr>
+</tbody>
+</table>
+<p>From this first data exploration, we can see that the euro devalued against the dollar since its inception. The initial value of 1 euro was 1.1825 dollars and today is 1.1233 dollars.</p>
+<p>Now, let’s play with the data. First, we’ll <code>glimpse</code> it.</p>
+<pre class="r"><code>glimpse(euro_vs_dollar)</code></pre>
+<pre><code>## Observations: 5,224
+## Variables: 2
+## $ date  &lt;dttm&gt; 1999-01-04, 1999-01-05, 1999-01-06, 1999-01-07, 1999-01...
+## $ value &lt;dbl&gt; 1.1825, 1.1774, 1.1622, 1.1706, 1.1577, 1.1498, 1.1564, ...</code></pre>
+<p>So, we have two variables, date and the correspondent value of the exchange rate. The date variable is with the format YYYY-MM-DD (i.e. 1999-01-04). We’ll now change formats in the date variable to play with a couple of functions from <code>lubridate</code>.</p>
+<pre class="r"><code># create new data frame
+euro_dollar_parse &lt;- euro_vs_dollar %&gt;%
+  
+  # change to character variable to work afterwards with lubridate functions
+  mutate(date = as.character(date), 
+         
+  # change the format of some values in the date variable
+         date = case_when(date == &quot;1999-01-04&quot; ~ &quot;January 4, 1999&quot;,
+                          date == &quot;2018-12-31&quot; ~ &quot;31st December 2018&quot;,
+                          date == &quot;2017-07-12&quot; ~ &quot;2017, 12th July&quot;,
+                          TRUE ~ date))
+
+glimpse(euro_dollar_parse)</code></pre>
+<pre><code>## Observations: 5,224
+## Variables: 2
+## $ date  &lt;chr&gt; &quot;January 4, 1999&quot;, &quot;1999-01-05&quot;, &quot;1999-01-06&quot;, &quot;1999-01-...
+## $ value &lt;dbl&gt; 1.1825, 1.1774, 1.1622, 1.1706, 1.1577, 1.1498, 1.1564, ...</code></pre>
+<p>Now that the format of the date variable was changed,we have four different formats in this respective order: month(m), day(d), year(y); year(y), month(m), day(d); day(d), month(m), year(y); and year(y), day(d), month(m). How can we parse all these values with different formats in R? The function <code>parse_date_time</code> is the answer .</p>
+<pre class="r"><code>euro_vs_dollar_tbl &lt;- euro_dollar_parse %&gt;%
+  # parse the four different formats of the date variable 
+  mutate(date = parse_date_time(date, c(&quot;mdy&quot;, &quot;ymd&quot;, &quot;dmy&quot;, &quot;ydm&quot;)))
+
+glimpse(euro_vs_dollar_tbl) </code></pre>
+<pre><code>## Observations: 5,224
+## Variables: 2
+## $ date  &lt;dttm&gt; 1999-01-04, 1999-01-05, 1999-01-06, 1999-01-07, 1999-01...
+## $ value &lt;dbl&gt; 1.1825, 1.1774, 1.1622, 1.1706, 1.1577, 1.1498, 1.1564, ...</code></pre>
+<p>As you could see in the code above, we used the functions <code>mdy</code>, <code>ymd</code>, <code>dmy</code> and <code>ydm</code> to parse the different types of formats.</p>
+<p>Now, we should transform the date variable which is a date time object in a date object with the <code>ymd()</code> function.</p>
+<pre class="r"><code>euro_vs_dollar_tbl &lt;- euro_vs_dollar_tbl %&gt;%
+  mutate(date = ymd(date))
+
+glimpse(euro_vs_dollar_tbl)</code></pre>
+<pre><code>## Observations: 5,224
+## Variables: 2
+## $ date  &lt;date&gt; 1999-01-04, 1999-01-05, 1999-01-06, 1999-01-07, 1999-01...
+## $ value &lt;dbl&gt; 1.1825, 1.1774, 1.1622, 1.1706, 1.1577, 1.1498, 1.1564, ...</code></pre>
+<p>We can again play with more <code>lubridate</code> functions. We will create the variables year, month, day of the month, day of the week, day of the year, and quarter of the year with these respective functions: <code>year()</code>, <code>month</code>, <code>day()</code>, <code>wday()</code>, <code>yday()</code>, and <code>quarter()</code>.</p>
+<pre class="r"><code>euro_vs_dollar_tbl &lt;- euro_vs_dollar_tbl %&gt;%
+  mutate(# variable year
+         year = year(date), 
+         
+         # variable month with the label
+         month = month(date, label = TRUE), 
+         
+         # variable day of the month
+         day = day(date), 
+         
+         # variable day of the week with abbreviated label
+         week_day = wday(date, label = TRUE, abbr = TRUE), 
+         
+         # variable day of the year
+         day_year = yday(date),
+         
+         # variable quarter
+         qter = quarter(date)) 
+
+euro_vs_dollar_tbl %&gt;%
+  head(25) %&gt;%
+  kable()</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:right;">
+value
+</th>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:left;">
+month
+</th>
+<th style="text-align:right;">
+day
+</th>
+<th style="text-align:left;">
+week_day
+</th>
+<th style="text-align:right;">
+day_year
+</th>
+<th style="text-align:right;">
+qter
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1999-01-04
+</td>
+<td style="text-align:right;">
+1.1825
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+seg
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-05
+</td>
+<td style="text-align:right;">
+1.1774
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+ter
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-06
+</td>
+<td style="text-align:right;">
+1.1622
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+qua
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-07
+</td>
+<td style="text-align:right;">
+1.1706
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+qui
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-08
+</td>
+<td style="text-align:right;">
+1.1577
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-11
+</td>
+<td style="text-align:right;">
+1.1498
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+seg
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-12
+</td>
+<td style="text-align:right;">
+1.1564
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+ter
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-13
+</td>
+<td style="text-align:right;">
+1.1663
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:left;">
+qua
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-14
+</td>
+<td style="text-align:right;">
+1.1700
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+qui
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-15
+</td>
+<td style="text-align:right;">
+1.1553
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-19
+</td>
+<td style="text-align:right;">
+1.1605
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:left;">
+ter
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-20
+</td>
+<td style="text-align:right;">
+1.1557
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+qua
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-21
+</td>
+<td style="text-align:right;">
+1.1591
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+qui
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-22
+</td>
+<td style="text-align:right;">
+1.1585
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-25
+</td>
+<td style="text-align:right;">
+1.1549
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:left;">
+seg
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-26
+</td>
+<td style="text-align:right;">
+1.1560
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:left;">
+ter
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-27
+</td>
+<td style="text-align:right;">
+1.1423
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:left;">
+qua
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-28
+</td>
+<td style="text-align:right;">
+1.1412
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:left;">
+qui
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-29
+</td>
+<td style="text-align:right;">
+1.1357
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+jan
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:right;">
+1.1298
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+fev
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+seg
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-02-02
+</td>
+<td style="text-align:right;">
+1.1339
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+fev
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+ter
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-02-03
+</td>
+<td style="text-align:right;">
+1.1300
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+fev
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+qua
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-02-04
+</td>
+<td style="text-align:right;">
+1.1328
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+fev
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+qui
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-02-05
+</td>
+<td style="text-align:right;">
+1.1259
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+fev
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-02-08
+</td>
+<td style="text-align:right;">
+1.1324
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+fev
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+seg
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>Let us imagine that we had only the year, month, and day variables in our data frame. We could turn these three variables into a date variable with the <code>make_date</code> function.</p>
+<pre class="r"><code>euro_vs_dollar_tbl %&gt;%
+  mutate(new_year_var = make_date(
+    year = year, 
+    month = month, 
+    day = day)) %&gt;%
+  select(new_year_var, everything())</code></pre>
+<pre><code>## # A tibble: 5,224 x 9
+##    new_year_var date       value  year month   day week_day day_year  qter
+##    &lt;date&gt;       &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;ord&gt; &lt;int&gt; &lt;ord&gt;       &lt;dbl&gt; &lt;int&gt;
+##  1 1999-01-04   1999-01-04  1.18  1999 jan       4 seg             4     1
+##  2 1999-01-05   1999-01-05  1.18  1999 jan       5 ter             5     1
+##  3 1999-01-06   1999-01-06  1.16  1999 jan       6 qua             6     1
+##  4 1999-01-07   1999-01-07  1.17  1999 jan       7 qui             7     1
+##  5 1999-01-08   1999-01-08  1.16  1999 jan       8 sex             8     1
+##  6 1999-01-11   1999-01-11  1.15  1999 jan      11 seg            11     1
+##  7 1999-01-12   1999-01-12  1.16  1999 jan      12 ter            12     1
+##  8 1999-01-13   1999-01-13  1.17  1999 jan      13 qua            13     1
+##  9 1999-01-14   1999-01-14  1.17  1999 jan      14 qui            14     1
+## 10 1999-01-15   1999-01-15  1.16  1999 jan      15 sex            15     1
+## # ... with 5,214 more rows</code></pre>
+<p>A question about the Euro currency age could be raised. . How long has the Euro been alive? We can start to answer this by computing the first and the last date in our data frame with the <code>first()</code> and <code>last()</code> functions of the <code>xts</code> package.</p>
+<pre class="r"><code>euro_vs_dollar_tbl &lt;- euro_vs_dollar_tbl %&gt;%
+  mutate(first_date = xts::first(date),
+         last_date = xts::last(date))</code></pre>
+<p>Now with the <code>interval</code> function from the <code>lubridate</code> package we can compute how many days has the Euro currency.</p>
+<pre class="r"><code>euro_vs_dollar_tbl &lt;- euro_vs_dollar_tbl %&gt;%
+  # create euro_life variable
+  mutate(euro_life = interval(first_date, last_date) / ddays(1))
+
+euro_vs_dollar_tbl$euro_life[1]</code></pre>
+<pre><code>## [1] 7395</code></pre>
+<p>So, the Euro currency has been in circulation for 7395 days.</p>
+<p>We could also be interested in checking the difference in value of the Euro against the Dollar since its inception to today. Again, we can subtract the first value of the exchange value from the last value with the <code>first</code> and <code>last</code> functions.</p>
+<pre class="r"><code>euro_vs_dollar_tbl &lt;- euro_vs_dollar_tbl %&gt;%
+  mutate(first_value = xts::first(value),
+         last_value = xts::last(value),
+         diff_value = last_value - first_value)
+
+euro_vs_dollar_tbl$diff_value[1]</code></pre>
+<pre><code>## [1] -0.0592</code></pre>
+<p>The difference is of -0.0592.</p>
+<p>Let us turn this into a percentage rate:</p>
+<pre class="r"><code>euro_vs_dollar_tbl &lt;- euro_vs_dollar_tbl %&gt;%
+  mutate(
+    # create difference in value
+    dif = diff_value / first_value,
+    # create difference in value in terms of percentage
+    perc_dif = scales::percent(dif))
+
+euro_vs_dollar_tbl$perc_dif[1]</code></pre>
+<pre><code>## [1] &quot;-5.01%&quot;</code></pre>
+<p>We can say that the Euro devalued 5.01% against the Dollar since its beginning.</p>
+<p>We can continue with other functions from the <code>lubridate</code> package such as <code>floor_date</code>, <code>round_date</code>, and <code>ceiling_date</code>; <code>floor_date</code> will turn the date variable into the nearest boundary value. For instance, a date value such as <code>2012-02-28</code> will turn into <code>2012-02-01</code>; <code>round_date</code> turns a date variable to its nearest value. So, the date of <code>2012-01-13</code> will be turned into <code>2012-01-01</code>, while the date of <code>2012-01-17</code> will be turned into <code>2012-02-01</code>: <code>ceiling_date</code> will round a date object into the nearest value above, so that, a date <code>1999-01-04</code> will turn into <code>1999-02-01</code>.</p>
+<pre class="r"><code>euro_vs_dollar_tbl %&gt;%
+  mutate(
+         floor_d = floor_date(date, &quot;months&quot;),
+         round_d = round_date(date, &quot;months&quot;),
+         ceiling_d = ceiling_date(date, &quot;months&quot;)
+         ) %&gt;% 
+  select(
+    date, floor_d, round_d, ceiling_d) %&gt;%
+  head(20) %&gt;%
+  kable()</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+floor_d
+</th>
+<th style="text-align:left;">
+round_d
+</th>
+<th style="text-align:left;">
+ceiling_d
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1999-01-04
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-05
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-06
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-07
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-08
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-11
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-12
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-13
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-14
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-15
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-19
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-20
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-21
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-22
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-25
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-26
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-27
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-28
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-29
+</td>
+<td style="text-align:left;">
+1999-01-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-02-01
+</td>
+<td style="text-align:left;">
+1999-03-01
+</td>
+</tr>
+</tbody>
+</table>
+<p>Another interesting function to deal with dates is the <code>lag</code> function from the <code>dplyr</code> package where a new variable with the correspondent previous value of the variable of interest can be created. In our case, we can see how the exchange rate evolves daily by creating this lag variable and subtracting from the value of the exchange rate. Then, check if its evolution varies positively or negatively on a daily basis .</p>
+<pre class="r"><code>euro_vs_dollar_tbl %&gt;%
+  mutate(lag_value =lag(value, n =1)) %&gt;%
+  mutate(lag_value = case_when(is.na(lag_value) ~ value,
+                               TRUE ~ lag_value),
+         diff_lag = value - lag_value) %&gt;%
+  select(date, value, lag_value, diff_lag) %&gt;%
+  head(10) %&gt;%
+  kable()</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:right;">
+value
+</th>
+<th style="text-align:right;">
+lag_value
+</th>
+<th style="text-align:right;">
+diff_lag
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1999-01-04
+</td>
+<td style="text-align:right;">
+1.1825
+</td>
+<td style="text-align:right;">
+1.1825
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-05
+</td>
+<td style="text-align:right;">
+1.1774
+</td>
+<td style="text-align:right;">
+1.1825
+</td>
+<td style="text-align:right;">
+-0.0051
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-06
+</td>
+<td style="text-align:right;">
+1.1622
+</td>
+<td style="text-align:right;">
+1.1774
+</td>
+<td style="text-align:right;">
+-0.0152
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-07
+</td>
+<td style="text-align:right;">
+1.1706
+</td>
+<td style="text-align:right;">
+1.1622
+</td>
+<td style="text-align:right;">
+0.0084
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-08
+</td>
+<td style="text-align:right;">
+1.1577
+</td>
+<td style="text-align:right;">
+1.1706
+</td>
+<td style="text-align:right;">
+-0.0129
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-11
+</td>
+<td style="text-align:right;">
+1.1498
+</td>
+<td style="text-align:right;">
+1.1577
+</td>
+<td style="text-align:right;">
+-0.0079
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-12
+</td>
+<td style="text-align:right;">
+1.1564
+</td>
+<td style="text-align:right;">
+1.1498
+</td>
+<td style="text-align:right;">
+0.0066
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-13
+</td>
+<td style="text-align:right;">
+1.1663
+</td>
+<td style="text-align:right;">
+1.1564
+</td>
+<td style="text-align:right;">
+0.0099
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-14
+</td>
+<td style="text-align:right;">
+1.1700
+</td>
+<td style="text-align:right;">
+1.1663
+</td>
+<td style="text-align:right;">
+0.0037
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-15
+</td>
+<td style="text-align:right;">
+1.1553
+</td>
+<td style="text-align:right;">
+1.1700
+</td>
+<td style="text-align:right;">
+-0.0147
+</td>
+</tr>
+</tbody>
+</table>
+<p>A very useful function is also the <code>rollmean</code> from the <code>zoo</code> package. With this function you can see how an average of a specific variable moves over time. In our example, we will use <code>rollmean</code> to see how the exchange value changes in 5 consecutive days. .</p>
+<pre class="r"><code>euro_vs_dollar_tbl %&gt;%
+  mutate(sum_five_d = zoo::rollmean(value, 
+         k = 5, na.pad = TRUE, 
+         align = &quot;right&quot;)) %&gt;%
+  replace_na(., list(sum_five_d = 0)) %&gt;% 
+  select(date, value, sum_five_d) %&gt;%
+  head(10) %&gt;% 
+  kable()</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:right;">
+value
+</th>
+<th style="text-align:right;">
+sum_five_d
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1999-01-04
+</td>
+<td style="text-align:right;">
+1.1825
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-05
+</td>
+<td style="text-align:right;">
+1.1774
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-06
+</td>
+<td style="text-align:right;">
+1.1622
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-07
+</td>
+<td style="text-align:right;">
+1.1706
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-08
+</td>
+<td style="text-align:right;">
+1.1577
+</td>
+<td style="text-align:right;">
+1.17008
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-11
+</td>
+<td style="text-align:right;">
+1.1498
+</td>
+<td style="text-align:right;">
+1.16354
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-12
+</td>
+<td style="text-align:right;">
+1.1564
+</td>
+<td style="text-align:right;">
+1.15934
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-13
+</td>
+<td style="text-align:right;">
+1.1663
+</td>
+<td style="text-align:right;">
+1.16016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-14
+</td>
+<td style="text-align:right;">
+1.1700
+</td>
+<td style="text-align:right;">
+1.16004
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999-01-15
+</td>
+<td style="text-align:right;">
+1.1553
+</td>
+<td style="text-align:right;">
+1.15956
+</td>
+</tr>
+</tbody>
+</table>
+<p>Therefore, the value 1.17008 in sum_five_d variable corresponds to the average values of the first five days: 1.1825, 1.1774, 1.1622, 1.1706, and 1.1577; the value 1.16354 to the average value of 1.1774, 1.1622, 1.1706, 1.1577 and 1.1498., and so on. This function is a great way to see how averages move across time.</p>
+<p>The last function we will talk about, is the <code>%m+%</code> function. Imagine that we would like to know the exchange value of the Euro versus the dollar one month after a certain date. In this scenario, we wanted to know the exchange rate one month after the following date “2007-07-20”. We can add one month using the <code>%m+%</code> function.</p>
+<pre class="r"><code>euro_vs_dollar_tbl %&gt;%
+  filter(date == ymd(&quot;2007-07-20&quot;) %m+% months(1)) %&gt;%
+  summarize(value_month_after = mean(value))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   value_month_after
+##               &lt;dbl&gt;
+## 1              1.35</code></pre>
+<p>To finalize, we will create a simple plot with the exchange value of Euro against the dollar across time.</p>
+<pre class="r"><code>euro_vs_dollar_tbl %&gt;%
+  group_by(date) %&gt;%
+  ggplot(aes(x = date, y = value)) +
+  geom_line() +
+  geom_vline(xintercept = as.Date(&quot;2008-09-15&quot;), size = 2, lty = &quot;dashed&quot;, 
+             color = &quot;red&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2006-01-01&quot;), y = 1.51, 
+                             xend = as.Date(&quot;2008-09-01&quot;),
+                             yend = 1.64), size = 2, color = &quot;red&quot;,
+             curvature = 0.3, angle = 165,
+             arrow = arrow(length = unit(0.45,&quot;cm&quot;))) +
+  annotate(&quot;text&quot;, x = as.Date(&quot;2004-10-01&quot;), color = &quot;red&quot;, y = 1.55, size = 6.25,label = &quot;Lehman Brothers\nBankruptcy&quot;) +
+  ggthemes::theme_economist() +
+  labs(title = &quot;Euro versus Dollar&quot;, y = &quot;Exchange Value&quot;, x = 
+        &quot;Year&quot;) +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title = element_text(size = 14))</code></pre>
+<p><img src="../../../post/2019-03-28-dollar-vs-euro-working-with-lubridate-and-some-other-packages_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>Hope you liked this short introduction on how to deal with dates in R. There is much more to R,, though hopefully this was a useful post. . Keep having fun while coding!</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="../../../tags/lubridate/">lubridate</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/dates/">dates</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/euro/">euro</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/dollar/">dollar</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2019/03/clustering-the-pharmaceutical-industry-stocks/" data-tooltip="Clustering the Pharmaceutical Industry Stocks">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2019/03/euro-vs-dollar-working-with-lubridate-and-some-other-packages/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2019/03/euro-vs-dollar-working-with-lubridate-and-some-other-packages/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Hugo Toscano. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2019/03/clustering-the-pharmaceutical-industry-stocks/" data-tooltip="Clustering the Pharmaceutical Industry Stocks">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2019/03/euro-vs-dollar-working-with-lubridate-and-some-other-packages/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2019/03/euro-vs-dollar-working-with-lubridate-and-some-other-packages/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoscano84.github.io%2F2019%2F03%2Feuro-vs-dollar-working-with-lubridate-and-some-other-packages%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftoscano84.github.io%2F2019%2F03%2Feuro-vs-dollar-working-with-lubridate-and-some-other-packages%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Hugo Toscano</h4>
+    
+      <div id="about-card-bio">Contact: hugo_toscano@outlook.com</div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Stuttgart, Germany
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/03/euro-vs-dollar-working-with-lubridate-and-some-other-packages/">
+                <h3 class="media-heading">Euro vs Dollar: Working with Lubridate and some other packages</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to this new post about the Euro versus Dollar historical exchange rate since 1999 to the present day. This post will deal with dates, so I will use mainly the lubridate package and some of its most important functions. I will do my best to show you the power and simplicity of this truly magnificent tool within the R universe. Nevertheless, I won’t be restricted only to lubridate and will use some other packages to deal with this type of data.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/03/clustering-the-pharmaceutical-industry-stocks/">
+                <h3 class="media-heading">Clustering the Pharmaceutical Industry Stocks</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
+                <h3 class="media-heading">Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/">
+                <h3 class="media-heading">Creating a Model to Predict if a Bank Customer accepts Personal Loans</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post, we will fit a multiple logistic regression model to predict the probability of a bank customer accepting a personal loan based on multiple variables to be described later. Logistic regression is a supervised learning algorithm were the independent variable has a qualitative nature. In this case, corresponding to the acceptance or rejection of a personal loan. This tutorial will build multiple logistic regression models and assess them.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/11/german-elections-in-the-21st-century/">
+                <h3 class="media-heading">German Elections in the 21st Century</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this blogpost, we will come back to the subject of the German Elections. We will try to show, mostly visually, the changes in election results during the 21st century. Thus, we will use data from the elections in 2002 to the last ones in 2017. The main focus will be mapping the results of the parties represented in the current Bundestag (German Parliament) during this time span. Let’s start our coding.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+                <h3 class="media-heading">Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
+                <h3 class="media-heading">Hints to deal with Missing Values in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
+                <h3 class="media-heading">Combine Data frames in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/08/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/">
+                <h3 class="media-heading">A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post talks about making interactive visualizations in R with leaflet(). In this example, I’ll map the USA locations of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and move the mouse cursor over to get information about it.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/07/linear-regression-in-r-a-simple-analysis/">
+                <h3 class="media-heading">Tuition costs and gdp per capita: A linear regression analysis</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will explore with R one of the simplest approaches to predict a response of a quantitative nature. This approach is called Linear Regression.
+I will use a simple Linear Regression to study whether there is any relationship between the gross domestic product (gdp) per capita of each state in the USA and its tuition costs. Therefore, our predictor will be the gdp per capita per state and our response will be the tuition costs per state.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         13 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/dabczf7ag/image/upload/v1533024537/cover_new2.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="../../../js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/toscano84.github.io\/2019\/03\/euro-vs-dollar-working-with-lubridate-and-some-other-packages\/';
+          
+            this.page.identifier = '\/2019\/03\/euro-vs-dollar-working-with-lubridate-and-some-other-packages\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'toscano84';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

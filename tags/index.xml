@@ -23,7 +23,7 @@
     <item>
       <title>Cluster</title>
       <link>https://toscano84.github.io/tags/cluster/</link>
-      <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/cluster/</guid>
       <description></description>
@@ -44,6 +44,33 @@
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/combine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Visualization</title>
+      <link>https://toscano84.github.io/tags/data-visualization/</link>
+      <pubDate>Wed, 21 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/tags/data-visualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dates</title>
+      <link>https://toscano84.github.io/tags/dates/</link>
+      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/tags/dates/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dollar</title>
+      <link>https://toscano84.github.io/tags/dollar/</link>
+      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/tags/dollar/</guid>
       <description></description>
     </item>
     
@@ -75,6 +102,24 @@
     </item>
     
     <item>
+      <title>Euro</title>
+      <link>https://toscano84.github.io/tags/euro/</link>
+      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/tags/euro/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>German Elections</title>
+      <link>https://toscano84.github.io/tags/german-elections/</link>
+      <pubDate>Wed, 21 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/tags/german-elections/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Germany</title>
       <link>https://toscano84.github.io/tags/germany/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
@@ -86,7 +131,7 @@
     <item>
       <title>Ggplot2</title>
       <link>https://toscano84.github.io/tags/ggplot2/</link>
-      <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 21 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/ggplot2/</guid>
       <description></description>
@@ -95,7 +140,7 @@
     <item>
       <title>Hierarchical Clustering</title>
       <link>https://toscano84.github.io/tags/hierarchical-clustering/</link>
-      <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/hierarchical-clustering/</guid>
       <description></description>
@@ -113,7 +158,7 @@
     <item>
       <title>K Means Clustering</title>
       <link>https://toscano84.github.io/tags/k-means-clustering/</link>
-      <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/k-means-clustering/</guid>
       <description></description>
@@ -143,6 +188,15 @@
       <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/logistic-regression/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Lubridate</title>
+      <link>https://toscano84.github.io/tags/lubridate/</link>
+      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/tags/lubridate/</guid>
       <description></description>
     </item>
     
@@ -194,7 +248,7 @@
     <item>
       <title>R</title>
       <link>https://toscano84.github.io/tags/r/</link>
-      <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/r/</guid>
       <description></description>
@@ -230,7 +284,7 @@
     <item>
       <title>Unsupervised Learning</title>
       <link>https://toscano84.github.io/tags/unsupervised-learning/</link>
-      <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/tags/unsupervised-learning/</guid>
       <description></description>

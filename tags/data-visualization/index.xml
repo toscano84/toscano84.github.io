@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Data Visualization on Hugo Toscano</title>
-    <link>/tags/data-visualization/</link>
+    <link>https://toscano84.github.io/tags/data-visualization/</link>
     <description>Recent content in Data Visualization on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 21 Nov 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/data-visualization/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://toscano84.github.io/tags/data-visualization/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>A Leaflet approach to Coffee Chains: Starbucks versus Dunkin&#39; Donuts</title>
-      <link>/2018/07/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/</link>
-      <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
+      <title>German Elections in the 21st Century</title>
+      <link>https://toscano84.github.io/2018/11/german-elections-in-the-21st-century/</link>
+      <pubDate>Wed, 21 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/07/a-leaflet-approach-to-coffee-chains-starbucks-versus-dunkin-donuts/</guid>
-      <description>This is a post on making interactive visualizations in R with leaflet. In this example, I’ll map the locations in the USA of two of the biggest coffee chains, Starbucks and Dunkin’ Donuts. This package allows us to map data and play interactively with it. For instance, we can zoom in or zoom out to augment or diminish map details, respectively. We can add markers that signal the position of our data in the map and scroll with our mouse cursor over them to get information about the data.</description>
+      <guid>https://toscano84.github.io/2018/11/german-elections-in-the-21st-century/</guid>
+      <description>In this blogpost, we will come back to the subject of the German Elections. We will try to show, mostly visually, the changes in election results during the 21st century. Thus, we will use data from the elections in 2002 to the last ones in 2017. The main focus will be mapping the results of the parties represented in the current Bundestag (German Parliament) during this time span. Let’s start our coding.</description>
     </item>
     
   </channel>
