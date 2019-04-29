@@ -574,18 +574,18 @@ df_u </code></pre>
 <pre><code>## # A tibble: 12 x 5
 ##       Id Face  Sex      Dom   Str
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
-##  1     9 I     Male       5     3
-##  2     1 A     Female     3     3
-##  3    15 B     Male       9     3
-##  4     8 H     Male       4     2
+##  1     4 D     Female     7     6
+##  2     7 G     Male       3     4
+##  3    13 C     Male      10     8
+##  4    15 B     Male       9     3
 ##  5     3 C     Female     6     5
-##  6     2 B     Female     5     4
-##  7     6 F     Female     1     3
-##  8     7 G     Male       3     4
-##  9    10 A     Male       8     4
-## 10    13 C     Male      10     8
-## 11     4 D     Female     7     6
-## 12     5 E     Female     8     1</code></pre>
+##  6     8 H     Male       4     2
+##  7     1 A     Female     3     3
+##  8     5 E     Female     8     1
+##  9     2 B     Female     5     4
+## 10    10 A     Male       8     4
+## 11     6 F     Female     1     3
+## 12     9 I     Male       5     3</code></pre>
 <p>Now, we have only 12 rows, because 6 of the rows in df3 were the same as in df1. Remember, the union function returns only the unique rows. In this case, we have 12 observations that are unique within both data frames.</p>
 <p>In other cases, we can use the <code>setdiff()</code> if we want only the observation in df1 not in common with df3.</p>
 <pre class="r"><code>df_dif &lt;- df1 %&gt;% 
@@ -969,7 +969,7 @@ head(us_reunited)</code></pre>
                   Apr 4, 2019
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">Welcome to the blog. In this new post I’ll do a short tutorial on how to work with strings in R. I’ll show you some of the main functions of the stringr package and the amazing power of the rebus package. The data frame I will be using is from the week 13 of [@TidyTuesday](https://twitter.com/hashtag/TidyTuesday?src=hash). This data frame seemed to be the perfect opportunity to build this tutorial given the importance of strings for its understanding.</div>
+              <div class="media-content hide-xs font-merryweather">Welcome to the blog. In this new post I’ll do a short tutorial on how to work with strings in R. I’ll show you some of the main functions of the stringr package and the amazing power of the rebus package. The data frame I will be using is from the week 13 of TidyTuesday. This data frame seemed to be the perfect opportunity to build this tutorial given the importance of strings for its understanding.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -1137,7 +1137,7 @@ Firstly, we will show examples related to what is called mutating joins.</div>
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         14 posts found
+         13 posts found
       </p>
     </div>
   </div>
