@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 04 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://toscano84.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Working with Strings in R: Seattle Pet Names</title>
+      <link>https://toscano84.github.io/2019/04/working-with-strings-in-r-seattle-pet-names/</link>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/2019/04/working-with-strings-in-r-seattle-pet-names/</guid>
+      <description>Welcome to the blog. In this new post I’ll do a short tutorial on how to work with strings in R. I’ll show you some of the main functions of the stringr package and the amazing power of the rebus package. The data frame I will be using is from the week 13 of [@TidyTuesday](https://twitter.com/hashtag/TidyTuesday?src=hash). This data frame seemed to be the perfect opportunity to build this tutorial given the importance of strings for its understanding.</description>
+    </item>
     
     <item>
       <title>Euro vs Dollar: Working with Lubridate and some other packages</title>
@@ -122,6 +131,17 @@ In order to make this visualization possible in R, loading the respective packag
       <guid>https://toscano84.github.io/2018/07/about-me/</guid>
       <description>Welcome to my blog!
 I’m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I’m still exploring it.
+My goal is to try to help you improve your R skills, by sharing what I am currently learning.</description>
+    </item>
+    
+    <item>
+      <title>About me</title>
+      <link>https://toscano84.github.io/2018/07/about-me/</link>
+      <pubDate>Wed, 04 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/2018/07/about-me/</guid>
+      <description>Welcome to my blog!
+I&amp;rsquo;m Hugo! My background is in Psychology, more specifically, in the area of face perception. Always eager to learn and after falling in love with R, I will blog mostly about data related topics (e.g. importing, wrangling, visualization, statistics). Maybe some Machine Learning, I&amp;rsquo;m still exploring it.
 My goal is to try to help you improve your R skills, by sharing what I am currently learning.</description>
     </item>
     

@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://toscano84.github.io/2019/04/working-with-strings-in-r-seattle-pet-names/</loc>
+    <lastmod>2019-04-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/2019/04/euro-vs-dollar-working-with-lubridate-and-some-other-packages/</loc>
     <lastmod>2019-04-04T00:00:00+00:00</lastmod>
   </url>
@@ -55,6 +60,11 @@
   <url>
     <loc>https://toscano84.github.io/2018/07/using-r-to-analyse-the-german-federal-election/</loc>
     <lastmod>2018-07-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/2018/07/about-me/</loc>
+    <lastmod>2018-07-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -157,13 +167,13 @@
   </url>
   
   <url>
-    <loc>https://toscano84.github.io/categories/ggplot2/</loc>
+    <loc>https://toscano84.github.io/tags/ggplot2/</loc>
     <lastmod>2018-11-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://toscano84.github.io/tags/ggplot2/</loc>
+    <loc>https://toscano84.github.io/categories/ggplot2/</loc>
     <lastmod>2018-11-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -176,7 +186,7 @@
   
   <url>
     <loc>https://toscano84.github.io/</loc>
-    <lastmod>2019-04-04T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -193,13 +203,13 @@
   </url>
   
   <url>
-    <loc>https://toscano84.github.io/categories/leaflet/</loc>
+    <loc>https://toscano84.github.io/tags/leaflet/</loc>
     <lastmod>2018-08-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://toscano84.github.io/tags/leaflet/</loc>
+    <loc>https://toscano84.github.io/categories/leaflet/</loc>
     <lastmod>2018-08-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -248,18 +258,18 @@
   
   <url>
     <loc>https://toscano84.github.io/post/</loc>
-    <lastmod>2019-04-04T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://toscano84.github.io/categories/predictive-analytics/</loc>
-    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://toscano84.github.io/tags/predictive-analytics/</loc>
+    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/categories/predictive-analytics/</loc>
     <lastmod>2018-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -271,8 +281,20 @@
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/tags/rebus/</loc>
+    <lastmod>2019-04-29T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/categories/statistics/</loc>
     <lastmod>2018-07-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/tags/stringr/</loc>
+    <lastmod>2019-04-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -289,14 +311,20 @@
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/tags/tidytext/</loc>
+    <lastmod>2018-12-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/categories/tidytext/</loc>
     <lastmod>2018-12-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://toscano84.github.io/tags/tidytext/</loc>
-    <lastmod>2018-12-13T00:00:00+00:00</lastmod>
+    <loc>https://toscano84.github.io/tags/tidytuesday/</loc>
+    <lastmod>2019-04-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -308,7 +336,7 @@
   
   <url>
     <loc>https://toscano84.github.io/categories/tutorials/</loc>
-    <lastmod>2019-04-04T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

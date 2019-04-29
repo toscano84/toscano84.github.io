@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stringr on Hugo Toscano</title>
+    <link>https://toscano84.github.io/tags/stringr/</link>
+    <description>Recent content in Stringr on Hugo Toscano</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://toscano84.github.io/tags/stringr/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Working with Strings in R: Seattle Pet Names</title>
+      <link>https://toscano84.github.io/2019/04/working-with-strings-in-r-seattle-pet-names/</link>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/2019/04/working-with-strings-in-r-seattle-pet-names/</guid>
+      <description>Welcome to the blog. In this new post I’ll do a short tutorial on how to work with strings in R. I’ll show you some of the main functions of the stringr package and the amazing power of the rebus package. The data frame I will be using is from the week 13 of [@TidyTuesday](https://twitter.com/hashtag/TidyTuesday?src=hash). This data frame seemed to be the perfect opportunity to build this tutorial given the importance of strings for its understanding.</description>
+    </item>
+    
+  </channel>
+</rss>
