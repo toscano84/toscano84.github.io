@@ -1085,7 +1085,7 @@ dogs_names_tbl %&gt;%
 ## 5                   His Royal Highness the Duke of Tacoma           7
 ## 6           Lady Kassandra Yu Countess of Wallingford KBE           7</code></pre>
 <p>So, the cat’s name with more words has 7 name sets, namely “King Charles Leon the First aka Chuck”. The dogs’ names with more words have 8 name sets and they’re called “Little Miss Dublin Maeve of the Emerald Isle” and “Legends of Olde Sir Walter The Lady Killer”.</p>
-<p>Let’s imagine we wanted to know the number of characters of each pet instead of knowing the number of name sets of each dog and cat. . In thisscenario, we could use the <code>str_length</code> function. First, we will use the <code>str_remove_all</code> to remove the white spaces followed by the <code>str_length</code> function.</p>
+<p>Let’s imagine we wanted to know the number of characters of each pet instead of knowing the number of name sets of each dog and cat. In this scenario, we could use the <code>str_length</code> function. First, we will use the <code>str_remove_all</code> to remove the white spaces followed by the <code>str_length</code> function.</p>
 <pre class="r"><code># find the number of characters
 # for cats
 cats_names_tbl %&gt;% 
@@ -1165,13 +1165,11 @@ dogs_names_tbl %&gt;%
 <pre class="r"><code># to lower case
 # for cats
 cats_names_tbl &lt;- cats_names_tbl %&gt;% 
-  mutate(animals_name = animals_name %&gt;% str_to_lower()) %&gt;%
-  head()
+  mutate(animals_name = animals_name %&gt;% str_to_lower()) 
 
 # for dogs
 dogs_names_tbl &lt;- dogs_names_tbl %&gt;% 
-  mutate(animals_name = animals_name %&gt;% str_to_lower()) %&gt;%
-  head()</code></pre>
+  mutate(animals_name = animals_name %&gt;% str_to_lower()) </code></pre>
 <p>Before any further analysis, we will separate the pets’ names in different columns. With stringr we can use the <code>str_c</code> or the <code>str_split</code> function, but to be honest I prefer using the <code>cSplit</code> function from the <code>splitstackshape</code>.</p>
 <pre class="r"><code># separate columns with str_c
 # for cats
@@ -1182,8 +1180,9 @@ cats_names_tbl %&gt;%
            remove = FALSE,
            extra = &quot;drop&quot;) %&gt;%
   head()</code></pre>
-<pre><code>## Warning: Expected 7 pieces. Missing pieces filled with `NA` in 6 rows [1,
-## 2, 3, 4, 5, 6].</code></pre>
+<pre><code>## Warning: Expected 7 pieces. Missing pieces filled with `NA` in 16887
+## rows [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+## 20, ...].</code></pre>
 <pre><code>##   license_issue_date license_number animals_name animals_name1
 ## 1   November 23 2018         824666         melb          melb
 ## 2   December 30 2018        S119138   gingersnap    gingersnap
@@ -1214,8 +1213,9 @@ dogs_names_tbl %&gt;%
            remove = FALSE,
            extra = &quot;drop&quot;) %&gt;%
   head()</code></pre>
-<pre><code>## Warning: Expected 8 pieces. Missing pieces filled with `NA` in 6 rows [1,
-## 2, 3, 4, 5, 6].</code></pre>
+<pre><code>## Warning: Expected 8 pieces. Missing pieces filled with `NA` in 35103
+## rows [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+## 20, ...].</code></pre>
 <pre><code>##   license_issue_date license_number animals_name animals_name1
 ## 1   November 16 2018        8002756        walle         walle
 ## 2   November 11 2018        S124529        andre         andre
@@ -1261,205 +1261,99 @@ cats_after_split &lt;- bind_cols(cats_names_tbl, splitting1)
 # for dogs
 splitting2 &lt;- as.data.frame(str_split(dogs_names_tbl$animals_name, fixed(&quot; &quot;), n = 8, simplify = TRUE)) # 8 because that&#39;s the maximum number of words
 
-cats_after_split &lt;- bind_cols(dogs_names_tbl, splitting2)
-
-
-# with the cSplit function
+cats_after_split &lt;- bind_cols(dogs_names_tbl, splitting2)</code></pre>
+<p>With the <code>cSplit</code> function gets simpler.</p>
+<pre class="r"><code># with the cSplit function
 # for cats
 cats_names_tbl &lt;- cats_names_tbl %&gt;%
   cSplit(&quot;animals_name&quot;, sep = &quot; &quot;, drop = FALSE) # separate animals_name column, but keep it
 
 cats_names_tbl %&gt;%
-  head(15) %&gt;% 
-  kable()</code></pre>
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-license_issue_date
-</th>
-<th style="text-align:left;">
-license_number
-</th>
-<th style="text-align:left;">
-animals_name
-</th>
-<th style="text-align:left;">
-species
-</th>
-<th style="text-align:left;">
-primary_breed
-</th>
-<th style="text-align:left;">
-secondary_breed
-</th>
-<th style="text-align:left;">
-zip_code
-</th>
-<th style="text-align:left;">
-animals_name_1
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-November 23 2018
-</td>
-<td style="text-align:left;">
-824666
-</td>
-<td style="text-align:left;">
-melb
-</td>
-<td style="text-align:left;">
-Cat
-</td>
-<td style="text-align:left;">
-Domestic Shorthair
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-98117
-</td>
-<td style="text-align:left;">
-melb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-December 30 2018
-</td>
-<td style="text-align:left;">
-S119138
-</td>
-<td style="text-align:left;">
-gingersnap
-</td>
-<td style="text-align:left;">
-Cat
-</td>
-<td style="text-align:left;">
-Domestic Shorthair
-</td>
-<td style="text-align:left;">
-Mix
-</td>
-<td style="text-align:left;">
-98144
-</td>
-<td style="text-align:left;">
-gingersnap
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-August 09 2018
-</td>
-<td style="text-align:left;">
-S142558
-</td>
-<td style="text-align:left;">
-sebastian
-</td>
-<td style="text-align:left;">
-Cat
-</td>
-<td style="text-align:left;">
-Domestic Shorthair
-</td>
-<td style="text-align:left;">
-Mix
-</td>
-<td style="text-align:left;">
-98122
-</td>
-<td style="text-align:left;">
-sebastian
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-August 20 2018
-</td>
-<td style="text-align:left;">
-S142546
-</td>
-<td style="text-align:left;">
-madeline
-</td>
-<td style="text-align:left;">
-Cat
-</td>
-<td style="text-align:left;">
-Domestic Shorthair
-</td>
-<td style="text-align:left;">
-Mix
-</td>
-<td style="text-align:left;">
-98105
-</td>
-<td style="text-align:left;">
-madeline
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-December 08 2018
-</td>
-<td style="text-align:left;">
-S123830
-</td>
-<td style="text-align:left;">
-cleo
-</td>
-<td style="text-align:left;">
-Cat
-</td>
-<td style="text-align:left;">
-Domestic Shorthair
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-98199
-</td>
-<td style="text-align:left;">
-cleo
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-October 20 2018
-</td>
-<td style="text-align:left;">
-S149153
-</td>
-<td style="text-align:left;">
-glitch
-</td>
-<td style="text-align:left;">
-Cat
-</td>
-<td style="text-align:left;">
-Siamese
-</td>
-<td style="text-align:left;">
-Domestic Medium Hair
-</td>
-<td style="text-align:left;">
-98122
-</td>
-<td style="text-align:left;">
-glitch
-</td>
-</tr>
-</tbody>
-</table>
+  head(20) </code></pre>
+<pre><code>##     license_issue_date license_number animals_name species
+##  1:   November 23 2018         824666         melb     Cat
+##  2:   December 30 2018        S119138   gingersnap     Cat
+##  3:     August 09 2018        S142558    sebastian     Cat
+##  4:     August 20 2018        S142546     madeline     Cat
+##  5:   December 08 2018        S123830         cleo     Cat
+##  6:    October 20 2018        S149153       glitch     Cat
+##  7:   November 24 2018         817137        candy     Cat
+##  8:   December 07 2018         895346     cinnamon     Cat
+##  9:    October 31 2018        S123360      sydney2     Cat
+## 10:    October 23 2018        S122244       calvin     Cat
+## 11:   November 15 2018        8002730        mochi     Cat
+## 12:   November 27 2018        S125276          dmh     Cat
+## 13:   December 20 2018         952291       justin     Cat
+## 14:   December 21 2018        S150217         dash     Cat
+## 15:   December 10 2018        8003722       buster     Cat
+## 16:    October 21 2018        S136705         monk     Cat
+## 17:    October 29 2018        S137285         mari     Cat
+## 18:   November 19 2018        S124303         peko     Cat
+## 19:   November 07 2018         896862        sajah     Cat
+## 20:   November 12 2018         896813         nami     Cat
+##            primary_breed      secondary_breed zip_code animals_name_1
+##  1:   Domestic Shorthair                 &lt;NA&gt;    98117           melb
+##  2:   Domestic Shorthair                  Mix    98144     gingersnap
+##  3:   Domestic Shorthair                  Mix    98122      sebastian
+##  4:   Domestic Shorthair                  Mix    98105       madeline
+##  5:   Domestic Shorthair                 &lt;NA&gt;    98199           cleo
+##  6:              Siamese Domestic Medium Hair    98122         glitch
+##  7:   Domestic Shorthair                 &lt;NA&gt;    98126          candy
+##  8:   Domestic Shorthair                 &lt;NA&gt;    98144       cinnamon
+##  9: Domestic Medium Hair                 &lt;NA&gt;    98101        sydney2
+## 10:   American Shorthair                 &lt;NA&gt;    98119         calvin
+## 11: Domestic Medium Hair                  Mix    98105          mochi
+## 12: Domestic Medium Hair                  Mix    98117            dmh
+## 13: Domestic Medium Hair                 &lt;NA&gt;    98122         justin
+## 14:   Domestic Shorthair                 &lt;NA&gt;    98117           dash
+## 15:   Domestic Shorthair                  Mix    98115         buster
+## 16: Domestic Medium Hair                  Mix    98122           monk
+## 17:   Domestic Shorthair                 &lt;NA&gt;    98144           mari
+## 18: Domestic Medium Hair                 &lt;NA&gt;    98117           peko
+## 19: Domestic Medium Hair                 &lt;NA&gt;    98112          sajah
+## 20:   Domestic Shorthair                 &lt;NA&gt;    98107           nami
+##     animals_name_2 animals_name_3 animals_name_4 animals_name_5
+##  1:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  2:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  3:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  4:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  5:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  6:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  7:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  8:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  9:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 10:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 11:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 12:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 13:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 14:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 15:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 16:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 17:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 18:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 19:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 20:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##     animals_name_6 animals_name_7
+##  1:           &lt;NA&gt;           &lt;NA&gt;
+##  2:           &lt;NA&gt;           &lt;NA&gt;
+##  3:           &lt;NA&gt;           &lt;NA&gt;
+##  4:           &lt;NA&gt;           &lt;NA&gt;
+##  5:           &lt;NA&gt;           &lt;NA&gt;
+##  6:           &lt;NA&gt;           &lt;NA&gt;
+##  7:           &lt;NA&gt;           &lt;NA&gt;
+##  8:           &lt;NA&gt;           &lt;NA&gt;
+##  9:           &lt;NA&gt;           &lt;NA&gt;
+## 10:           &lt;NA&gt;           &lt;NA&gt;
+## 11:           &lt;NA&gt;           &lt;NA&gt;
+## 12:           &lt;NA&gt;           &lt;NA&gt;
+## 13:           &lt;NA&gt;           &lt;NA&gt;
+## 14:           &lt;NA&gt;           &lt;NA&gt;
+## 15:           &lt;NA&gt;           &lt;NA&gt;
+## 16:           &lt;NA&gt;           &lt;NA&gt;
+## 17:           &lt;NA&gt;           &lt;NA&gt;
+## 18:           &lt;NA&gt;           &lt;NA&gt;
+## 19:           &lt;NA&gt;           &lt;NA&gt;
+## 20:           &lt;NA&gt;           &lt;NA&gt;</code></pre>
 <pre class="r"><code># with the cSplit function
 # for dogs
 dogs_names_tbl &lt;- dogs_names_tbl %&gt;%
@@ -1467,196 +1361,112 @@ dogs_names_tbl &lt;- dogs_names_tbl %&gt;%
 
 
 dogs_names_tbl %&gt;%
-  head(15) %&gt;% 
-  kable()</code></pre>
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-license_issue_date
-</th>
-<th style="text-align:left;">
-license_number
-</th>
-<th style="text-align:left;">
-animals_name
-</th>
-<th style="text-align:left;">
-species
-</th>
-<th style="text-align:left;">
-primary_breed
-</th>
-<th style="text-align:left;">
-secondary_breed
-</th>
-<th style="text-align:left;">
-zip_code
-</th>
-<th style="text-align:left;">
-animals_name_1
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-November 16 2018
-</td>
-<td style="text-align:left;">
-8002756
-</td>
-<td style="text-align:left;">
-walle
-</td>
-<td style="text-align:left;">
-Dog
-</td>
-<td style="text-align:left;">
-Mixed Breed, Medium (up to 44 lbs fully grown)
-</td>
-<td style="text-align:left;">
-Mix
-</td>
-<td style="text-align:left;">
-98108
-</td>
-<td style="text-align:left;">
-walle
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-November 11 2018
-</td>
-<td style="text-align:left;">
-S124529
-</td>
-<td style="text-align:left;">
-andre
-</td>
-<td style="text-align:left;">
-Dog
-</td>
-<td style="text-align:left;">
-Terrier, Jack Russell
-</td>
-<td style="text-align:left;">
-Dachshund, Standard Wire Haired
-</td>
-<td style="text-align:left;">
-98117
-</td>
-<td style="text-align:left;">
-andre
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-November 21 2018
-</td>
-<td style="text-align:left;">
-903793
-</td>
-<td style="text-align:left;">
-mac
-</td>
-<td style="text-align:left;">
-Dog
-</td>
-<td style="text-align:left;">
-Retriever, Labrador
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-98136
-</td>
-<td style="text-align:left;">
-mac
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-December 16 2018
-</td>
-<td style="text-align:left;">
-S138529
-</td>
-<td style="text-align:left;">
-cody
-</td>
-<td style="text-align:left;">
-Dog
-</td>
-<td style="text-align:left;">
-Retriever, Labrador
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-98103
-</td>
-<td style="text-align:left;">
-cody
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-October 04 2017
-</td>
-<td style="text-align:left;">
-580652
-</td>
-<td style="text-align:left;">
-millie
-</td>
-<td style="text-align:left;">
-Dog
-</td>
-<td style="text-align:left;">
-Terrier, Boston
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-98115
-</td>
-<td style="text-align:left;">
-millie
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-December 23 2018
-</td>
-<td style="text-align:left;">
-961052
-</td>
-<td style="text-align:left;">
-sabre
-</td>
-<td style="text-align:left;">
-Dog
-</td>
-<td style="text-align:left;">
-Terrier
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-98126
-</td>
-<td style="text-align:left;">
-sabre
-</td>
-</tr>
-</tbody>
-</table>
+  head(20)</code></pre>
+<pre><code>##     license_issue_date license_number animals_name species
+##  1:   November 16 2018        8002756        walle     Dog
+##  2:   November 11 2018        S124529        andre     Dog
+##  3:   November 21 2018         903793          mac     Dog
+##  4:   December 16 2018        S138529         cody     Dog
+##  5:    October 04 2017         580652       millie     Dog
+##  6:   December 23 2018         961052        sabre     Dog
+##  7:   December 07 2018        S125461       thomas     Dog
+##  8:   November 07 2018        8002543         lulu     Dog
+##  9:   December 15 2018        S138838         milo     Dog
+## 10:   November 27 2018        S123980       anubis     Dog
+## 11:    October 25 2018         830506       skylar     Dog
+## 12:    October 23 2018        S137719         cleo     Dog
+## 13:   November 07 2018         905090        petey     Dog
+## 14:   December 24 2018        S152290         kaia     Dog
+## 15:   December 27 2018        8004142         maya     Dog
+## 16:   November 18 2018         835221      shirley     Dog
+## 17:    October 18 2018        S101544       diesel     Dog
+## 18:   November 30 2018         904438        jacob     Dog
+## 19:   November 06 2018        8002506       linkin     Dog
+## 20:   December 02 2018         829922       gracie     Dog
+##                                      primary_breed
+##  1: Mixed Breed, Medium (up to 44 lbs fully grown)
+##  2:                          Terrier, Jack Russell
+##  3:                            Retriever, Labrador
+##  4:                            Retriever, Labrador
+##  5:                                Terrier, Boston
+##  6:                                        Terrier
+##  7:                          Chihuahua, Short Coat
+##  8:                          Vizsla, Smooth Haired
+##  9:                                          Boxer
+## 10:                               Poodle, Standard
+## 11:                                  Border Collie
+## 12:                           Bernese Mountain Dog
+## 13:                                     Pomeranian
+## 14:                              Karelian Bear Dog
+## 15:                          Chihuahua, Short Coat
+## 16:                            Australian Shepherd
+## 17:                                       Shepherd
+## 18:                                German Shepherd
+## 19:                          Vizsla, Smooth Haired
+## 20:                           Terrier, Fox, Smooth
+##                     secondary_breed zip_code animals_name_1 animals_name_2
+##  1:                             Mix    98108          walle           &lt;NA&gt;
+##  2: Dachshund, Standard Wire Haired    98117          andre           &lt;NA&gt;
+##  3:                            &lt;NA&gt;    98136            mac           &lt;NA&gt;
+##  4:                            &lt;NA&gt;    98103           cody           &lt;NA&gt;
+##  5:                            &lt;NA&gt;    98115         millie           &lt;NA&gt;
+##  6:                            &lt;NA&gt;    98126          sabre           &lt;NA&gt;
+##  7:                             Mix    98177         thomas           &lt;NA&gt;
+##  8:                             Mix    98105           lulu           &lt;NA&gt;
+##  9:             Retriever, Labrador    98109           milo           &lt;NA&gt;
+## 10:                            &lt;NA&gt;    98112         anubis           &lt;NA&gt;
+## 11:               Terrier, Airedale    98144         skylar           &lt;NA&gt;
+## 12:                         Spaniel    98107           cleo           &lt;NA&gt;
+## 13:                        Shih Tzu    98119          petey           &lt;NA&gt;
+## 14:                            &lt;NA&gt;    98117           kaia           &lt;NA&gt;
+## 15:                            &lt;NA&gt;    98126           maya           &lt;NA&gt;
+## 16:               Retriever, Golden    98144        shirley           &lt;NA&gt;
+## 17:                             Mix    98118         diesel           &lt;NA&gt;
+## 18:                      Rottweiler    98199          jacob           &lt;NA&gt;
+## 19:                            &lt;NA&gt;    98105         linkin           &lt;NA&gt;
+## 20:                            &lt;NA&gt;    98118         gracie           &lt;NA&gt;
+##     animals_name_3 animals_name_4 animals_name_5 animals_name_6
+##  1:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  2:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  3:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  4:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  5:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  6:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  7:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  8:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##  9:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 10:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 11:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 12:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 13:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 14:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 15:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 16:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 17:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 18:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 19:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+## 20:           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;
+##     animals_name_7 animals_name_8
+##  1:           &lt;NA&gt;           &lt;NA&gt;
+##  2:           &lt;NA&gt;           &lt;NA&gt;
+##  3:           &lt;NA&gt;           &lt;NA&gt;
+##  4:           &lt;NA&gt;           &lt;NA&gt;
+##  5:           &lt;NA&gt;           &lt;NA&gt;
+##  6:           &lt;NA&gt;           &lt;NA&gt;
+##  7:           &lt;NA&gt;           &lt;NA&gt;
+##  8:           &lt;NA&gt;           &lt;NA&gt;
+##  9:           &lt;NA&gt;           &lt;NA&gt;
+## 10:           &lt;NA&gt;           &lt;NA&gt;
+## 11:           &lt;NA&gt;           &lt;NA&gt;
+## 12:           &lt;NA&gt;           &lt;NA&gt;
+## 13:           &lt;NA&gt;           &lt;NA&gt;
+## 14:           &lt;NA&gt;           &lt;NA&gt;
+## 15:           &lt;NA&gt;           &lt;NA&gt;
+## 16:           &lt;NA&gt;           &lt;NA&gt;
+## 17:           &lt;NA&gt;           &lt;NA&gt;
+## 18:           &lt;NA&gt;           &lt;NA&gt;
+## 19:           &lt;NA&gt;           &lt;NA&gt;
+## 20:           &lt;NA&gt;           &lt;NA&gt;</code></pre>
 <p>Let us now find the most common first and last letters used in the first name for both cats and dogs. For this, we will use the <code>str_sub</code> function.</p>
 <pre class="r"><code># first letter
 # for cats
@@ -1665,27 +1475,30 @@ cats_names_tbl %&gt;%
   count(first_letter) %&gt;%
   arrange(desc(n)) %&gt;%
   head()</code></pre>
-<pre><code>## # A tibble: 4 x 2
+<pre><code>## # A tibble: 6 x 2
 ##   first_letter     n
 ##   &lt;chr&gt;        &lt;int&gt;
-## 1 g                2
-## 2 m                2
-## 3 c                1
-## 4 s                1</code></pre>
+## 1 m             1998
+## 2 s             1831
+## 3 b             1356
+## 4 c             1234
+## 5 l             1142
+## 6 p             1095</code></pre>
 <pre class="r"><code># for dogs
 dogs_names_tbl %&gt;% 
   mutate(first_letter = animals_name_1 %&gt;% str_sub(1,1)) %&gt;%
   count(first_letter) %&gt;%
   arrange(desc(n)) %&gt;%
   head()</code></pre>
-<pre><code>## # A tibble: 5 x 2
+<pre><code>## # A tibble: 6 x 2
 ##   first_letter     n
 ##   &lt;chr&gt;        &lt;int&gt;
-## 1 m                2
-## 2 a                1
-## 3 c                1
-## 4 s                1
-## 5 w                1</code></pre>
+## 1 m             3408
+## 2 b             3366
+## 3 s             3042
+## 4 c             2760
+## 5 l             2712
+## 6 r             2199</code></pre>
 <pre class="r"><code># last letter
 # for cats
 cats_names_tbl %&gt;% 
@@ -1696,24 +1509,27 @@ cats_names_tbl %&gt;%
 <pre><code>## # A tibble: 6 x 2
 ##   last_letter     n
 ##   &lt;chr&gt;       &lt;int&gt;
-## 1 b               1
-## 2 e               1
-## 3 h               1
-## 4 n               1
-## 5 o               1
-## 6 p               1</code></pre>
+## 1 y            2881
+## 2 e            2855
+## 3 a            2406
+## 4 r            1368
+## 5 o            1209
+## 6 s            1110</code></pre>
 <pre class="r"><code># for dogs
 dogs_names_tbl %&gt;% 
   mutate(last_letter = animals_name_1 %&gt;% str_sub(-1,-1)) %&gt;%
   count(last_letter) %&gt;%
   arrange(desc(n)) %&gt;%
   head()</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 6 x 2
 ##   last_letter     n
 ##   &lt;chr&gt;       &lt;int&gt;
-## 1 e               4
-## 2 c               1
-## 3 y               1</code></pre>
+## 1 y            7373
+## 2 e            6575
+## 3 a            4839
+## 4 r            3007
+## 5 o            2684
+## 6 n            2159</code></pre>
 <p>The letter “M” seems to be the preferred one when naming both cats and dogs. Curiously, the letter “Y” is picked more often by the pet owners for the name ending.</p>
 <p>After this, our goal is to find the most common names for cats and dogs.</p>
 <pre class="r"><code># most common name
@@ -1726,12 +1542,12 @@ cats_names_tbl %&gt;%
 <pre><code>## # A tibble: 6 x 2
 ##   animals_name_1     n
 ##   &lt;fct&gt;          &lt;int&gt;
-## 1 cleo               1
-## 2 gingersnap         1
-## 3 glitch             1
-## 4 madeline           1
-## 5 melb               1
-## 6 sebastian          1</code></pre>
+## 1 luna             116
+## 2 lucy             104
+## 3 lily              91
+## 4 charlie           88
+## 5 max               86
+## 6 bella             84</code></pre>
 <pre class="r"><code># for dogs
 dogs_names_tbl %&gt;% 
   filter(!is.na(animals_name_1)) %&gt;% 
@@ -1741,46 +1557,99 @@ dogs_names_tbl %&gt;%
 <pre><code>## # A tibble: 6 x 2
 ##   animals_name_1     n
 ##   &lt;fct&gt;          &lt;int&gt;
-## 1 andre              1
-## 2 cody               1
-## 3 mac                1
-## 4 millie             1
-## 5 sabre              1
-## 6 walle              1</code></pre>
+## 1 lucy             358
+## 2 charlie          325
+## 3 bella            273
+## 4 luna             261
+## 5 daisy            244
+## 6 cooper           199</code></pre>
 <p>“Luna” is the most popular name for cats, while for dogs “Lucy” is the name given more often.</p>
 <p>Back again to <code>stringr</code>, it would be possible to use <code>str_subset</code> to find names with a specific pattern.</p>
 <pre class="r"><code># find unique first names with the pattern &quot;su&quot;
 # for cats
 unique(str_subset(cats_names_tbl$animals_name_1, pattern = &quot;su&quot;))</code></pre>
-<pre><code>## character(0)</code></pre>
+<pre><code>##  [1] &quot;sugar&quot;      &quot;summer&quot;     &quot;sunny&quot;      &quot;suzie&quot;      &quot;sufjan&quot;    
+##  [6] &quot;susie&quot;      &quot;sushi&quot;      &quot;sunbeam&quot;    &quot;sunset&quot;     &quot;suki&quot;      
+## [11] &quot;susu&quot;       &quot;natsumi&quot;    &quot;ursula&quot;     &quot;suri&quot;       &quot;graysun&quot;   
+## [16] &quot;sultana&quot;    &quot;suess&quot;      &quot;tsunami&quot;    &quot;sisu&quot;       &quot;sumi&quot;      
+## [21] &quot;sundae&quot;     &quot;sukapati&quot;   &quot;sullivan&quot;   &quot;suika&quot;      &quot;sultrina&quot;  
+## [26] &quot;katsu&quot;      &quot;sula&quot;       &quot;sumo&quot;       &quot;suede&quot;      &quot;suma&quot;      
+## [31] &quot;sundance&quot;   &quot;sunshine&quot;   &quot;sugarpuffs&quot; &quot;sukhi&quot;      &quot;sunkist&quot;   
+## [36] &quot;sunflower&quot;  &quot;sunnyside&quot;  &quot;sutton&quot;     &quot;sucha&quot;      &quot;yasuo&quot;     
+## [41] &quot;sully&quot;      &quot;mitsu&quot;      &quot;suji&quot;       &quot;sunday&quot;     &quot;sukie&quot;     
+## [46] &quot;satsuma&quot;    &quot;zasu&quot;       &quot;misu&quot;       &quot;suzykitty&quot;  &quot;surya&quot;     
+## [51] &quot;natsu&quot;      &quot;nasuchan&quot;   &quot;suzy&quot;       &quot;tonkatsu&quot;   &quot;suzi&quot;      
+## [56] &quot;susan&quot;      &quot;superman&quot;   &quot;suva&quot;       &quot;suleyman&quot;   &quot;tsuki&quot;     
+## [61] &quot;sulley&quot;</code></pre>
 <pre class="r"><code># for dogs
 unique(str_subset(dogs_names_tbl$animals_name_1, pattern = &quot;su&quot;))</code></pre>
-<pre><code>## character(0)</code></pre>
-<p>Therefore, we have 61 unique cat names with the pattern “su”. For dogs this pattern appears more often, meaning79 unique occurrences.</p>
+<pre><code>##  [1] &quot;sue&quot;          &quot;suzie&quot;        &quot;suki&quot;         &quot;sully&quot;       
+##  [5] &quot;susie&quot;        &quot;sunny&quot;        &quot;suzy&quot;         &quot;ursula&quot;      
+##  [9] &quot;sushi&quot;        &quot;sugar&quot;        &quot;sun&quot;          &quot;katsu&quot;       
+## [13] &quot;mitsu&quot;        &quot;jesus&quot;        &quot;sunshine&quot;     &quot;su&quot;          
+## [17] &quot;summer&quot;       &quot;sukey&quot;        &quot;tamotsu&quot;      &quot;sundae&quot;      
+## [21] &quot;kitsunejip&quot;   &quot;sunchaser&quot;    &quot;missus&quot;       &quot;suri&quot;        
+## [25] &quot;sumi&quot;         &quot;komatsu&quot;      &quot;suggen&quot;       &quot;yousuke&quot;     
+## [29] &quot;sundance&quot;     &quot;sudo&quot;         &quot;tsuki&quot;        &quot;sunnee&quot;      
+## [33] &quot;sukhi&quot;        &quot;sunday&quot;       &quot;tsunami&quot;      &quot;jessup&quot;      
+## [37] &quot;subaru&quot;       &quot;rayasunshine&quot; &quot;susannah&quot;     &quot;tsukee&quot;      
+## [41] &quot;bosun&quot;        &quot;sullivan&quot;     &quot;suka&quot;         &quot;subotai&quot;     
+## [45] &quot;sunniva&quot;      &quot;suzzie&quot;       &quot;sug&quot;          &quot;zsuska&quot;      
+## [49] &quot;asuka&quot;        &quot;sisu&quot;         &quot;sukie&quot;        &quot;sunup&quot;       
+## [53] &quot;sucia&quot;        &quot;suni&quot;         &quot;sutter&quot;       &quot;suzieq&quot;      
+## [57] &quot;subi&quot;         &quot;surti&quot;        &quot;sumo&quot;         &quot;suze&quot;        
+## [61] &quot;sugarberry&quot;   &quot;jitsu&quot;        &quot;summit&quot;       &quot;sukha&quot;       
+## [65] &quot;sudi&quot;         &quot;sultan&quot;       &quot;kitsune&quot;      &quot;susi&quot;        
+## [69] &quot;colossus&quot;     &quot;sukoshi&quot;      &quot;narcissus&quot;    &quot;sua&quot;         
+## [73] &quot;kietsu&quot;       &quot;sugi&quot;         &quot;suma&quot;         &quot;sukee&quot;       
+## [77] &quot;misu&quot;         &quot;suzee&quot;        &quot;consuela&quot;</code></pre>
+<p>Therefore, we have 61 unique cat names with the pattern “su”. For dogs this pattern appears more often, meaning 79 unique occurrences.</p>
 <p><code>str_which</code> is another interesting function which tell us in which row a specific pattern occurs.</p>
 <pre class="r"><code># find a pattern row location
 # for cats
 str_which(cats_names_tbl$animals_name_1, pattern = &quot;car&quot;)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>##   [1]    53   180   271   397   449   811   874  1100  1137  1181  1241
+##  [12]  1308  1398  1421  1543  1585  1664  1682  2163  2909  3006  3120
+##  [23]  3188  3207  3361  3375  3442  3571  3849  3899  4047  4288  4388
+##  [34]  4513  4823  4976  5028  5060  5104  5197  5287  5421  5456  5640
+##  [45]  5647  5690  5691  5769  5814  5820  6131  6144  6235  6455  6501
+##  [56]  6685  6829  7027  7079  7110  7306  7321  7369  7499  7778  7865
+##  [67]  7866  7944  8067  8159  8276  8432  8487  9280  9429  9458  9684
+##  [78]  9870  9923 10027 10045 10072 10140 10214 10437 10712 10780 11483
+##  [89] 11530 11575 11669 11814 12054 12140 12306 12732 13404 13436 13449
+## [100] 13544 13721 13843 14312 14485 14666 14864 15025 15206 15382 15383
+## [111] 15751 15819 15995 16304 16369 16622 16634 16800 16893 16945 17126
+## [122] 17163</code></pre>
 <pre class="r"><code># for dogs
 str_which(cats_names_tbl$animals_name_1, pattern = &quot;car&quot;)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>##   [1]    53   180   271   397   449   811   874  1100  1137  1181  1241
+##  [12]  1308  1398  1421  1543  1585  1664  1682  2163  2909  3006  3120
+##  [23]  3188  3207  3361  3375  3442  3571  3849  3899  4047  4288  4388
+##  [34]  4513  4823  4976  5028  5060  5104  5197  5287  5421  5456  5640
+##  [45]  5647  5690  5691  5769  5814  5820  6131  6144  6235  6455  6501
+##  [56]  6685  6829  7027  7079  7110  7306  7321  7369  7499  7778  7865
+##  [67]  7866  7944  8067  8159  8276  8432  8487  9280  9429  9458  9684
+##  [78]  9870  9923 10027 10045 10072 10140 10214 10437 10712 10780 11483
+##  [89] 11530 11575 11669 11814 12054 12140 12306 12732 13404 13436 13449
+## [100] 13544 13721 13843 14312 14485 14666 14864 15025 15206 15382 15383
+## [111] 15751 15819 15995 16304 16369 16622 16634 16800 16893 16945 17126
+## [122] 17163</code></pre>
 <div id="rebus" class="section level2">
 <h2>Rebus</h2>
-<p>In the previous section, some important functions within the <code>stringr</code> ecosystem were shown. Now let’s work again with <code>stringr</code>, this timein association with the <code>rebus</code> package. This package facilitates our work when dealing with regular expressions. As aquick example,let’s imagine that we wanted to count all dogs and cats names starting with a specific letter. Wejust have to write <code>START %R%</code> and subsequently the required pattern:</p>
+<p>In the previous section, some important functions within the <code>stringr</code> ecosystem were shown. Now let’s work again with <code>stringr</code>, this time in association with the <code>rebus</code> package. This package facilitates our work when dealing with regular expressions. As a quick example, let’s imagine that we wanted to count all dogs and cats names starting with a specific letter. We just have to write <code>START %R%</code> and subsequently the required pattern:</p>
 <pre class="r"><code># names that start with L
 # for cats
 cats_names_tbl %&gt;% 
   mutate(L_char = str_count(animals_name_1, pattern = START %R% &quot;l&quot;)) %&gt;%
   summarize(cats_words_start_with_L = sum(L_char, na.rm = TRUE))</code></pre>
 <pre><code>##   cats_words_start_with_L
-## 1                       0</code></pre>
+## 1                    1142</code></pre>
 <pre class="r"><code># dogs
 dogs_names_tbl %&gt;% 
   mutate(L_char = str_count(animals_name_1, pattern = START %R% &quot;l&quot;)) %&gt;%
   summarize(dogs_words_start_with_L = sum(L_char, na.rm = TRUE))</code></pre>
 <pre><code>##   dogs_words_start_with_L
-## 1                       0</code></pre>
+## 1                    2712</code></pre>
 <p>In this case, we have 1142 cat first names starting with the “L” character. For dogs, we have 2712 instances.</p>
 <p>Moving on with our wrangling of strings, if we would like to check the first names ending with the pattern “cy” we could simply do the following:</p>
 <pre class="r"><code># find names that end with the pattern &quot;cy&quot;
@@ -1792,7 +1661,13 @@ sort(
   )
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##    lucy   percy    macy  quincy   fancy  clancy   mercy   nancy   darcy 
+##     104      13      10       9       6       4       3       3       2 
+##   marcy chauncy   gracy    lacy  legacy   peacy   purcy  purrcy   saucy 
+##       2       1       1       1       1       1       1       1       1 
+##   spicy 
+##       1</code></pre>
 <pre class="r"><code># for dogs
 sort(
   table(
@@ -1801,7 +1676,11 @@ sort(
   )
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##   lucy quincy  percy   macy  darcy  fancy clancy  mercy     cy    icy 
+##    358     29     16     15      7      4      3      3      2      2 
+##   lacy  nancy  spicy   gacy  gancy   kacy  marcy  saucy  stacy  yancy 
+##      2      2      2      1      1      1      1      1      1      1</code></pre>
 <p>As we can see, we’ve included the pattern before the <code>END</code> function of <code>rebus</code> and with that we’ve indicated we wanted a pattern ending with “cy”.</p>
 <p>We could simply try to find names where the third letter is a “z”. The <code>rebus</code> package facilitates our job through the <code>ANY_CHAR</code> function.</p>
 <pre class="r"><code># first names where the third letter is a &quot;z&quot;
@@ -1813,7 +1692,43 @@ sort(
   )
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##       gizmo        izzy       hazel         taz        jazz       jazzy 
+##          20          20          17          12          10           9 
+##       lizzy       ozzie        enzo       suzie        buzz      lizzie 
+##           9           9           6           6           4           4 
+##      mozart        zazu       fuzzy       izzie     jezebel        liza 
+##           4           4           3           3           3           3 
+##       mazie        ouzo        ozzy        zuzu       dizzy        fizz 
+##           3           3           3           3           2           2 
+##        fuzz         jaz        kaze      kizzie         liz        orzo 
+##           2           2           2           2           2           2 
+##       pazzo      rizhik      tazzie      wizard       zizou        azzu 
+##           2           2           2           2           2           1 
+##       bazil     bazique         boz        boze        bozo         caz 
+##           1           1           1           1           1           1 
+##   cazadores       cazzy     cezanne      dazzle        dezi     dezmond 
+##           1           1           1           1           1           1 
+##         fez      fezzie      fezzik      fozzie       fozzy fuzzjackson 
+##           1           1           1           1           1           1 
+##    gazpacho        giza       gozer        gozo       gyzmo        haze 
+##           1           1           1           1           1           1 
+##    hazelnut       itzel   izzybella        jazl    jazzmine    jezavell 
+##           1           1           1           1           1           1 
+##    jezebell   jezebelle  jezzabelle      jezzie       kozmo       lazer 
+##           1           1           1           1           1           1 
+##       lazlo        lazy      lazzlo       mazel     mazinga        mazy 
+##           1           1           1           1           1           1 
+##       mazzy         miz        mizu         moz     muzette       muzzy 
+##           1           1           1           1           1           1 
+##       nazee      nozomi      puzzle     puzzles         raz        razz 
+##           1           1           1           1           1           1 
+##        riza      sazjha        suzi        suzy   suzykitty      tazmin 
+##           1           1           1           1           1           1 
+##        tazo       tazzy      tizzie         yaz        yuzu        zazi 
+##           1           1           1           1           1           1 
+##        zizi 
+##           1</code></pre>
 <p>And now the same pattern, but for dogs.</p>
 <pre class="r"><code># for dogs
 sort(
@@ -1823,7 +1738,63 @@ sort(
   )
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##         izzy        hazel        gizmo         enzo        ozzie 
+##           60           49           46           30           25 
+##       lizzie         ozzy         jazz        suzie         zuzu 
+##           21           17           14           14           13 
+##          taz        dozer        izzie        rizzo         suzy 
+##           11           10            8            7            7 
+##        jazzy         buzz       fozzie        lizzy        cozmo 
+##            6            5            5            5            4 
+##        dizzy       fezzik        mazey        mazie      jazmine 
+##            4            4            4            4            3 
+##      jezebel        lazlo         liza        mazzy       wizard 
+##            3            3            3            3            3 
+##        zizou        bizzy       dazzle          fez        fuzzy 
+##            3            2            2            2            2 
+##    izzabella         izze         izzi          jaz      jazmyne 
+##            2            2            2            2            2 
+##        kizzy        kozmo          liz      nizhoni         orzo 
+##            2            2            2            2            2 
+##       razzie         tazz       auzzie       bazely         bazi 
+##            2            2            1            1            1 
+##       bazzle      bezudry       bizkit       bozley        buzzy 
+##            1            1            1            1            1 
+##      cazaril      cezanne      cozette          dez       dizzle 
+##            1            1            1            1            1 
+##         elza      fizzgig          foz        fozul        fozzy 
+##            1            1            1            1            1 
+##         fuzz   fuzzbucket      gazelle       gizzmo        gizzy 
+##            1            1            1            1            1 
+##        gozer         guzi         haze     hazelnut         hazy 
+##            1            1            1            1            1 
+##    izzybella     jazzelle        jazzi       jazzie   jezzabelle 
+##            1            1            1            1            1 
+##   jezzebelle         jozy          kaz     kazanova         kazi 
+##            1            1            1            1            1 
+##       kazmer         kazu        kezie         kuzi   lizaminion 
+##            1            1            1            1            1 
+##      lizette        lizzi          luz       mazama        mazel 
+##            1            1            1            1            1 
+##         mazy         mizu       mizzie       mozart         moze 
+##            1            1            1            1            1 
+##         mozi       mozzie        mozzy        muzby         nazy 
+##            1            1            1            1            1 
+##        nazzy        ouzel          pez       puzzle          raz 
+##            1            1            1            1            1 
+##        razus   razzmatazz         rezi        rezso         rizz 
+##            1            1            1            1            1 
+##      rozalia        rozsa         sazi          soz         suze 
+##            1            1            1            1            1 
+##        suzee       suzieq       suzzie       tazman        tazzy 
+##            1            1            1            1            1 
+## tezcatlipoca        tizzy        tozer        tozzi         tuzi 
+##            1            1            1            1            1 
+##          twz      wizzard         yzzy        zazie         zazu 
+##            1            1            1            1            1 
+##        zezza        zizka         zozo 
+##            1            1            1</code></pre>
 <p>We could think about of matching a specific pattern. For instance, let’s try to find the pattern “cc”.</p>
 <pre class="r"><code># match the pattern &quot;cc&quot;
 # for cats
@@ -1834,7 +1805,17 @@ sort(
     )
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##     gnocchi       rocco   chewbacca       gucci  piccadilly    staccato 
+##           6           4           3           2           2           2 
+##    zucchini       becca   blenducci   boudiccea      flocca      hiccup 
+##           2           1           1           1           1           1 
+##       kucci       lucca       lucci  macchiatto      mccone     mccovey 
+##           1           1           1           1           1           1 
+##    moccasin moustacchio      nicchi     piccolo     rebecca       recco 
+##           1           1           1           1           1           1 
+##      soccer     torocco     yacchan       zucca 
+##           1           1           1           1</code></pre>
 <p>“Gnocchi” seems to be the most popular cat name with the “cc” pattern.</p>
 <pre class="r"><code># match the pattern &quot;cc&quot;
 # for dogs
@@ -1845,7 +1826,19 @@ sort(
     )
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##      rocco  chewbacca      lucca      gucci      ricco    bacchus 
+##         28         21         17          6          5          4 
+##      bocce      zucca   boudicca      becca cappuccino   abbracci 
+##          4          4          3          2          2          1 
+##      bocca     chicca   chubacca    gnocchi      jacco      macca 
+##          1          1          1          1          1          1 
+##    macchia  macchiato      mocca      nicca      nicco      nucci 
+##          1          1          1          1          1          1 
+##     pucchi      pucci    puccini      ricci      rocca      rucca 
+##          1          1          1          1          1          1 
+##      sacco scaramucci      zacca   zaccheus 
+##          1          1          1          1</code></pre>
 <p>“Rocco” shows as the most popular dog name where the “cc” pattern is present.</p>
 <p>Another option is to merely match more than one type of pattern. From the data exploration, some pet names were not exactly the same, though very similar. For instance, “Lucy”, “Lucie”, and “Luci”. In this case, we can use the function <code>or</code> from the <code>rebus</code> package.</p>
 <pre class="r"><code># match multiple patterns with &quot;or&quot;
@@ -1857,7 +1850,9 @@ sort(
     %R% END)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##  lucy  luci lucie 
+##   104     3     1</code></pre>
 <p>And for dogs:</p>
 <pre class="r"><code># match multiple patterns with &quot;or&quot;
 # for dogs
@@ -1868,7 +1863,9 @@ sort(
     %R% END)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##  lucy lucie  luci 
+##   358     9     7</code></pre>
 <p>We could also try to find first names containing only vowels by using the <code>char_class</code> function form the <code>rebus</code> package.</p>
 <pre class="r"><code># find first names that correspond only to vowels
 # for cats
@@ -1879,7 +1876,9 @@ sort(
     cats_names_tbl$animals_name_1, pattern = START %R% one_or_more(vow) %R% END)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##  o  e io 
+##  2  1  1</code></pre>
 <p>And for dogs:</p>
 <pre class="r"><code># find first names that correspond only to vowels
 # for dogs
@@ -1890,7 +1889,9 @@ sort(
     dogs_names_tbl$animals_name_1, pattern = START %R% one_or_more(vow) %R% END)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##   io iuiu    o  uau 
+##    2    1    1    1</code></pre>
 <p>We could also do the reverse by using the <code>negated_char_class</code> function.</p>
 <pre class="r"><code># find names that do not have vowels
 # for cats
@@ -1902,7 +1903,23 @@ sort(
     cats_names_tbl$animals_name_1, pattern = START %R% one_or_more(not_vow) %R% END)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##     mr  gypsy     ms    mrs  flynn   lynx     mj    sky    dmh     dr 
+##     70      9      9      8      6      6      5      5      4      4 
+##     jj    nyx     bb     bc     bw     cc     dc     pj     tj     cj 
+##      4      4      3      3      3      3      3      3      3      2 
+##      d    dsh      g      j     jr   jynx     kt      p   rhys    sgt 
+##      2      2      2      2      2      2      2      2      2      2 
+##   skyy    syd     ty      1      2     30     99     bj   bryn   bynx 
+##      2      2      2      1      1      1      1      1      1      1 
+##    c80     dj     dw    fly  frytz    fyn   fynn     gb  glynn grrrly 
+##      1      1      1      1      1      1      1      1      1      1 
+##   grwh     jd     jh     jp     jt    jyn     k2     kc     kk    lbj 
+##      1      1      1      1      1      1      1      1      1      1 
+##      m     my   prrr    pym      q     qt     rd rhythm    ryn      s 
+##      1      1      1      1      1      1      1      1      1      1 
+##    sly sphynx  sydny     tk    tyr      v   whbl      z     zz 
+##      1      1      1      1      1      1      1      1      1</code></pre>
 <p>And for dogs:</p>
 <pre class="r"><code># find names that do not have vowels
 # for dogs
@@ -1914,7 +1931,25 @@ sort(
     dogs_names_tbl$animals_name_1, pattern = START %R% one_or_more(not_vow) %R% END)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##     mr  gypsy     jj     ty  flynn     pj    sky     cj     ms      z 
+##     48     15     12      9      8      8      7      6      6      5 
+##     bb     dj     dr   fynn     kc     mj      p     tj      b     cc 
+##      4      4      4      4      4      4      4      4      3      3 
+##    fry      j    nyx    sgt     bj     cy      d     gg     jp     jr 
+##      3      3      3      3      2      2      2      2      2      2 
+##      k     ky     lj     lt      m     pd    sly      t    tyr   wynn 
+##      2      2      2      2      2      2      2      2      2      2 
+##     7s    bb8     bg   bryn      c     cb     cr     dc     dw      f 
+##      1      1      1      1      1      1      1      1      1      1 
+##    fly     gd    grr     hy     jb     jd     jw    jwl     k2     kk 
+##      1      1      1      1      1      1      1      1      1      1 
+##     lb     lc lynyrd     mc  mcfly    mrs     my     pk     pm     pp 
+##      1      1      1      1      1      1      1      1      1      1 
+##     pt    pym   r2d2     rj    spy     sy  sylph     tt    twy    twz 
+##      1      1      1      1      1      1      1      1      1      1 
+##  vãlkl   yzzy 
+##      1      1</code></pre>
 <p>“Mr” and “Gypsy” seem to be the most popular options of first names without vowels.</p>
 <p>We could also try to find names only with digits by using the function <code>one_or_more(DIGIT)</code>.</p>
 <pre class="r"><code># find names only with digits
@@ -1925,7 +1960,9 @@ sort(
     cats_names_tbl$animals_name_1, pattern = START %R% one_or_more(DIGIT) %R% END)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##  1  2 30 99 
+##  1  1  1  1</code></pre>
 <p>And for dogs:</p>
 <pre class="r"><code># find names only with digits
 # for cats
@@ -1946,7 +1983,13 @@ sort(
     cats_names_tbl$animals_name_1, pattern = capture(WRD) %R% one_or_more(DIGIT) %R% END)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##      cat2  testcat2        30        99       c80      cat1 charlene2 
+##         3         2         1         1         1         1         1 
+##      deb0     jojo3        k2   number1    oscar2  slasher2   sydney2 
+##         1         1         1         1         1         1         1 
+##     tont2 
+##         1</code></pre>
 <p>“Cat2” is the most popular cat name with both words and digits.</p>
 <p>Let’s see how this pattern looks for dogs:</p>
 <pre class="r"><code># capture first name that have words and digits
@@ -1957,7 +2000,9 @@ sort(
     dogs_names_tbl$animals_name_1, pattern = capture(WRD) %R% one_or_more(DIGIT) %R% END)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##      bb8  casper2   cayde6 jacques2       k2  number3   penny2     r2d2 
+##        1        1        1        1        1        1        1        1</code></pre>
 <p>There are 8 dog names with both words and digits, but none is more popular than the other.</p>
 <p>Amazingly, we could easily identify first names with repeated letters. We can use the <code>REF1</code> function to try to find names with three repeated letters.</p>
 <pre class="r"><code># find first names with three repeated letters
@@ -1968,7 +2013,11 @@ sort(
     cats_names_tbl$animals_name_1, pattern = capture(LOWER) %R% REF1 %R% REF1)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+## copurrrnicus     cosettte       grrrly     katgrrrl         prrr 
+##            1            1            1            1            1 
+##     purrrsia     wafffles 
+##            1            1</code></pre>
 <p>And for dogs:</p>
 <pre class="r"><code># find first names with three repeated letters
 # for cats
@@ -1978,7 +2027,9 @@ sort(
     dogs_names_tbl$animals_name_1, pattern = capture(LOWER) %R% REF1 %R% REF1)
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## 
+##  dollly ellliah willlow 
+##       1       1       1</code></pre>
 <p>We have 7 cat names with three repeated letters in a row. In dogs, we only observe this pattern 3 times.</p>
 <p>To finalize, we could use the function <code>exactly</code> to detect how many times a specific pattern occurs.</p>
 <pre class="r"><code># detect a pattern with exactly 
@@ -1989,7 +2040,8 @@ sort(
     dogs_names_tbl$animals_name_1, pattern = exactly(&quot;lucy&quot;))
 )
 , decreasing = TRUE)</code></pre>
-<pre><code>## integer(0)</code></pre>
+<pre><code>## lucy 
+##  358</code></pre>
 <p>Thus, the name “Lucy” was given to 358 dogs in Seattle in the last years.</p>
 </div>
 <div id="conclusion" class="section level2">
