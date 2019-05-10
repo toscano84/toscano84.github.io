@@ -6,10 +6,19 @@
     <description>Recent content on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 10 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://toscano84.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Factors in R: Forcats to help</title>
+      <link>https://toscano84.github.io/2019/05/factors-in-r-forcats-to-help/</link>
+      <pubDate>Fri, 10 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://toscano84.github.io/2019/05/factors-in-r-forcats-to-help/</guid>
+      <description>In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.</description>
+    </item>
     
     <item>
       <title>Working with Strings in R: Seattle Pet Names</title>

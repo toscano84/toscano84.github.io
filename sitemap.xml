@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://toscano84.github.io/2019/05/factors-in-r-forcats-to-help/</loc>
+    <lastmod>2019-05-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/2019/04/working-with-strings-in-r-seattle-pet-names/</loc>
     <lastmod>2019-04-29T00:00:00+00:00</lastmod>
   </url>
@@ -150,6 +155,18 @@
   </url>
   
   <url>
+    <loc>https://toscano84.github.io/tags/factors/</loc>
+    <lastmod>2019-05-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/tags/forcats/</loc>
+    <lastmod>2019-05-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://toscano84.github.io/tags/german-elections/</loc>
     <lastmod>2018-11-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -181,7 +198,7 @@
   
   <url>
     <loc>https://toscano84.github.io/</loc>
-    <lastmod>2019-04-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-05-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -194,6 +211,12 @@
   <url>
     <loc>https://toscano84.github.io/tags/k-means-clustering/</loc>
     <lastmod>2019-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://toscano84.github.io/tags/kaggle/</loc>
+    <lastmod>2019-05-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -253,7 +276,7 @@
   
   <url>
     <loc>https://toscano84.github.io/post/</loc>
-    <lastmod>2019-04-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-05-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -331,7 +354,7 @@
   
   <url>
     <loc>https://toscano84.github.io/categories/tutorials/</loc>
-    <lastmod>2019-04-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-05-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

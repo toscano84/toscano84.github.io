@@ -1,0 +1,1073 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.49.2 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Factors in R: Forcats to help</title>
+    <meta name="author" content="Hugo Toscano">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../favicon.png">
+    
+
+    
+    <meta name="description" content="In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.">
+    <meta property="og:description" content="In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Factors in R: Forcats to help">
+    <meta property="og:url" content="/2019/05/factors-in-r-forcats-to-help/">
+    <meta property="og:site_name" content="Hugo Toscano">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo Toscano">
+    <meta name="twitter:description" content="In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="../../../css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">Hugo Toscano</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="../../../#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="../../../#about">
+          <img class="sidebar-profile-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Hugo Toscano</h4>
+        
+          <h5 class="sidebar-profile-bio">Contact: hugo_toscano@outlook.com</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../2018/07/about-me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+      
+      <span class="sidebar-button-desc">About me</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/toscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Factors in R: Forcats to help
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-05-10T00:00:00Z">
+        
+  May 10, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="../../../categories/tutorials">Tutorials</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>In this post I’ll work with this dataset from <a href="https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016">Kaggle</a> which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful <a href="https://www.tidyverse.org/">tidyverse</a> package called <code>forcats</code>. I will explore some variables that can be turned into factors and show you the main functions of <code>forcats</code> to help you wrangle data.</p>
+<p>Now, we can load our libraries.</p>
+<pre class="r"><code># load libraries
+library(tidyverse) # wrangling and data visualization - includes the forcats package
+library(readxl) # open excel files
+library(here) # sets a path to your file
+library(kableExtra) # visualize html tables
+library(scales) # creates different types of scales(e.g. commas, dollar sign, etc...)
+library(viridis) # colour palette
+library(ggdark) # themes for plots
+library(hrbrthemes) # add fonts in this case
+options(scipen = 999) # remove scientific notation</code></pre>
+<p>We will now open our dataset. We will call it “suicides”.</p>
+<pre class="r"><code># open dataset
+suicides &lt;- read_excel(here::here(&quot;suicides.xlsx&quot;))
+glimpse(suicides)</code></pre>
+<pre><code>## Observations: 27,820
+## Variables: 12
+## $ country              &lt;chr&gt; &quot;Albania&quot;, &quot;Albania&quot;, &quot;Albania&quot;, &quot;Albania...
+## $ year                 &lt;dbl&gt; 1987, 1987, 1987, 1987, 1987, 1987, 1987,...
+## $ sex                  &lt;chr&gt; &quot;male&quot;, &quot;male&quot;, &quot;female&quot;, &quot;male&quot;, &quot;male&quot;,...
+## $ age                  &lt;chr&gt; &quot;15-24 years&quot;, &quot;35-54 years&quot;, &quot;15-24 year...
+## $ suicides_no          &lt;dbl&gt; 21, 16, 14, 1, 9, 1, 6, 4, 1, 0, 0, 0, 2,...
+## $ population           &lt;dbl&gt; 312900, 308000, 289700, 21800, 274300, 35...
+## $ `suicides/100k pop`  &lt;dbl&gt; 6.71, 5.19, 4.83, 4.59, 3.28, 2.81, 2.15,...
+## $ `country-year`       &lt;chr&gt; &quot;Albania1987&quot;, &quot;Albania1987&quot;, &quot;Albania198...
+## $ `HDI for year`       &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...
+## $ `gdp_for_year ($)`   &lt;dbl&gt; 2156624900, 2156624900, 2156624900, 21566...
+## $ `gdp_per_capita ($)` &lt;dbl&gt; 796, 796, 796, 796, 796, 796, 796, 796, 7...
+## $ generation           &lt;chr&gt; &quot;Generation X&quot;, &quot;Silent&quot;, &quot;Generation X&quot;,...</code></pre>
+<pre class="r"><code># explore dataset
+suicides %&gt;% 
+  head()</code></pre>
+<pre><code>## # A tibble: 6 x 12
+##   country  year sex   age   suicides_no population `suicides/100k ~
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Albania  1987 male  15-2~          21     312900             6.71
+## 2 Albania  1987 male  35-5~          16     308000             5.19
+## 3 Albania  1987 fema~ 15-2~          14     289700             4.83
+## 4 Albania  1987 male  75+ ~           1      21800             4.59
+## 5 Albania  1987 male  25-3~           9     274300             3.28
+## 6 Albania  1987 fema~ 75+ ~           1      35600             2.81
+## # ... with 5 more variables: `country-year` &lt;chr&gt;, `HDI for year` &lt;dbl&gt;,
+## #   `gdp_for_year ($)` &lt;dbl&gt;, `gdp_per_capita ($)` &lt;dbl&gt;, generation &lt;chr&gt;</code></pre>
+<p>The age variable seems to be an interesting one to use in this tutorial. We can turn it into a factor variable with the <code>as.factor</code> function.</p>
+<pre class="r"><code># lets work with the age variable. Let&#39;s turn age into a factor variable
+suicides_tbl &lt;- suicides %&gt;% 
+  mutate(age = as.factor(age))</code></pre>
+<p>Now that we have the age variable as factor we can check its levels.</p>
+<pre class="r"><code># check levels of the variable age
+levels(suicides_tbl$age)</code></pre>
+<pre><code>## [1] &quot;15-24 years&quot; &quot;25-34 years&quot; &quot;35-54 years&quot; &quot;5-14 years&quot;  &quot;55-74 years&quot;
+## [6] &quot;75+ years&quot;</code></pre>
+<p>As we can see the levels of the factor variable age are not in the correct order. The level “5-14 years” appears in the 4th position, when it should be in the first one. To order the levels in the right way , we should use the <code>fct_relevel</code> function. We can do this by writing all arguments of the function in the correct order:</p>
+<pre class="r"><code># forcats functions
+# 1: fct_relevel()
+suicides_tbl &lt;- suicides_tbl %&gt;% 
+    mutate(age = fct_relevel(age,
+                           &quot;5-14 years&quot;,
+                           &quot;15-24 years&quot;,
+                           &quot;25-34 years&quot;,
+                           &quot;35-54 years&quot;,
+                           &quot;55-74 years&quot;,
+                           &quot;75+ years&quot;
+         )) 
+
+suicides_tbl %&gt;% 
+  
+  pull(age) %&gt;%
+  
+  levels()</code></pre>
+<pre><code>## [1] &quot;5-14 years&quot;  &quot;15-24 years&quot; &quot;25-34 years&quot; &quot;35-54 years&quot; &quot;55-74 years&quot;
+## [6] &quot;75+ years&quot;</code></pre>
+<p>Or we can use the argument <code>after</code> which in this case will correspond to 0, because we want the level <code>5-14 years</code> to be the first one.</p>
+<pre class="r"><code># fct_relevel alternative
+suicides_tbl %&gt;% 
+  mutate(age = fct_relevel(age,
+                           &quot;5-14 years&quot;, after = 0
+  )) %&gt;% 
+  pull(age) %&gt;% 
+  levels()</code></pre>
+<pre><code>## [1] &quot;5-14 years&quot;  &quot;15-24 years&quot; &quot;25-34 years&quot; &quot;35-54 years&quot; &quot;55-74 years&quot;
+## [6] &quot;75+ years&quot;</code></pre>
+<p>One interesting function in <code>forcats</code> is fct_reorder. As you can see in the plot below, the age variable is ordered based on its levels.</p>
+<pre class="r"><code># make a plot without fct_reorder
+suicides_tbl %&gt;%
+  filter(year== 2015,
+         country == &quot;United Kingdom&quot;) %&gt;%
+  group_by(age) %&gt;% 
+  summarise(suicides_total = sum(suicides_no)) %&gt;% 
+  mutate(prop = suicides_total / sum(suicides_total))%&gt;% 
+  ggplot(aes(age, suicides_total, fill = suicides_total,
+             color = NULL)) +
+  geom_col() + 
+  scale_fill_viridis(option = &quot;inferno&quot;, direction = -1) +
+  labs(title = &quot;Suicides in the UK&quot;, subtitle = &quot;Year 2015&quot;, y = &quot;Total Number of Suicides&quot;,
+       x = &quot;Age&quot;, fill = &quot;Number of Suicides&quot;) +
+  scale_y_continuous(labels = comma,
+                     expand = c(0,0)) +
+  coord_flip() +
+  theme_minimal() +
+  theme(plot.title = element_text(family = &quot;Agency FB&quot;, face = &quot;bold&quot;,
+                                  size = 25, hjust = .5),
+        plot.subtitle = element_text(family = &quot;Agency FB&quot;, face = &quot;bold&quot;,
+                                  size = 15),
+        axis.title = element_text(family = &quot;Agency FB&quot;, size = 15),
+        axis.text = element_text(family = &quot;Agency FB&quot;, size = 15),
+        legend.text = element_text(family = &quot;Agency FB&quot;, size = 15),
+        legend.title = element_text(family = &quot;Agency FB&quot;, size = 15))</code></pre>
+<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-7-1.png" width="672" /> However, in some cases we want the factor variables reordered in plots based on the values of some continuous variable. With that in mind we can use <code>fct_reorder</code> to reorder the age variable based on the total number of suicides.</p>
+<pre class="r"><code># forcats
+# 2: fct_reorder() 
+suicides_tbl %&gt;%
+  filter(year== 2015,
+         country == &quot;United Kingdom&quot;) %&gt;%
+  group_by(age) %&gt;% 
+  summarise(suicides_total = sum(suicides_no)) %&gt;% 
+  mutate(prop = suicides_total / sum(suicides_total))%&gt;% 
+  ggplot(aes(fct_reorder(age, suicides_total), suicides_total, fill = suicides_total,
+             color = NULL)) +
+  geom_col() + 
+  scale_fill_viridis(option = &quot;inferno&quot;, direction = -1) +
+  labs(title = &quot;Suicides in the UK&quot;, subtitle = &quot;Year 2015&quot;, y = &quot;Total Number of Suicides&quot;,x = &quot;Age&quot;, fill = &quot;Number of Suicides&quot;) +
+  scale_y_continuous(labels = comma,
+                     expand = c(0,0)) +
+  coord_flip() +
+  theme_minimal() +
+  theme(plot.title = element_text(family = &quot;Agency FB&quot;, face = &quot;bold&quot;,
+                                  size = 25, hjust = .5),
+        plot.subtitle = element_text(family = &quot;Agency FB&quot;, face = &quot;bold&quot;,
+                                  size = 15),
+        axis.title = element_text(family = &quot;Agency FB&quot;, size = 15),
+        axis.text = element_text(family = &quot;Agency FB&quot;, size = 15),
+        legend.text = element_text(family = &quot;Agency FB&quot;, size = 15),
+        legend.title = element_text(family = &quot;Agency FB&quot;, size = 15))</code></pre>
+<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-8-1.png" width="672" /> This plot looks clearer than the last one. The age variable is reordered according to the number of suicides.</p>
+<div id="fct_explicit_na" class="section level3">
+<h3>fct_explicit_na</h3>
+<p>Let’s work now with another variable of the dataset. We will create 5 levels of Human Development Index based on the variable <code>HDI for year</code>. We will turn this variable into a factor and relevel it again with <code>fct_relevel</code> and check for missing values.</p>
+<pre class="r"><code>suicides_tbl &lt;- suicides_tbl %&gt;% 
+  mutate(hdi_cat = case_when(`HDI for year` &gt;= 0.80 ~ &quot;Very High Development&quot;,
+                             `HDI for year` &gt;= 0.70 ~ &quot;High Development&quot;,
+                             `HDI for year` &gt;= 0.55 ~ &quot;Medium Development&quot;,
+                             `HDI for year` &gt;= 0.35 ~ &quot;Low Development&quot;,
+                             `HDI for year` &lt; 0.35 ~ &quot;Very Low Development&quot;
+  ) %&gt;% as.factor) %&gt;%
+    mutate(hdi_cat = fct_relevel(hdi_cat, 
+                &quot;High Development&quot;, after = 2)) 
+
+
+# check missing values
+any(is.na(suicides_tbl$hdi_cat))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Given that we have missing values, we can use the function <code>fct_explicit_na</code> to give a name to the same. a</p>
+<pre class="r"><code># forcats
+# 3: fct_explicit_na() 
+suicides_tbl &lt;- suicides_tbl %&gt;% 
+  mutate(hdi_cat = fct_explicit_na(hdi_cat, na_level = &quot;Missing&quot;))</code></pre>
+<p>We can also lump levels together in <code>forcats</code> with <code>fct_lump</code>. For instance, we have 4 levels within the variable correspondent to the categories of Human Development Index (hdi_cat), though we may be interested in lumping together the least common factors into a unique level. We can rename this new level with the argument <code>other_level</code>. We can lump according to two arguments, <code>n =</code> being the first one shown:</p>
+<pre class="r"><code># forcats
+# 4: fct_lump to lump levels
+# n argument
+suicides_tbl %&gt;%
+  na.omit() %&gt;%
+  mutate(hdi_lumped = fct_lump(hdi_cat, n = 2, other_level = &quot;Average/Below Average Development&quot;)) %&gt;%
+  count(hdi_lumped) %&gt;%
+  mutate(prop = n / sum(n)) %&gt;%
+  arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   hdi_lumped                            n  prop
+##   &lt;fct&gt;                             &lt;int&gt; &lt;dbl&gt;
+## 1 Very High Development              3600 0.430
+## 2 High Development                   2952 0.353
+## 3 Average/Below Average Development  1812 0.217</code></pre>
+<p>In this case we retained the two most common categories of Human Development Index present in our dataset, while the remaining categories were put together into the variable “Average/Low Development”.</p>
+<p>The second argument to lump together is called <code>prop</code>. This argument considers the proportions of each level. As you can see with the <code>prop = 0.20</code> all levels with less than 20% will be grouped along. In this case, we have 3 unique HDI categories and one that corresponds to the <code>other_level</code>.</p>
+<pre class="r"><code># prop argument
+suicides_tbl %&gt;%
+  na.omit() %&gt;%
+  mutate(hdi_relevel = fct_lump(hdi_cat, prop =0.20, other_level = &quot;Below Average&quot;)) %&gt;%
+  count(hdi_relevel) %&gt;%
+  mutate(prop = n / sum(n))</code></pre>
+<pre><code>## # A tibble: 4 x 3
+##   hdi_relevel               n    prop
+##   &lt;fct&gt;                 &lt;int&gt;   &lt;dbl&gt;
+## 1 Medium Development     1752 0.209  
+## 2 High Development       2952 0.353  
+## 3 Very High Development  3600 0.430  
+## 4 Below Average            60 0.00717</code></pre>
+<p>Moving on to other functions in <code>forcats</code>, another interesting one is <code>fct_infreq</code>, combined with <code>ggplot2</code>. This function is pretty neat when you want to reorder factor levels by frequency.</p>
+<pre class="r"><code># forcats
+# 5: fct_infreq
+suicides_tbl %&gt;%
+  na.omit() %&gt;%
+  add_count(hdi_cat) %&gt;%
+  ggplot(aes(fct_infreq(hdi_cat))) +
+  geom_bar(stat = &quot;count&quot;) +
+  labs(x = &quot;HDI Level&quot;, y = &quot;Count&quot;) +
+  theme_minimal() </code></pre>
+<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-13-1.png" width="672" /> However, we still have to order from right (more cases) to left (less cases). If you want to reorder with the terms of frequency from left (less cases) to right (more cases) you have to use <code>fct_rev</code> along with <code>fct_infreq</code>.</p>
+<pre class="r"><code># forcats
+# 6: fct_rev
+suicides_tbl %&gt;%
+  na.omit() %&gt;%
+  add_count(hdi_cat) %&gt;%
+  ggplot(aes(fct_rev(fct_infreq(hdi_cat)))) +
+  geom_bar(stat = &quot;count&quot;) +
+  labs(x = &quot;HDI Level&quot;, y = &quot;Count&quot;) +
+  theme_minimal() </code></pre>
+<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-14-1.png" width="672" /> If we would be interested in counting the cases in each level, we could simply use <code>fct_count</code>.</p>
+<pre class="r"><code># forcats
+# 7: fct_count() 
+fct_count(suicides_tbl$hdi_cat)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   f                         n
+##   &lt;fct&gt;                 &lt;int&gt;
+## 1 Low Development          60
+## 2 Medium Development     1752
+## 3 High Development       2952
+## 4 Very High Development  3600
+## 5 Missing               19456</code></pre>
+<p>Or to know the unique levels within our factors, we could use <code>fct_unique</code>.</p>
+<pre class="r"><code># forcats
+# 8: fct_unique()
+fct_unique(suicides_tbl$hdi_cat) </code></pre>
+<pre><code>## [1] Low Development       Medium Development    High Development     
+## [4] Very High Development Missing              
+## 5 Levels: Low Development Medium Development ... Missing</code></pre>
+<p>Now, let’s work with another variable from our dataset. The variable “generation” has 6 levels: “Silent”, “G.I. Generation”, “Boomers”, “Generation X”, “Generation Z”, and “Millennials”. We could be interested in grouping together some of the levels in a unique one. For this we can use the function <code>fct_collapse</code>.</p>
+<pre class="r"><code># forcats
+# 9: fct_collapse()
+suicides_tbl %&gt;%
+  mutate(generation = as.factor(generation)) %&gt;% 
+  mutate(generations = fct_collapse(generation,
+    &quot;Older Generations&quot; = c(&quot;Silent&quot;, &quot;G.I. Generation&quot;, &quot;Boomers&quot;),
+    &quot;Younger Generations&quot; = c(&quot;Generation X&quot;, &quot;Generation Z&quot;, &quot;Millenials&quot;)
+  )) %&gt;%
+  pull(generations) %&gt;% 
+  levels()</code></pre>
+<pre><code>## [1] &quot;Older Generations&quot;   &quot;Younger Generations&quot;</code></pre>
+<p>There might be some cases, where you want to compare one or more levels of a factor variable against all the other levels. For that, you can use the <code>fct_other</code>. Let’s imagine that you wanted to create a new factor variable where you wanted to compare the level “Silent” generation against all the other generation levels. In this case, we could use <code>fct_other</code> and the argument <code>keep</code> equals “Silent”.</p>
+<pre class="r"><code># forcats
+# 10: fct_other()
+suicides_tbl %&gt;%
+  mutate(silent_against_other = fct_other(generation, keep = &quot;Silent&quot;)) %&gt;% 
+  pull(silent_against_other) %&gt;% 
+  levels()</code></pre>
+<pre><code>## [1] &quot;Silent&quot; &quot;Other&quot;</code></pre>
+<p>There are other cases, where you just want to recode your factor variables. In such cases, <code>fct_recode</code> is of great help.</p>
+<pre class="r"><code># forcats
+# 11: fct_recode()
+suicides_tbl %&gt;% 
+  mutate(age_levels = fct_recode(age,
+                                 &quot;Child&quot; = &quot;5-14 years&quot;,
+                                 &quot;Adolescent/Young Adult&quot;= &quot;15-24 years&quot;,
+                                 &quot;Adult&quot; = &quot;25-34 years&quot;,
+                                 &quot;Middle-Aged Adult&quot;= &quot;35-54 years&quot;,
+                                 &quot;Older Adult&quot; = &quot;55-74 years&quot;,
+                                 &quot;Senior&quot; = &quot;75+ years&quot;)) %&gt;% 
+  pull(age_levels) %&gt;% 
+  levels()</code></pre>
+<pre><code>## [1] &quot;Child&quot;                  &quot;Adolescent/Young Adult&quot;
+## [3] &quot;Adult&quot;                  &quot;Middle-Aged Adult&quot;     
+## [5] &quot;Older Adult&quot;            &quot;Senior&quot;</code></pre>
+<p>When you intend to map colors in a line plot where your goal is to reorder a value according to values more associated with the y variable, <code>fct_reorder2</code> is of great use. In this example below, we are reordering the lines’ colors according to the higher total number of suicides during the nineties in the USA.</p>
+<pre class="r"><code># forcats
+# 12: fct_reorder2()
+suicides_tbl%&gt;%
+  filter(year &gt; 1989, year &lt; 2000, country == &quot;United States&quot;) %&gt;% 
+  group_by(year, age) %&gt;% 
+  summarise(suicides_total = sum(suicides_no)) %&gt;% 
+  ggplot(aes(year, suicides_total, colour = fct_reorder2(age, year, suicides_total))) +
+  geom_line(size = 2.5) + 
+  scale_x_continuous(expand = c(0,0),
+                     breaks = c(seq(1990, 1998, 2)),
+                     labels = c(1990, 1992, 1994, 1996, 1998),
+                     limits = c(1990, 1999))  +
+  scale_colour_viridis_d(option = &quot;inferno&quot;) +
+  labs(title = &quot;Suicides in the USA&quot;, subtitle = &quot;90&#39;s decade&quot;,
+       y = &quot;Total Number of Suicides&quot;,
+       x = &quot;Year&quot;, colour = &quot;Age&quot;) +
+  theme_minimal() +
+  theme(plot.title = element_text(family = &quot;Agency FB&quot;, face = &quot;bold&quot;,
+                                  size = 25, hjust = .5),
+        plot.subtitle = element_text(family = &quot;Agency FB&quot;, face = &quot;bold&quot;,
+                                  size = 15, hjust = 0.5),
+        axis.title = element_text(family = &quot;Agency FB&quot;, size = 15),
+        axis.text = element_text(family = &quot;Agency FB&quot;, size = 15),
+        legend.text = element_text(family = &quot;Agency FB&quot;, size = 15),
+        legend.title = element_text(family = &quot;Agency FB&quot;, size = 15))</code></pre>
+<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-20-1.png" width="672" /> We can also relabel factor variables with <code>fct_relabel</code>. Just to give a quick example, we can remove the word “years” from our age variable.</p>
+<pre class="r"><code># forcats
+# 13: fct_relabel
+suicides_tbl$age %&gt;% fct_relabel(~ str_replace_all(.x, &quot;years&quot;, &quot; &quot;)) %&gt;% head()</code></pre>
+<pre><code>## [1] 15-24   35-54   15-24   75+     25-34   75+    
+## Levels: 5-14   15-24   25-34   35-54   55-74   75+</code></pre>
+<p>There might be also some cases where you wish to anonymize your data, then you can use the <code>fct_anon</code>.</p>
+<pre class="r"><code># forcats
+# 14: fct_anon
+suicides_tbl %&gt;%
+  mutate(generation = as.factor(generation) %&gt;% fct_anon()) %&gt;%
+  group_by(generation) %&gt;% 
+  count()</code></pre>
+<pre><code>## # A tibble: 6 x 2
+## # Groups:   generation [6]
+##   generation     n
+##   &lt;fct&gt;      &lt;int&gt;
+## 1 1           2744
+## 2 2           4990
+## 3 3           5844
+## 4 4           6364
+## 5 5           1470
+## 6 6           6408</code></pre>
+<p>When you have a factor whose levels are not in the desired and/ or correct order you can use the <code>fct_shift</code> function and add positive (shift to the left) or negative (shift to right) numbers to the <code>n</code> argument. We can check it in this example without <code>fct_shift</code>:</p>
+<pre class="r"><code>suicides_tbl %&gt;% 
+  mutate(generation = as.factor(hdi_cat)) %&gt;% 
+  pull(generation) %&gt;% 
+  levels()</code></pre>
+<pre><code>## [1] &quot;Low Development&quot;       &quot;Medium Development&quot;    &quot;High Development&quot;     
+## [4] &quot;Very High Development&quot; &quot;Missing&quot;</code></pre>
+<p>And with <code>fct_shift</code> where each level is moved one level to the right because <code>n =</code> -1.</p>
+<pre class="r"><code># forcats
+# 15: fct_shift ()
+suicides_tbl %&gt;% 
+  mutate(generation = as.factor(hdi_cat) %&gt;% fct_shift(n = -1)) %&gt;% 
+  pull(generation) %&gt;% 
+  levels()</code></pre>
+<pre><code>## [1] &quot;Missing&quot;               &quot;Low Development&quot;       &quot;Medium Development&quot;   
+## [4] &quot;High Development&quot;      &quot;Very High Development&quot;</code></pre>
+<p>If you just want to randomly relevel the levels of your factor variable, you can simply use <code>fct_shuffle</code>.</p>
+<pre class="r"><code># forcats
+# 16: fct_shuffle()
+suicides_tbl %&gt;% 
+  mutate(generation = as.factor(generation) %&gt;% fct_shuffle()) %&gt;%
+  pull(generation) %&gt;%
+  levels()</code></pre>
+<pre><code>## [1] &quot;Silent&quot;          &quot;Generation Z&quot;    &quot;G.I. Generation&quot; &quot;Generation X&quot;   
+## [5] &quot;Boomers&quot;         &quot;Millenials&quot;</code></pre>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>I hope you liked this post about how to work with factors in R. The wrangling of factor variables becomes smooth with the help of this great package called <code>forcats</code>. Keep learning and coding!</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="../../../tags/factors/">factors</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/forcats/">forcats</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/kaggle/">kaggle</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2019/04/working-with-strings-in-r-seattle-pet-names/" data-tooltip="Working with Strings in R: Seattle Pet Names">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2019/05/factors-in-r-forcats-to-help/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2019/05/factors-in-r-forcats-to-help/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Hugo Toscano. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2019/04/working-with-strings-in-r-seattle-pet-names/" data-tooltip="Working with Strings in R: Seattle Pet Names">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2019/05/factors-in-r-forcats-to-help/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2019/05/factors-in-r-forcats-to-help/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoscano84.github.io%2F2019%2F05%2Ffactors-in-r-forcats-to-help%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftoscano84.github.io%2F2019%2F05%2Ffactors-in-r-forcats-to-help%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Hugo Toscano</h4>
+    
+      <div id="about-card-bio">Contact: hugo_toscano@outlook.com</div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Stuttgart, Germany
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/05/factors-in-r-forcats-to-help/">
+                <h3 class="media-heading">Factors in R: Forcats to help</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/04/working-with-strings-in-r-seattle-pet-names/">
+                <h3 class="media-heading">Working with Strings in R: Seattle Pet Names</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to the blog. In this new post I’ll do a short tutorial on how to work with strings in R. I’ll show you some of the main functions of the stringr package and the amazing power of the rebus package. The data frame I will be using is from the week 13 of TidyTuesday. This data frame seemed to be the perfect opportunity to build this tutorial given the importance of strings for its understanding.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/04/euro-vs-dollar-working-with-lubridate-and-some-other-packages/">
+                <h3 class="media-heading">Euro vs Dollar: Working with Lubridate and some other packages</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to this new post about the Euro versus Dollar historical exchange rate since 1999 to the present day. This post will deal with dates, so I will use mainly the lubridate package and some of its most important functions. I will do my best to show you the power and simplicity of this truly magnificent tool within the R universe. Nevertheless, I won’t be restricted only to lubridate and will use some other packages to deal with this type of data.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/03/clustering-the-pharmaceutical-industry-stocks/">
+                <h3 class="media-heading">Clustering the Pharmaceutical Industry Stocks</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
+                <h3 class="media-heading">Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/">
+                <h3 class="media-heading">Creating a Model to Predict if a Bank Customer accepts Personal Loans</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post, we will fit a multiple logistic regression model to predict the probability of a bank customer accepting a personal loan based on multiple variables to be described later. Logistic regression is a supervised learning algorithm were the independent variable has a qualitative nature. In this case, corresponding to the acceptance or rejection of a personal loan. This tutorial will build multiple logistic regression models and assess them.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/11/german-elections-in-the-21st-century/">
+                <h3 class="media-heading">German Elections in the 21st Century</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this blogpost, we will come back to the subject of the German Elections. We will try to show, mostly visually, the changes in election results during the 21st century. Thus, we will use data from the elections in 2002 to the last ones in 2017. The main focus will be mapping the results of the parties represented in the current Bundestag (German Parliament) during this time span. Let’s start our coding.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+                <h3 class="media-heading">Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
+                <h3 class="media-heading">Hints to deal with Missing Values in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
+                <h3 class="media-heading">Combine Data frames in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
+Firstly, we will show examples related to what is called mutating joins.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         14 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/dabczf7ag/image/upload/v1533024537/cover_new2.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="../../../js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/toscano84.github.io\/2019\/05\/factors-in-r-forcats-to-help\/';
+          
+            this.page.identifier = '\/2019\/05\/factors-in-r-forcats-to-help\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'toscano84';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
