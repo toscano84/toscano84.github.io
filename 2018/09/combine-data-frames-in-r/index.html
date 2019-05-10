@@ -574,18 +574,18 @@ df_u </code></pre>
 <pre><code>## # A tibble: 12 x 5
 ##       Id Face  Sex      Dom   Str
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
-##  1     3 C     Female     6     5
+##  1    13 C     Male      10     8
 ##  2     5 E     Female     8     1
-##  3    13 C     Male      10     8
-##  4     9 I     Male       5     3
-##  5     7 G     Male       3     4
-##  6     4 D     Female     7     6
-##  7    10 A     Male       8     4
-##  8     6 F     Female     1     3
-##  9     1 A     Female     3     3
-## 10     2 B     Female     5     4
-## 11     8 H     Male       4     2
-## 12    15 B     Male       9     3</code></pre>
+##  3     6 F     Female     1     3
+##  4     7 G     Male       3     4
+##  5     1 A     Female     3     3
+##  6    10 A     Male       8     4
+##  7     4 D     Female     7     6
+##  8     9 I     Male       5     3
+##  9    15 B     Male       9     3
+## 10     8 H     Male       4     2
+## 11     2 B     Female     5     4
+## 12     3 C     Female     6     5</code></pre>
 <p>Now, we have only 12 rows, because 6 of the rows in df3 were the same as in df1. Remember, the union function returns only the unique rows. In this case, we have 12 observations that are unique within both data frames.</p>
 <p>In other cases, we can use the <code>setdiff()</code> if we want only the observation in df1 not in common with df3.</p>
 <pre class="r"><code>df_dif &lt;- df1 %&gt;% 
@@ -969,7 +969,7 @@ head(us_reunited)</code></pre>
                   May 5, 2019
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.</div>
+              <div class="media-content hide-xs font-merryweather">In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is to make a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>

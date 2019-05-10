@@ -28,15 +28,15 @@
     
 
     
-    <meta name="description" content="In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.">
-    <meta property="og:description" content="In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.">
+    <meta name="description" content="In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is to make a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.">
+    <meta property="og:description" content="In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is to make a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.">
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Factors in R: Forcats to help">
     <meta property="og:url" content="/2019/05/factors-in-r-forcats-to-help/">
     <meta property="og:site_name" content="Hugo Toscano">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Hugo Toscano">
-    <meta name="twitter:description" content="In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.">
+    <meta name="twitter:description" content="In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is to make a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.">
     
     
 
@@ -251,7 +251,7 @@ if (!doNotTrack) {
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>In this post I’ll work with this dataset from <a href="https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016">Kaggle</a> which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful <a href="https://www.tidyverse.org/">tidyverse</a> package called <code>forcats</code>. I will explore some variables that can be turned into factors and show you the main functions of <code>forcats</code> to help you wrangle data.</p>
+              <p>In this post I’ll work with this dataset from <a href="https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016">Kaggle</a> which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is to make a tutorial about how to work with factors in R by showing the powerful <a href="https://www.tidyverse.org/">tidyverse</a> package called <code>forcats</code>. I will explore some variables that can be turned into factors and show you the main functions of <code>forcats</code> to help you wrangle data.</p>
 <p>Now, we can load our libraries.</p>
 <pre class="r"><code># load libraries
 library(tidyverse) # wrangling and data visualization - includes the forcats package
@@ -299,6 +299,8 @@ suicides %&gt;%
 <pre class="r"><code># lets work with the age variable. Let&#39;s turn age into a factor variable
 suicides_tbl &lt;- suicides %&gt;% 
   mutate(age = as.factor(age))</code></pre>
+<div id="fct_relevel" class="section level3">
+<h3>fct_relevel</h3>
 <p>Now that we have the age variable as factor we can check its levels.</p>
 <pre class="r"><code># check levels of the variable age
 levels(suicides_tbl$age)</code></pre>
@@ -334,7 +336,10 @@ suicides_tbl %&gt;%
   levels()</code></pre>
 <pre><code>## [1] &quot;5-14 years&quot;  &quot;15-24 years&quot; &quot;25-34 years&quot; &quot;35-54 years&quot; &quot;55-74 years&quot;
 ## [6] &quot;75+ years&quot;</code></pre>
-<p>One interesting function in <code>forcats</code> is fct_reorder. As you can see in the plot below, the age variable is ordered based on its levels.</p>
+</div>
+<div id="fct_reorder" class="section level3">
+<h3>fct_reorder</h3>
+<p>One interesting function in <code>forcats</code> is <code>fct_reorder</code>. As you can see in the plot below, the age variable is ordered based on its levels.</p>
 <pre class="r"><code># make a plot without fct_reorder
 suicides_tbl %&gt;%
   filter(year== 2015,
@@ -360,7 +365,8 @@ suicides_tbl %&gt;%
         axis.text = element_text(family = &quot;Agency FB&quot;, size = 15),
         legend.text = element_text(family = &quot;Agency FB&quot;, size = 15),
         legend.title = element_text(family = &quot;Agency FB&quot;, size = 15))</code></pre>
-<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-7-1.png" width="672" /> However, in some cases we want the factor variables reordered in plots based on the values of some continuous variable. With that in mind we can use <code>fct_reorder</code> to reorder the age variable based on the total number of suicides.</p>
+<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>However, in some cases we want the factor variables reordered in plots based on the values of some continuous variable. With that in mind we can use <code>fct_reorder</code> to reorder the age variable based on the total number of suicides.</p>
 <pre class="r"><code># forcats
 # 2: fct_reorder() 
 suicides_tbl %&gt;%
@@ -386,7 +392,9 @@ suicides_tbl %&gt;%
         axis.text = element_text(family = &quot;Agency FB&quot;, size = 15),
         legend.text = element_text(family = &quot;Agency FB&quot;, size = 15),
         legend.title = element_text(family = &quot;Agency FB&quot;, size = 15))</code></pre>
-<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-8-1.png" width="672" /> This plot looks clearer than the last one. The age variable is reordered according to the number of suicides.</p>
+<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>This plot looks clearer than the last one. The age variable is reordered according to the number of suicides.</p>
+</div>
 <div id="fct_explicit_na" class="section level3">
 <h3>fct_explicit_na</h3>
 <p>Let’s work now with another variable of the dataset. We will create 5 levels of Human Development Index based on the variable <code>HDI for year</code>. We will turn this variable into a factor and relevel it again with <code>fct_relevel</code> and check for missing values.</p>
@@ -404,27 +412,30 @@ suicides_tbl %&gt;%
 # check missing values
 any(is.na(suicides_tbl$hdi_cat))</code></pre>
 <pre><code>## [1] TRUE</code></pre>
-<p>Given that we have missing values, we can use the function <code>fct_explicit_na</code> to give a name to the same. a</p>
+<p>Given that we have missing values, we can use the function <code>fct_explicit_na</code> to give it a name.</p>
 <pre class="r"><code># forcats
 # 3: fct_explicit_na() 
 suicides_tbl &lt;- suicides_tbl %&gt;% 
   mutate(hdi_cat = fct_explicit_na(hdi_cat, na_level = &quot;Missing&quot;))</code></pre>
+</div>
+<div id="fct_lump" class="section level3">
+<h3>fct_lump</h3>
 <p>We can also lump levels together in <code>forcats</code> with <code>fct_lump</code>. For instance, we have 4 levels within the variable correspondent to the categories of Human Development Index (hdi_cat), though we may be interested in lumping together the least common factors into a unique level. We can rename this new level with the argument <code>other_level</code>. We can lump according to two arguments, <code>n =</code> being the first one shown:</p>
 <pre class="r"><code># forcats
 # 4: fct_lump to lump levels
 # n argument
 suicides_tbl %&gt;%
   na.omit() %&gt;%
-  mutate(hdi_lumped = fct_lump(hdi_cat, n = 2, other_level = &quot;Average/Below Average Development&quot;)) %&gt;%
+  mutate(hdi_lumped = fct_lump(hdi_cat, n = 2, other_level = &quot;Average/Low Development&quot;)) %&gt;%
   count(hdi_lumped) %&gt;%
   mutate(prop = n / sum(n)) %&gt;%
   arrange(desc(n))</code></pre>
 <pre><code>## # A tibble: 3 x 3
-##   hdi_lumped                            n  prop
-##   &lt;fct&gt;                             &lt;int&gt; &lt;dbl&gt;
-## 1 Very High Development              3600 0.430
-## 2 High Development                   2952 0.353
-## 3 Average/Below Average Development  1812 0.217</code></pre>
+##   hdi_lumped                  n  prop
+##   &lt;fct&gt;                   &lt;int&gt; &lt;dbl&gt;
+## 1 Very High Development    3600 0.430
+## 2 High Development         2952 0.353
+## 3 Average/Low Development  1812 0.217</code></pre>
 <p>In this case we retained the two most common categories of Human Development Index present in our dataset, while the remaining categories were put together into the variable “Average/Low Development”.</p>
 <p>The second argument to lump together is called <code>prop</code>. This argument considers the proportions of each level. As you can see with the <code>prop = 0.20</code> all levels with less than 20% will be grouped along. In this case, we have 3 unique HDI categories and one that corresponds to the <code>other_level</code>.</p>
 <pre class="r"><code># prop argument
@@ -440,6 +451,9 @@ suicides_tbl %&gt;%
 ## 2 High Development       2952 0.353  
 ## 3 Very High Development  3600 0.430  
 ## 4 Below Average            60 0.00717</code></pre>
+</div>
+<div id="fct_infreq" class="section level3">
+<h3>fct_infreq</h3>
 <p>Moving on to other functions in <code>forcats</code>, another interesting one is <code>fct_infreq</code>, combined with <code>ggplot2</code>. This function is pretty neat when you want to reorder factor levels by frequency.</p>
 <pre class="r"><code># forcats
 # 5: fct_infreq
@@ -450,7 +464,11 @@ suicides_tbl %&gt;%
   geom_bar(stat = &quot;count&quot;) +
   labs(x = &quot;HDI Level&quot;, y = &quot;Count&quot;) +
   theme_minimal() </code></pre>
-<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-13-1.png" width="672" /> However, we still have to order from right (more cases) to left (less cases). If you want to reorder with the terms of frequency from left (less cases) to right (more cases) you have to use <code>fct_rev</code> along with <code>fct_infreq</code>.</p>
+<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="fct_rev" class="section level3">
+<h3>fct_rev</h3>
+<p>However, we still have an order from right (more cases) to left (less cases). If you want to reorder with the terms of frequency from left (less cases) to right (more cases) you have to use <code>fct_rev</code> along with <code>fct_infreq</code>.</p>
 <pre class="r"><code># forcats
 # 6: fct_rev
 suicides_tbl %&gt;%
@@ -460,7 +478,11 @@ suicides_tbl %&gt;%
   geom_bar(stat = &quot;count&quot;) +
   labs(x = &quot;HDI Level&quot;, y = &quot;Count&quot;) +
   theme_minimal() </code></pre>
-<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-14-1.png" width="672" /> If we would be interested in counting the cases in each level, we could simply use <code>fct_count</code>.</p>
+<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="fct_count" class="section level3">
+<h3>fct_count</h3>
+<p>If we would be interested in counting the cases in each level, we could simply use <code>fct_count</code>.</p>
 <pre class="r"><code># forcats
 # 7: fct_count() 
 fct_count(suicides_tbl$hdi_cat)</code></pre>
@@ -472,6 +494,9 @@ fct_count(suicides_tbl$hdi_cat)</code></pre>
 ## 3 High Development       2952
 ## 4 Very High Development  3600
 ## 5 Missing               19456</code></pre>
+</div>
+<div id="fct_unique" class="section level3">
+<h3>fct_unique</h3>
 <p>Or to know the unique levels within our factors, we could use <code>fct_unique</code>.</p>
 <pre class="r"><code># forcats
 # 8: fct_unique()
@@ -479,6 +504,9 @@ fct_unique(suicides_tbl$hdi_cat) </code></pre>
 <pre><code>## [1] Low Development       Medium Development    High Development     
 ## [4] Very High Development Missing              
 ## 5 Levels: Low Development Medium Development ... Missing</code></pre>
+</div>
+<div id="fct_collapse" class="section level3">
+<h3>fct_collapse</h3>
 <p>Now, let’s work with another variable from our dataset. The variable “generation” has 6 levels: “Silent”, “G.I. Generation”, “Boomers”, “Generation X”, “Generation Z”, and “Millennials”. We could be interested in grouping together some of the levels in a unique one. For this we can use the function <code>fct_collapse</code>.</p>
 <pre class="r"><code># forcats
 # 9: fct_collapse()
@@ -491,6 +519,9 @@ suicides_tbl %&gt;%
   pull(generations) %&gt;% 
   levels()</code></pre>
 <pre><code>## [1] &quot;Older Generations&quot;   &quot;Younger Generations&quot;</code></pre>
+</div>
+<div id="fct_other" class="section level3">
+<h3>fct_other</h3>
 <p>There might be some cases, where you want to compare one or more levels of a factor variable against all the other levels. For that, you can use the <code>fct_other</code>. Let’s imagine that you wanted to create a new factor variable where you wanted to compare the level “Silent” generation against all the other generation levels. In this case, we could use <code>fct_other</code> and the argument <code>keep</code> equals “Silent”.</p>
 <pre class="r"><code># forcats
 # 10: fct_other()
@@ -499,6 +530,9 @@ suicides_tbl %&gt;%
   pull(silent_against_other) %&gt;% 
   levels()</code></pre>
 <pre><code>## [1] &quot;Silent&quot; &quot;Other&quot;</code></pre>
+</div>
+<div id="fct_recode" class="section level3">
+<h3>fct_recode</h3>
 <p>There are other cases, where you just want to recode your factor variables. In such cases, <code>fct_recode</code> is of great help.</p>
 <pre class="r"><code># forcats
 # 11: fct_recode()
@@ -515,7 +549,10 @@ suicides_tbl %&gt;%
 <pre><code>## [1] &quot;Child&quot;                  &quot;Adolescent/Young Adult&quot;
 ## [3] &quot;Adult&quot;                  &quot;Middle-Aged Adult&quot;     
 ## [5] &quot;Older Adult&quot;            &quot;Senior&quot;</code></pre>
-<p>When you intend to map colors in a line plot where your goal is to reorder a value according to values more associated with the y variable, <code>fct_reorder2</code> is of great use. In this example below, we are reordering the lines’ colors according to the higher total number of suicides during the nineties in the USA.</p>
+</div>
+<div id="fct_reorder2" class="section level3">
+<h3>fct_reorder2</h3>
+<p>When you intend to map colors in a line plot where your goal is to reorder a value according to values more associated with the y variable, <code>fct_reorder2</code> is of great use. In this example below, we are reordering the lines’ colors according to the higher total number of suicides by age group during the nineties in the USA.</p>
 <pre class="r"><code># forcats
 # 12: fct_reorder2()
 suicides_tbl%&gt;%
@@ -541,12 +578,19 @@ suicides_tbl%&gt;%
         axis.text = element_text(family = &quot;Agency FB&quot;, size = 15),
         legend.text = element_text(family = &quot;Agency FB&quot;, size = 15),
         legend.title = element_text(family = &quot;Agency FB&quot;, size = 15))</code></pre>
-<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-20-1.png" width="672" /> We can also relabel factor variables with <code>fct_relabel</code>. Just to give a quick example, we can remove the word “years” from our age variable.</p>
+<p><img src="../../../post/2019-05-10-factors-in-r-forcats-to-help_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="fct_relabel" class="section level3">
+<h3>fct_relabel</h3>
+<p>We can also relabel factor variables with <code>fct_relabel</code>. Just to give a quick example, we can remove the word “years” from our age variable.</p>
 <pre class="r"><code># forcats
 # 13: fct_relabel
 suicides_tbl$age %&gt;% fct_relabel(~ str_replace_all(.x, &quot;years&quot;, &quot; &quot;)) %&gt;% head()</code></pre>
 <pre><code>## [1] 15-24   35-54   15-24   75+     25-34   75+    
 ## Levels: 5-14   15-24   25-34   35-54   55-74   75+</code></pre>
+</div>
+<div id="fct_anon" class="section level3">
+<h3>fct_anon</h3>
 <p>There might be also some cases where you wish to anonymize your data, then you can use the <code>fct_anon</code>.</p>
 <pre class="r"><code># forcats
 # 14: fct_anon
@@ -558,12 +602,15 @@ suicides_tbl %&gt;%
 ## # Groups:   generation [6]
 ##   generation     n
 ##   &lt;fct&gt;      &lt;int&gt;
-## 1 1           2744
+## 1 1           6408
 ## 2 2           4990
 ## 3 3           5844
-## 4 4           6364
-## 5 5           1470
-## 6 6           6408</code></pre>
+## 4 4           1470
+## 5 5           2744
+## 6 6           6364</code></pre>
+</div>
+<div id="fct_shift" class="section level3">
+<h3>fct_shift</h3>
 <p>When you have a factor whose levels are not in the desired and/ or correct order you can use the <code>fct_shift</code> function and add positive (shift to the left) or negative (shift to right) numbers to the <code>n</code> argument. We can check it in this example without <code>fct_shift</code>:</p>
 <pre class="r"><code>suicides_tbl %&gt;% 
   mutate(generation = as.factor(hdi_cat)) %&gt;% 
@@ -580,6 +627,9 @@ suicides_tbl %&gt;%
   levels()</code></pre>
 <pre><code>## [1] &quot;Missing&quot;               &quot;Low Development&quot;       &quot;Medium Development&quot;   
 ## [4] &quot;High Development&quot;      &quot;Very High Development&quot;</code></pre>
+</div>
+<div id="fct_shuffle" class="section level3">
+<h3>fct_shuffle</h3>
 <p>If you just want to randomly relevel the levels of your factor variable, you can simply use <code>fct_shuffle</code>.</p>
 <pre class="r"><code># forcats
 # 16: fct_shuffle()
@@ -587,7 +637,7 @@ suicides_tbl %&gt;%
   mutate(generation = as.factor(generation) %&gt;% fct_shuffle()) %&gt;%
   pull(generation) %&gt;%
   levels()</code></pre>
-<pre><code>## [1] &quot;Silent&quot;          &quot;Generation Z&quot;    &quot;G.I. Generation&quot; &quot;Generation X&quot;   
+<pre><code>## [1] &quot;G.I. Generation&quot; &quot;Silent&quot;          &quot;Generation Z&quot;    &quot;Generation X&quot;   
 ## [5] &quot;Boomers&quot;         &quot;Millenials&quot;</code></pre>
 </div>
 <div id="conclusion" class="section level2">
@@ -834,7 +884,7 @@ suicides_tbl %&gt;%
                   May 5, 2019
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is making a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.</div>
+              <div class="media-content hide-xs font-merryweather">In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is to make a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
