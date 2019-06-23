@@ -659,8 +659,8 @@ is.data.frame(wine_total)</code></pre>
 ## 88.44714 35.36339</code></pre>
 <p>That is, the average punctuation is 88.45 and the average price is 35.36 dollars.</p>
 </div>
-<div id="iterating-over-two-or-more-lists-map2-and-pmap" class="section level2">
-<h2>Iterating over two or more lists: map2() and pmap()</h2>
+<div id="iterating-over-two-or-more-lists-map2-and-pmap" class="section level3">
+<h3>Iterating over two or more lists: map2() and pmap()</h3>
 <p>In some of the examples above with <code>map()</code> we used only one list, but there are cases where we can have two or more lists to manipulate. Let’s now create three lists where each one corresponds to one of the 3 datasets above.</p>
 <pre class="r"><code># create new lists
 list1 &lt;- list(wine1)
@@ -710,6 +710,7 @@ glimpse(pmap_ex)</code></pre>
 ##   ..$ title                : chr [1:129971] &quot;Nicosia 2013 VulkÃ  Bianco  (Etna)&quot; &quot;Quinta dos Avidagos 2011 Avidagos Red (Douro)&quot; &quot;Rainstorm 2013 Pinot Gris (Willamette Valley)&quot; &quot;St. Julian 2013 Reserve Late Harvest Riesling (Lake Michigan Shore)&quot; ...
 ##   ..$ variety              : chr [1:129971] &quot;White Blend&quot; &quot;Portuguese Red&quot; &quot;Pinot Gris&quot; &quot;Riesling&quot; ...
 ##   ..$ winery               : chr [1:129971] &quot;Nicosia&quot; &quot;Quinta dos Avidagos&quot; &quot;Rainstorm&quot; &quot;St. Julian&quot; ...</code></pre>
+</div>
 <div id="iterate-plots-walk" class="section level3">
 <h3>Iterate plots: walk()</h3>
 <p>The <code>walk()</code> function from <code>purrr</code> works much like <code>map()</code> because we also have to add two arguments to it. We supply the name of the list as the first argument, and the second argument corresponds to the name of the function that we want to apply. Moreover, <code>walk()</code> is really handy when you want to make plots in succession. In the example below, we’ll use <code>walk()</code> to print six scatterplots of the top 6 wine producing countries.</p>
@@ -756,24 +757,13 @@ legend.title = element_text(family = &quot;&quot;, size = 15)) +
                 labs(title = .y,
                      subtitle = &quot;Wine Prices and Points given by critics&quot;,
                      x = &quot;log(Price)&quot;,
-                     y = &quot;Points&quot;))  </code></pre>
-<pre><code>## Inverted geom defaults of fill and color/colour.
-## To change them back, use invert_geom_defaults().</code></pre>
-<pre class="r"><code># walk to print the 6 plots
+                     y = &quot;Points&quot;))  
+  
+  
+# walk to print the 6 plots
 # it has 2 arguments: the first argument, a list called plots; and the second argument, the function # that we want to apply
 walk(plots, print)</code></pre>
-<pre><code>## Warning: Removed 56 rows containing missing values (geom_point).</code></pre>
-<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<pre><code>## Warning: Removed 4317 rows containing missing values (geom_point).</code></pre>
-<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
-<pre><code>## Warning: Removed 2626 rows containing missing values (geom_point).</code></pre>
-<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-3.png" width="672" /></p>
-<pre><code>## Warning: Removed 816 rows containing missing values (geom_point).</code></pre>
-<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-4.png" width="672" /></p>
-<pre><code>## Warning: Removed 72 rows containing missing values (geom_point).</code></pre>
-<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-5.png" width="672" /></p>
-<pre><code>## Warning: Removed 239 rows containing missing values (geom_point).</code></pre>
-<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-6.png" width="672" /></p>
+<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-1.png" width="672" /><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-2.png" width="672" /><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-3.png" width="672" /><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-4.png" width="672" /><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-5.png" width="672" /><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-6.png" width="672" /></p>
 </div>
 <div id="changing-some-variables-data-modify" class="section level3">
 <h3>Changing some variables data: modify()</h3>
@@ -988,7 +978,6 @@ mean_without_rm &lt;- partial(mean, na.rm = TRUE)
 mean_without_rm(wine_total$price)</code></pre>
 <pre><code>## [1] 35.36339</code></pre>
 <p>These are just two simple examples, though they show the potential of functions such as <code>compose()</code> and <code>partial()</code>.</p>
-</div>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
