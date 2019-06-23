@@ -602,11 +602,11 @@ suicides_tbl %&gt;%
 ## # Groups:   generation [6]
 ##   generation     n
 ##   &lt;fct&gt;      &lt;int&gt;
-## 1 1           6408
-## 2 2           4990
-## 3 3           5844
-## 4 4           1470
-## 5 5           2744
+## 1 1           1470
+## 2 2           5844
+## 3 3           2744
+## 4 4           6408
+## 5 5           4990
 ## 6 6           6364</code></pre>
 </div>
 <div id="fct_shift" class="section level3">
@@ -637,8 +637,8 @@ suicides_tbl %&gt;%
   mutate(generation = as.factor(generation) %&gt;% fct_shuffle()) %&gt;%
   pull(generation) %&gt;%
   levels()</code></pre>
-<pre><code>## [1] &quot;G.I. Generation&quot; &quot;Silent&quot;          &quot;Generation Z&quot;    &quot;Generation X&quot;   
-## [5] &quot;Boomers&quot;         &quot;Millenials&quot;</code></pre>
+<pre><code>## [1] &quot;Generation X&quot;    &quot;Boomers&quot;         &quot;Silent&quot;          &quot;G.I. Generation&quot;
+## [5] &quot;Millenials&quot;      &quot;Generation Z&quot;</code></pre>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>

@@ -1,0 +1,1490 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.49.2 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Iteration made easier: A case study with purrr</title>
+    <meta name="author" content="Hugo Toscano">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../favicon.png">
+    
+
+    
+    <meta name="description" content="This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. I have written this because sometimes I keep forgetting about the purrr functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed.">
+    <meta property="og:description" content="This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. I have written this because sometimes I keep forgetting about the purrr functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Iteration made easier: A case study with purrr">
+    <meta property="og:url" content="/2019/06/iteration-made-easier-a-case-study-with-purrr/">
+    <meta property="og:site_name" content="Hugo Toscano">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo Toscano">
+    <meta name="twitter:description" content="This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. I have written this because sometimes I keep forgetting about the purrr functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="../../../css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">Hugo Toscano</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="../../../#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="../../../#about">
+          <img class="sidebar-profile-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Hugo Toscano</h4>
+        
+          <h5 class="sidebar-profile-bio">Contact: hugo_toscano@outlook.com</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../2018/07/about-me/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+      
+      <span class="sidebar-button-desc">About me</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/toscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/hugo-toscano-56766a2a/" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/htoscano84" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Iteration made easier: A case study with purrr
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-06-21T00:00:00Z">
+        
+  June 21, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="../../../categories/tutorials">Tutorials</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the <code>purrr</code> package. I have written this because sometimes I keep forgetting about the <code>purrr</code> functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a> and it’s called <code>Wine Ratings</code>. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed. Moreover, it’s very detailed in regard to critical reviews and information about critics.</p>
+<p>To begin, let’s load the libraries that we’ll use for this post.</p>
+<pre class="r"><code>library(tidyverse) # manipulate, iterate, and visualize data
+library(fs) # create directory
+library(here) # set a path to your file
+library(data.table) # in this case it&#39;s used to write and open files
+library(ggdark) # ggplot2 theme
+library(extrafont) # add fonts
+library(hrbrthemes) # add fonts in this case</code></pre>
+<p>Now, we’ll open our dataset.</p>
+<pre class="r"><code>wine_ratings &lt;- fread(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-28/winemag-data-130k-v2.csv&quot;)</code></pre>
+<p>For tutorial purposes, let’s create 3 different datasets based on the <code>wine_ratings</code> dataset and put them together as a list, called <code>wine_list</code>.</p>
+<pre class="r"><code># create 3 datasets
+# wine1 with colums 2 to 7 of wine_new 
+wine1 &lt;- wine_ratings %&gt;%
+  select(2:7) # delete column 1
+# wine2 with colums 8 to 11 of wine_new 
+wine2 &lt;- wine_ratings %&gt;% 
+  select(8:11)
+# wine3 with colums 12 to 14 of wine_new 
+wine3 &lt;- wine_ratings %&gt;% 
+  select(12:14)
+
+# create list with the 3 datasets
+wine_list &lt;- list(wine1 = wine1, wine2 = wine2, wine3 = wine3)
+
+
+
+head(wine_list)</code></pre>
+<pre><code>## $wine1
+##          country
+##      1:    Italy
+##      2: Portugal
+##      3:       US
+##      4:       US
+##      5:       US
+##     ---         
+## 129967:  Germany
+## 129968:       US
+## 129969:   France
+## 129970:   France
+## 129971:   France
+##                                                                                                                                                                                                                                                       description
+##      1:                                                                              Aromas include tropical fruit, broom, brimstone and dried herb. The palate isn&#39;t overly expressive, offering unripened apple, citrus and dried sage alongside brisk acidity.
+##      2:                       This is ripe and fruity, a wine that is smooth while still structured. Firm tannins are filled out with juicy red berry fruits and freshened with acidity. It&#39;s  already drinkable, although it will certainly be better from 2016.
+##      3:                                                                Tart and snappy, the flavors of lime flesh and rind dominate. Some green pineapple pokes through, with crisp acidity underscoring the flavors. The wine was all stainless-steel fermented.
+##      4:                                                   Pineapple rind, lemon pith and orange blossom start off the aromas. The palate is a bit more opulent, with notes of honey-drizzled guava and mango giving way to a slightly astringent, semidry finish.
+##      5: Much like the regular bottling from 2012, this comes across as rather rough and tannic, with rustic, earthy, herbal characteristics. Nonetheless, if you think of it as a pleasantly unfussy country wine, it&#39;s a good companion to a hearty winter stew.
+##     ---                                                                                                                                                                                                                                                          
+## 129967:                      Notes of honeysuckle and cantaloupe sweeten this deliciously feather-light spÃ¤tlese. It&#39;s intensely juicy, quenching the palate with streams of tart tangerine and grapefruit acidity, yet wraps up with a kiss of honey and peach.
+## 129968:                 Citation is given as much as a decade of bottle age prior to release, which means it is pre-cellared and drinking at its peak. Baked cherry, cocoa and coconut flavors combine gracefully, with soft, secondary fruit compote highlights.
+## 129969:                         Well-drained gravel soil gives this wine its crisp and dry character. It is ripe and fruity, although the spice is subdued in favor of a more serious structure. This is a wine to age for a couple of years, so drink from 2017.
+## 129970:                                  A dry style of Pinot Gris, this is crisp with some acidity. It also has weight and a solid, powerful core of spice and baked apple flavors. With its structure still developing, the wine needs to age. Drink from 2015.
+## 129971:                                                                                 Big, rich and off-dry, this is powered by intense spiciness and rounded texture. Lychees dominate the fruit profile, giving an opulent feel to the aftertaste. Drink now.
+##                                     designation points price
+##      1:                           VulkÃ  Bianco     87    NA
+##      2:                                Avidagos     87    15
+##      3:                                             87    14
+##      4:                    Reserve Late Harvest     87    13
+##      5:      Vintner&#39;s Reserve Wild Child Block     87    65
+##     ---                                                     
+## 129967: Brauneberger Juffer-Sonnenuhr SpÃ¤tlese     90    28
+## 129968:                                             90    75
+## 129969:                                   Kritt     90    30
+## 129970:                                             90    32
+## 129971:          Lieu-dit Harth CuvÃ©e Caroline     90    21
+##                  province
+##      1: Sicily &amp; Sardinia
+##      2:             Douro
+##      3:            Oregon
+##      4:          Michigan
+##      5:            Oregon
+##     ---                  
+## 129967:             Mosel
+## 129968:            Oregon
+## 129969:            Alsace
+## 129970:            Alsace
+## 129971:            Alsace
+## 
+## $wine2
+##                    region_1          region_2        taster_name
+##      1:                Etna                      Kerin Oâ\200\231Keefe
+##      2:                                               Roger Voss
+##      3:   Willamette Valley Willamette Valley       Paul Gregutt
+##      4: Lake Michigan Shore                   Alexander Peartree
+##      5:   Willamette Valley Willamette Valley       Paul Gregutt
+##     ---                                                         
+## 129967:                                       Anna Lee C. Iijima
+## 129968:              Oregon      Oregon Other       Paul Gregutt
+## 129969:              Alsace                           Roger Voss
+## 129970:              Alsace                           Roger Voss
+## 129971:              Alsace                           Roger Voss
+##         taster_twitter_handle
+##      1:          @kerinokeefe
+##      2:            @vossroger
+##      3:          @paulgwineÂ 
+##      4:                      
+##      5:          @paulgwineÂ 
+##     ---                      
+## 129967:                      
+## 129968:          @paulgwineÂ 
+## 129969:            @vossroger
+## 129970:            @vossroger
+## 129971:            @vossroger
+## 
+## $wine3
+##                                                                                                           title
+##      1:                                                                      Nicosia 2013 VulkÃ  Bianco  (Etna)
+##      2:                                                           Quinta dos Avidagos 2011 Avidagos Red (Douro)
+##      3:                                                           Rainstorm 2013 Pinot Gris (Willamette Valley)
+##      4:                                     St. Julian 2013 Reserve Late Harvest Riesling (Lake Michigan Shore)
+##      5:                     Sweet Cheeks 2012 Vintner&#39;s Reserve Wild Child Block Pinot Noir (Willamette Valley)
+##     ---                                                                                                        
+## 129967: Dr. H. Thanisch (Erben MÃ¼ller-Burggraef) 2013 Brauneberger Juffer-Sonnenuhr SpÃ¤tlese Riesling (Mosel)
+## 129968:                                                                       Citation 2004 Pinot Noir (Oregon)
+## 129969:                                                      Domaine Gresser 2013 Kritt Gewurztraminer (Alsace)
+## 129970:                                                           Domaine Marcel Deiss 2012 Pinot Gris (Alsace)
+## 129971:                            Domaine Schoffit 2012 Lieu-dit Harth CuvÃ©e Caroline Gewurztraminer (Alsace)
+##                 variety                                    winery
+##      1:     White Blend                                   Nicosia
+##      2:  Portuguese Red                       Quinta dos Avidagos
+##      3:      Pinot Gris                                 Rainstorm
+##      4:        Riesling                                St. Julian
+##      5:      Pinot Noir                              Sweet Cheeks
+##     ---                                                          
+## 129967:        Riesling Dr. H. Thanisch (Erben MÃ¼ller-Burggraef)
+## 129968:      Pinot Noir                                  Citation
+## 129969: GewÃ¼rztraminer                           Domaine Gresser
+## 129970:      Pinot Gris                      Domaine Marcel Deiss
+## 129971: GewÃ¼rztraminer                          Domaine Schoffit</code></pre>
+<div id="saving-and-opening-multiple-files-map" class="section level3">
+<h3>Saving and Opening multiple files: map()</h3>
+<p>So, now that we have a list with 3 datasets, how can we save these 3 files separately in our computer. Here comes into play the amazing <code>map()</code> function from the <code>purrr</code> package. Using <code>map()</code> together with the function <code>fwrite</code> from the <code>data.table</code> package, we can iterate the process of saving files in a simpler way. In our case, we can separately save the 3 datasets from our list.</p>
+<pre class="r"><code>wine &lt;- wine_list %&gt;%
+  names(.) %&gt;%
+  map(~fwrite(wine_list[[.]], str_c(&quot;C:/Users/Diana/Downloads/hugoblog/wine/&quot;, ., &quot;.csv&quot;)))</code></pre>
+<p>Let’s now do the reverse. Open together the 3 files. First, we create a directory path.</p>
+<pre class="r"><code># create a path
+path_wine &lt;- fs::dir_info(path = &quot;C:/Users/Diana/Downloads/hugoblog/wine/&quot;)</code></pre>
+<p>Then, we <code>pull</code> the path and use <code>map()</code> together with <code>fread</code> to open the 3 datasets.</p>
+<pre class="r"><code># pull the path 
+wine &lt;- path_wine %&gt;% 
+  pull(path)
+
+
+# opening multiples files with purrr
+wine_list_purrr &lt;- wine %&gt;%
+  map(fread) %&gt;%
+  set_names(., c(&quot;wine1&quot;, &quot;wine2&quot;, &quot;wine3&quot;))
+
+head(wine_list_purrr)</code></pre>
+<pre><code>## $wine1
+##          country
+##      1:    Italy
+##      2: Portugal
+##      3:       US
+##      4:       US
+##      5:       US
+##     ---         
+## 129967:  Germany
+## 129968:       US
+## 129969:   France
+## 129970:   France
+## 129971:   France
+##                                                                                                                                                                                                                                                       description
+##      1:                                                                              Aromas include tropical fruit, broom, brimstone and dried herb. The palate isn&#39;t overly expressive, offering unripened apple, citrus and dried sage alongside brisk acidity.
+##      2:                       This is ripe and fruity, a wine that is smooth while still structured. Firm tannins are filled out with juicy red berry fruits and freshened with acidity. It&#39;s  already drinkable, although it will certainly be better from 2016.
+##      3:                                                                Tart and snappy, the flavors of lime flesh and rind dominate. Some green pineapple pokes through, with crisp acidity underscoring the flavors. The wine was all stainless-steel fermented.
+##      4:                                                   Pineapple rind, lemon pith and orange blossom start off the aromas. The palate is a bit more opulent, with notes of honey-drizzled guava and mango giving way to a slightly astringent, semidry finish.
+##      5: Much like the regular bottling from 2012, this comes across as rather rough and tannic, with rustic, earthy, herbal characteristics. Nonetheless, if you think of it as a pleasantly unfussy country wine, it&#39;s a good companion to a hearty winter stew.
+##     ---                                                                                                                                                                                                                                                          
+## 129967:                      Notes of honeysuckle and cantaloupe sweeten this deliciously feather-light spÃ¤tlese. It&#39;s intensely juicy, quenching the palate with streams of tart tangerine and grapefruit acidity, yet wraps up with a kiss of honey and peach.
+## 129968:                 Citation is given as much as a decade of bottle age prior to release, which means it is pre-cellared and drinking at its peak. Baked cherry, cocoa and coconut flavors combine gracefully, with soft, secondary fruit compote highlights.
+## 129969:                         Well-drained gravel soil gives this wine its crisp and dry character. It is ripe and fruity, although the spice is subdued in favor of a more serious structure. This is a wine to age for a couple of years, so drink from 2017.
+## 129970:                                  A dry style of Pinot Gris, this is crisp with some acidity. It also has weight and a solid, powerful core of spice and baked apple flavors. With its structure still developing, the wine needs to age. Drink from 2015.
+## 129971:                                                                                 Big, rich and off-dry, this is powered by intense spiciness and rounded texture. Lychees dominate the fruit profile, giving an opulent feel to the aftertaste. Drink now.
+##                                     designation points price
+##      1:                           VulkÃ  Bianco     87    NA
+##      2:                                Avidagos     87    15
+##      3:                                             87    14
+##      4:                    Reserve Late Harvest     87    13
+##      5:      Vintner&#39;s Reserve Wild Child Block     87    65
+##     ---                                                     
+## 129967: Brauneberger Juffer-Sonnenuhr SpÃ¤tlese     90    28
+## 129968:                                             90    75
+## 129969:                                   Kritt     90    30
+## 129970:                                             90    32
+## 129971:          Lieu-dit Harth CuvÃ©e Caroline     90    21
+##                  province
+##      1: Sicily &amp; Sardinia
+##      2:             Douro
+##      3:            Oregon
+##      4:          Michigan
+##      5:            Oregon
+##     ---                  
+## 129967:             Mosel
+## 129968:            Oregon
+## 129969:            Alsace
+## 129970:            Alsace
+## 129971:            Alsace
+## 
+## $wine2
+##                    region_1          region_2        taster_name
+##      1:                Etna                      Kerin Oâ\200\231Keefe
+##      2:                                               Roger Voss
+##      3:   Willamette Valley Willamette Valley       Paul Gregutt
+##      4: Lake Michigan Shore                   Alexander Peartree
+##      5:   Willamette Valley Willamette Valley       Paul Gregutt
+##     ---                                                         
+## 129967:                                       Anna Lee C. Iijima
+## 129968:              Oregon      Oregon Other       Paul Gregutt
+## 129969:              Alsace                           Roger Voss
+## 129970:              Alsace                           Roger Voss
+## 129971:              Alsace                           Roger Voss
+##         taster_twitter_handle
+##      1:          @kerinokeefe
+##      2:            @vossroger
+##      3:          @paulgwineÂ 
+##      4:                      
+##      5:          @paulgwineÂ 
+##     ---                      
+## 129967:                      
+## 129968:          @paulgwineÂ 
+## 129969:            @vossroger
+## 129970:            @vossroger
+## 129971:            @vossroger
+## 
+## $wine3
+##                                                                                                           title
+##      1:                                                                      Nicosia 2013 VulkÃ  Bianco  (Etna)
+##      2:                                                           Quinta dos Avidagos 2011 Avidagos Red (Douro)
+##      3:                                                           Rainstorm 2013 Pinot Gris (Willamette Valley)
+##      4:                                     St. Julian 2013 Reserve Late Harvest Riesling (Lake Michigan Shore)
+##      5:                     Sweet Cheeks 2012 Vintner&#39;s Reserve Wild Child Block Pinot Noir (Willamette Valley)
+##     ---                                                                                                        
+## 129967: Dr. H. Thanisch (Erben MÃ¼ller-Burggraef) 2013 Brauneberger Juffer-Sonnenuhr SpÃ¤tlese Riesling (Mosel)
+## 129968:                                                                       Citation 2004 Pinot Noir (Oregon)
+## 129969:                                                      Domaine Gresser 2013 Kritt Gewurztraminer (Alsace)
+## 129970:                                                           Domaine Marcel Deiss 2012 Pinot Gris (Alsace)
+## 129971:                            Domaine Schoffit 2012 Lieu-dit Harth CuvÃ©e Caroline Gewurztraminer (Alsace)
+##                 variety                                    winery
+##      1:     White Blend                                   Nicosia
+##      2:  Portuguese Red                       Quinta dos Avidagos
+##      3:      Pinot Gris                                 Rainstorm
+##      4:        Riesling                                St. Julian
+##      5:      Pinot Noir                              Sweet Cheeks
+##     ---                                                          
+## 129967:        Riesling Dr. H. Thanisch (Erben MÃ¼ller-Burggraef)
+## 129968:      Pinot Noir                                  Citation
+## 129969: GewÃ¼rztraminer                           Domaine Gresser
+## 129970:      Pinot Gris                      Domaine Marcel Deiss
+## 129971: GewÃ¼rztraminer                          Domaine Schoffit</code></pre>
+<p>We can check each dataset from our list using double brackets with the correspondent index.</p>
+<pre class="r"><code># wine1
+head(wine_list_purrr[[1]])</code></pre>
+<pre><code>##     country
+## 1:    Italy
+## 2: Portugal
+## 3:       US
+## 4:       US
+## 5:       US
+## 6:    Spain
+##                                                                                                                                                                                                                                                              description
+## 1:                                                                                          Aromas include tropical fruit, broom, brimstone and dried herb. The palate isn&#39;t overly expressive, offering unripened apple, citrus and dried sage alongside brisk acidity.
+## 2:                                   This is ripe and fruity, a wine that is smooth while still structured. Firm tannins are filled out with juicy red berry fruits and freshened with acidity. It&#39;s  already drinkable, although it will certainly be better from 2016.
+## 3:                                                                            Tart and snappy, the flavors of lime flesh and rind dominate. Some green pineapple pokes through, with crisp acidity underscoring the flavors. The wine was all stainless-steel fermented.
+## 4:                                                               Pineapple rind, lemon pith and orange blossom start off the aromas. The palate is a bit more opulent, with notes of honey-drizzled guava and mango giving way to a slightly astringent, semidry finish.
+## 5:             Much like the regular bottling from 2012, this comes across as rather rough and tannic, with rustic, earthy, herbal characteristics. Nonetheless, if you think of it as a pleasantly unfussy country wine, it&#39;s a good companion to a hearty winter stew.
+## 6: Blackberry and raspberry aromas show a typical Navarran whiff of green herbs and, in this case, horseradish. In the mouth, this is fairly full bodied, with tomatoey acidity. Spicy, herbal flavors complement dark plum fruit, while the finish is fresh but grabby.
+##                           designation points price          province
+## 1:                      VulkÃ  Bianco     87    NA Sicily &amp; Sardinia
+## 2:                           Avidagos     87    15             Douro
+## 3:                                        87    14            Oregon
+## 4:               Reserve Late Harvest     87    13          Michigan
+## 5: Vintner&#39;s Reserve Wild Child Block     87    65            Oregon
+## 6:                       Ars In Vitro     87    15    Northern Spain</code></pre>
+<pre class="r"><code>#wine2
+head(wine_list_purrr[[2]])</code></pre>
+<pre><code>##               region_1          region_2        taster_name
+## 1:                Etna                      Kerin Oâ\200\231Keefe
+## 2:                                               Roger Voss
+## 3:   Willamette Valley Willamette Valley       Paul Gregutt
+## 4: Lake Michigan Shore                   Alexander Peartree
+## 5:   Willamette Valley Willamette Valley       Paul Gregutt
+## 6:             Navarra                    Michael Schachner
+##    taster_twitter_handle
+## 1:          @kerinokeefe
+## 2:            @vossroger
+## 3:          @paulgwineÂ 
+## 4:                      
+## 5:          @paulgwineÂ 
+## 6:           @wineschach</code></pre>
+<pre class="r"><code>#wine3
+head(wine_list_purrr[[3]])</code></pre>
+<pre><code>##                                                                                  title
+## 1:                                                  Nicosia 2013 VulkÃ  Bianco  (Etna)
+## 2:                                       Quinta dos Avidagos 2011 Avidagos Red (Douro)
+## 3:                                       Rainstorm 2013 Pinot Gris (Willamette Valley)
+## 4:                 St. Julian 2013 Reserve Late Harvest Riesling (Lake Michigan Shore)
+## 5: Sweet Cheeks 2012 Vintner&#39;s Reserve Wild Child Block Pinot Noir (Willamette Valley)
+## 6:                               Tandem 2011 Ars In Vitro Tempranillo-Merlot (Navarra)
+##               variety              winery
+## 1:        White Blend             Nicosia
+## 2:     Portuguese Red Quinta dos Avidagos
+## 3:         Pinot Gris           Rainstorm
+## 4:           Riesling          St. Julian
+## 5:         Pinot Noir        Sweet Cheeks
+## 6: Tempranillo-Merlot              Tandem</code></pre>
+</div>
+<div id="extract-elements-from-a-list-map-again" class="section level3">
+<h3>Extract elements from a list: map() again</h3>
+<p>One amazing feature of <code>purrr</code> is the ability to extract elements from a list. Again, with <code>map</code> we could simply put in double brackets the element of the list we wanted. Then, we could use <code>flatten_chr</code>, to unlist and turn the output into a character vector.</p>
+<pre class="r"><code>map(wine_list_purrr, ~.x[[&quot;country&quot;]]) %&gt;%  flatten_chr() %&gt;%  unique()</code></pre>
+<pre><code>##  [1] &quot;Italy&quot;                  &quot;Portugal&quot;              
+##  [3] &quot;US&quot;                     &quot;Spain&quot;                 
+##  [5] &quot;France&quot;                 &quot;Germany&quot;               
+##  [7] &quot;Argentina&quot;              &quot;Chile&quot;                 
+##  [9] &quot;Australia&quot;              &quot;Austria&quot;               
+## [11] &quot;South Africa&quot;           &quot;New Zealand&quot;           
+## [13] &quot;Israel&quot;                 &quot;Hungary&quot;               
+## [15] &quot;Greece&quot;                 &quot;Romania&quot;               
+## [17] &quot;Mexico&quot;                 &quot;Canada&quot;                
+## [19] &quot;&quot;                       &quot;Turkey&quot;                
+## [21] &quot;Czech Republic&quot;         &quot;Slovenia&quot;              
+## [23] &quot;Luxembourg&quot;             &quot;Croatia&quot;               
+## [25] &quot;Georgia&quot;                &quot;Uruguay&quot;               
+## [27] &quot;England&quot;                &quot;Lebanon&quot;               
+## [29] &quot;Serbia&quot;                 &quot;Brazil&quot;                
+## [31] &quot;Moldova&quot;                &quot;Morocco&quot;               
+## [33] &quot;Peru&quot;                   &quot;India&quot;                 
+## [35] &quot;Bulgaria&quot;               &quot;Cyprus&quot;                
+## [37] &quot;Armenia&quot;                &quot;Switzerland&quot;           
+## [39] &quot;Bosnia and Herzegovina&quot; &quot;Ukraine&quot;               
+## [41] &quot;Slovakia&quot;               &quot;Macedonia&quot;             
+## [43] &quot;China&quot;                  &quot;Egypt&quot;</code></pre>
+<p>With only one line of code, it turns out that there are 44 wine producing countries.</p>
+<div id="check-the-length-and-number-of-cases-of-a-list-map_dblmap_int" class="section level4">
+<h4>Check the length and number of cases of a list: map_dbl()/map_int()</h4>
+<p>Now, we have our list and we want to know the length of each variable present in datasets. In that case, we could simply use map_dbl()/map_int() which is similar to map(), but it returns a vector, in this case numeric, instead of a list.</p>
+<pre class="r"><code># number of rows/cases in our list
+map_dbl(wine_list_purrr, ~nrow(.x))</code></pre>
+<pre><code>##  wine1  wine2  wine3 
+## 129971 129971 129971</code></pre>
+<pre class="r"><code>map_int(wine_list_purrr, ~nrow(.x))</code></pre>
+<pre><code>##  wine1  wine2  wine3 
+## 129971 129971 129971</code></pre>
+<p>As we can see, we have around 130 thousand wine reviews. If we wanted the length of each list, we could use <code>length</code> instead of <code>nrow()</code>.</p>
+<pre class="r"><code>map_dbl(wine_list_purrr, ~length(.x))</code></pre>
+<pre><code>## wine1 wine2 wine3 
+##     6     4     3</code></pre>
+<pre class="r"><code>map_int(wine_list_purrr, ~length(.x))</code></pre>
+<pre><code>## wine1 wine2 wine3 
+##     6     4     3</code></pre>
+<p>Therefore, we have 6 variables in the first dataset, and 4 and 3 variables in the remaining ones included in our list.</p>
+</div>
+<div id="map_lgl" class="section level4">
+<h4>map_lgl()</h4>
+<p>We can confirm what has been written above, using the <code>map_lgl()</code> that returns a logical vector. The first element of the list has 6 variables, the second 4 variables and the third 3 variables.</p>
+<pre class="r"><code>map_lgl(wine_list_purrr, ~ncol(.x) == 6)</code></pre>
+<pre><code>## wine1 wine2 wine3 
+##  TRUE FALSE FALSE</code></pre>
+<pre class="r"><code>map_lgl(wine_list_purrr, ~ncol(.x) == 4)</code></pre>
+<pre><code>## wine1 wine2 wine3 
+## FALSE  TRUE FALSE</code></pre>
+<pre class="r"><code>map_lgl(wine_list_purrr, ~ncol(.x) == 3)</code></pre>
+<pre><code>## wine1 wine2 wine3 
+## FALSE FALSE  TRUE</code></pre>
+</div>
+</div>
+<div id="from-a-list-to-a-data-frame-reduce" class="section level3">
+<h3>From a list to a data frame: reduce()</h3>
+<p>How can we transform our list with 3 data frames in one data frame? We can do this by using the <code>reduce</code> function from <code>purrr</code>. In this case, we just add the <code>data.frame</code> function after the list argument.</p>
+<pre class="r"><code># use reduce to create a data frame from a list
+wine_total &lt;- purrr::reduce(wine_list_purrr, data.frame)
+
+# check the structure of our data frame
+glimpse(wine_total)</code></pre>
+<pre><code>## Observations: 129,971
+## Variables: 13
+## $ country               &lt;chr&gt; &quot;Italy&quot;, &quot;Portugal&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;...
+## $ description           &lt;chr&gt; &quot;Aromas include tropical fruit, broom, b...
+## $ designation           &lt;chr&gt; &quot;VulkÃ  Bianco&quot;, &quot;Avidagos&quot;, &quot;&quot;, &quot;Reserv...
+## $ points                &lt;int&gt; 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, ...
+## $ price                 &lt;int&gt; NA, 15, 14, 13, 65, 15, 16, 24, 12, 27, ...
+## $ province              &lt;chr&gt; &quot;Sicily &amp; Sardinia&quot;, &quot;Douro&quot;, &quot;Oregon&quot;, ...
+## $ region_1              &lt;chr&gt; &quot;Etna&quot;, &quot;&quot;, &quot;Willamette Valley&quot;, &quot;Lake M...
+## $ region_2              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;Willamette Valley&quot;, &quot;&quot;, &quot;Willam...
+## $ taster_name           &lt;chr&gt; &quot;Kerin Oâ\200\231Keefe&quot;, &quot;Roger Voss&quot;, &quot;...
+## $ taster_twitter_handle &lt;chr&gt; &quot;@kerinokeefe&quot;, &quot;@vossroger&quot;, &quot;@paulgwin...
+## $ title                 &lt;chr&gt; &quot;Nicosia 2013 VulkÃ  Bianco  (Etna)&quot;, &quot;Q...
+## $ variety               &lt;chr&gt; &quot;White Blend&quot;, &quot;Portuguese Red&quot;, &quot;Pinot ...
+## $ winery                &lt;chr&gt; &quot;Nicosia&quot;, &quot;Quinta dos Avidagos&quot;, &quot;Rains...</code></pre>
+<pre class="r"><code># to confirm if we have a data frame
+is.data.frame(wine_total)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+<div id="computations-with-map" class="section level3">
+<h3>Computations with map()</h3>
+<p>Returning to our <code>map()</code> functions, if we wanted to know the average price and review points of the wines from our data frame, we could use <code>map_dbl()</code> to do so. Note: <code>map_int()</code> doesn’t work here because the computation of the mean of these variables is not an integer.</p>
+<pre class="r"><code>wine_total %&gt;%
+  select_if(is.numeric) %&gt;%
+  map_dbl(., ~.x %&gt;% mean(, na.rm = TRUE))</code></pre>
+<pre><code>##   points    price 
+## 88.44714 35.36339</code></pre>
+<p>That is, the average punctuation is 88.45 and the average price is 35.36 dollars.</p>
+</div>
+<div id="iterating-over-two-or-more-lists-map2-and-pmap" class="section level2">
+<h2>Iterating over two or more lists: map2() and pmap()</h2>
+<p>In some of the examples above with <code>map()</code> we used only one list, but there are cases where we can have two or more lists to manipulate. Let’s now create three lists where each one corresponds to one of the 3 datasets above.</p>
+<pre class="r"><code># create new lists
+list1 &lt;- list(wine1)
+list2 &lt;- list(wine2)
+list3 &lt;- list(wine3)</code></pre>
+<p>When we want to manipulate two lists simultaneously, we can use <code>map2()</code>. This function works similarly to <code>map</code>, the difference is that the function, iterates over two lists, instead of one as in <code>map()</code>. In this example, we created a list by iterating the function <code>data.frame</code> over two lists. Thus, we’ve put together the two lists in one list called map2_ex.</p>
+<pre class="r"><code># map2 and pmap
+map2_ex &lt;- map2(list1, list2, data.frame)
+
+# check the list
+glimpse(map2_ex)</code></pre>
+<pre><code>## List of 1
+##  $ :&#39;data.frame&#39;:    129971 obs. of  10 variables:
+##   ..$ country              : chr [1:129971] &quot;Italy&quot; &quot;Portugal&quot; &quot;US&quot; &quot;US&quot; ...
+##   ..$ description          : chr [1:129971] &quot;Aromas include tropical fruit, broom, brimstone and dried herb. The palate isn&#39;t overly expressive, offering un&quot;| __truncated__ &quot;This is ripe and fruity, a wine that is smooth while still structured. Firm tannins are filled out with juicy r&quot;| __truncated__ &quot;Tart and snappy, the flavors of lime flesh and rind dominate. Some green pineapple pokes through, with crisp ac&quot;| __truncated__ &quot;Pineapple rind, lemon pith and orange blossom start off the aromas. The palate is a bit more opulent, with note&quot;| __truncated__ ...
+##   ..$ designation          : chr [1:129971] &quot;VulkÃ  Bianco&quot; &quot;Avidagos&quot; &quot;&quot; &quot;Reserve Late Harvest&quot; ...
+##   ..$ points               : int [1:129971] 87 87 87 87 87 87 87 87 87 87 ...
+##   ..$ price                : num [1:129971] NA 15 14 13 65 15 16 24 12 27 ...
+##   ..$ province             : chr [1:129971] &quot;Sicily &amp; Sardinia&quot; &quot;Douro&quot; &quot;Oregon&quot; &quot;Michigan&quot; ...
+##   ..$ region_1             : chr [1:129971] &quot;Etna&quot; &quot;&quot; &quot;Willamette Valley&quot; &quot;Lake Michigan Shore&quot; ...
+##   ..$ region_2             : chr [1:129971] &quot;&quot; &quot;&quot; &quot;Willamette Valley&quot; &quot;&quot; ...
+##   ..$ taster_name          : chr [1:129971] &quot;Kerin Oâ\200\231Keefe&quot; &quot;Roger Voss&quot; &quot;Paul Gregutt&quot; &quot;Alexander Peartree&quot; ...
+##   ..$ taster_twitter_handle: chr [1:129971] &quot;@kerinokeefe&quot; &quot;@vossroger&quot; &quot;@paulgwineÂ &quot; &quot;&quot; ...</code></pre>
+<p>However, we created three lists. In this scenario , we should use the <code>pmap()</code> function which works differently than <code>map()</code> and <code>map2()</code>. With <code>pmap()</code> the first argument is the list that has all the 3 lists within. Then we have to create a function with each list, plus the corresponding function we want to iterate over the 3 lists.</p>
+<pre class="r"><code># pmap()
+list_total &lt;- list(list1,
+                   list2,
+                   list3)
+
+pmap_ex &lt;- pmap(list_total,
+                function(list1, list2, list3)
+                  data.frame(list1, list2, list3))
+# check the list
+glimpse(pmap_ex)</code></pre>
+<pre><code>## List of 1
+##  $ :&#39;data.frame&#39;:    129971 obs. of  13 variables:
+##   ..$ country              : chr [1:129971] &quot;Italy&quot; &quot;Portugal&quot; &quot;US&quot; &quot;US&quot; ...
+##   ..$ description          : chr [1:129971] &quot;Aromas include tropical fruit, broom, brimstone and dried herb. The palate isn&#39;t overly expressive, offering un&quot;| __truncated__ &quot;This is ripe and fruity, a wine that is smooth while still structured. Firm tannins are filled out with juicy r&quot;| __truncated__ &quot;Tart and snappy, the flavors of lime flesh and rind dominate. Some green pineapple pokes through, with crisp ac&quot;| __truncated__ &quot;Pineapple rind, lemon pith and orange blossom start off the aromas. The palate is a bit more opulent, with note&quot;| __truncated__ ...
+##   ..$ designation          : chr [1:129971] &quot;VulkÃ  Bianco&quot; &quot;Avidagos&quot; &quot;&quot; &quot;Reserve Late Harvest&quot; ...
+##   ..$ points               : int [1:129971] 87 87 87 87 87 87 87 87 87 87 ...
+##   ..$ price                : num [1:129971] NA 15 14 13 65 15 16 24 12 27 ...
+##   ..$ province             : chr [1:129971] &quot;Sicily &amp; Sardinia&quot; &quot;Douro&quot; &quot;Oregon&quot; &quot;Michigan&quot; ...
+##   ..$ region_1             : chr [1:129971] &quot;Etna&quot; &quot;&quot; &quot;Willamette Valley&quot; &quot;Lake Michigan Shore&quot; ...
+##   ..$ region_2             : chr [1:129971] &quot;&quot; &quot;&quot; &quot;Willamette Valley&quot; &quot;&quot; ...
+##   ..$ taster_name          : chr [1:129971] &quot;Kerin Oâ\200\231Keefe&quot; &quot;Roger Voss&quot; &quot;Paul Gregutt&quot; &quot;Alexander Peartree&quot; ...
+##   ..$ taster_twitter_handle: chr [1:129971] &quot;@kerinokeefe&quot; &quot;@vossroger&quot; &quot;@paulgwineÂ &quot; &quot;&quot; ...
+##   ..$ title                : chr [1:129971] &quot;Nicosia 2013 VulkÃ  Bianco  (Etna)&quot; &quot;Quinta dos Avidagos 2011 Avidagos Red (Douro)&quot; &quot;Rainstorm 2013 Pinot Gris (Willamette Valley)&quot; &quot;St. Julian 2013 Reserve Late Harvest Riesling (Lake Michigan Shore)&quot; ...
+##   ..$ variety              : chr [1:129971] &quot;White Blend&quot; &quot;Portuguese Red&quot; &quot;Pinot Gris&quot; &quot;Riesling&quot; ...
+##   ..$ winery               : chr [1:129971] &quot;Nicosia&quot; &quot;Quinta dos Avidagos&quot; &quot;Rainstorm&quot; &quot;St. Julian&quot; ...</code></pre>
+<div id="iterate-plots-walk" class="section level3">
+<h3>Iterate plots: walk()</h3>
+<p>The <code>walk()</code> function from <code>purrr</code> works much like <code>map()</code> because we also have to add two arguments to it. We supply the name of the list as the first argument, and the second argument corresponds to the name of the function that we want to apply. Moreover, <code>walk()</code> is really handy when you want to make plots in succession. In the example below, we’ll use <code>walk()</code> to print six scatterplots of the top 6 wine producing countries.</p>
+<pre class="r"><code># walk
+# create data frame with the top 6 countries
+top_6countries &lt;- wine_total %&gt;%
+  count(country) %&gt;%
+  arrange(desc(n)) %&gt;%
+  slice(1:6)
+
+# create a list with all the variables, but only with data from the top 6 countries
+wine_split &lt;- wine_total %&gt;%
+  filter(country %in% top_6countries$country) %&gt;%
+  split(.$country)
+  
+
+
+
+# create plots with map2 and gggplot2
+plots &lt;- map2(wine_split[1:6], # two lists added because it&#39;s map2() - 
+              ## in this case the data and the columns&#39; names 
+              names(wine_split[1:6]),
+              # add the function - in this case a ggplot function
+              ~ ggplot(.x, aes(log(price), points)) + 
+                geom_point(colour = &quot;red&quot;, alpha = 0.3, size = 2.3) +
+                # add a theme
+                dark_theme_gray() +
+  theme(plot.title = element_text(family = &quot;Cooper Black&quot;, face = &quot;bold&quot;,
+                                  size = 40, hjust = 0.5),
+        plot.subtitle = element_text(family = &quot;Cooper Black&quot;, face = &quot;bold&quot;,
+                                     size = 10, hjust = 0.5),
+        plot.background = element_rect(fill = &quot;grey10&quot;),
+        panel.background = element_blank(),
+        panel.grid.major = element_line(color = &quot;grey30&quot;, size = 0.2),
+        panel.grid.minor = element_line(color = &quot;grey30&quot;, size = 0.2),
+        legend.background = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_text(family = &quot;Cooper Black&quot;, size = 15),
+        axis.text = element_text(family = &quot;Cooper Black&quot;, size = 15),
+        legend.key = element_blank(),
+        strip.background = element_blank(),
+        
+legend.title = element_text(family = &quot;&quot;, size = 15)) +
+                labs(title = .y,
+                     subtitle = &quot;Wine Prices and Points given by critics&quot;,
+                     x = &quot;log(Price)&quot;,
+                     y = &quot;Points&quot;))  </code></pre>
+<pre><code>## Inverted geom defaults of fill and color/colour.
+## To change them back, use invert_geom_defaults().</code></pre>
+<pre class="r"><code># walk to print the 6 plots
+# it has 2 arguments: the first argument, a list called plots; and the second argument, the function # that we want to apply
+walk(plots, print)</code></pre>
+<pre><code>## Warning: Removed 56 rows containing missing values (geom_point).</code></pre>
+<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre><code>## Warning: Removed 4317 rows containing missing values (geom_point).</code></pre>
+<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<pre><code>## Warning: Removed 2626 rows containing missing values (geom_point).</code></pre>
+<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-3.png" width="672" /></p>
+<pre><code>## Warning: Removed 816 rows containing missing values (geom_point).</code></pre>
+<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-4.png" width="672" /></p>
+<pre><code>## Warning: Removed 72 rows containing missing values (geom_point).</code></pre>
+<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-5.png" width="672" /></p>
+<pre><code>## Warning: Removed 239 rows containing missing values (geom_point).</code></pre>
+<p><img src="../../../post/2019-06-11-iteration-made-easier-a-case-study-with-purrr_files/figure-html/unnamed-chunk-17-6.png" width="672" /></p>
+</div>
+<div id="changing-some-variables-data-modify" class="section level3">
+<h3>Changing some variables data: modify()</h3>
+<p>If we want to change the variables and keep the format as a data frame, <code>modify()</code> is the function from <code>purrr</code> to apply. We can think in centering our numeric variables, price and points. We can do that by using <code>modify()</code> and <code>scale</code> as the argument. In this case, visible in the second example, we could also use <code>modify_if()</code> and <code>is.numeric</code> as the first argument.</p>
+<pre class="r"><code># modify
+wine_total_scale &lt;- wine_total %&gt;%
+  select(price, points) %&gt;%
+  modify(~ scale(.x))
+
+head(wine_total_scale)</code></pre>
+<pre><code>##        price     points
+## 1         NA -0.4760746
+## 2 -0.4963990 -0.4760746
+## 3 -0.5207761 -0.4760746
+## 4 -0.5451531 -0.4760746
+## 5  0.7224527 -0.4760746
+## 6 -0.4963990 -0.4760746</code></pre>
+<pre class="r"><code>wine_total_scale2 &lt;- wine_total %&gt;%
+  modify_if(is.numeric, ~ scale(.x))
+
+
+head(wine_total_scale2)</code></pre>
+<pre><code>##    country
+## 1    Italy
+## 2 Portugal
+## 3       US
+## 4       US
+## 5       US
+## 6    Spain
+##                                                                                                                                                                                                                                                             description
+## 1                                                                                          Aromas include tropical fruit, broom, brimstone and dried herb. The palate isn&#39;t overly expressive, offering unripened apple, citrus and dried sage alongside brisk acidity.
+## 2                                   This is ripe and fruity, a wine that is smooth while still structured. Firm tannins are filled out with juicy red berry fruits and freshened with acidity. It&#39;s  already drinkable, although it will certainly be better from 2016.
+## 3                                                                            Tart and snappy, the flavors of lime flesh and rind dominate. Some green pineapple pokes through, with crisp acidity underscoring the flavors. The wine was all stainless-steel fermented.
+## 4                                                               Pineapple rind, lemon pith and orange blossom start off the aromas. The palate is a bit more opulent, with notes of honey-drizzled guava and mango giving way to a slightly astringent, semidry finish.
+## 5             Much like the regular bottling from 2012, this comes across as rather rough and tannic, with rustic, earthy, herbal characteristics. Nonetheless, if you think of it as a pleasantly unfussy country wine, it&#39;s a good companion to a hearty winter stew.
+## 6 Blackberry and raspberry aromas show a typical Navarran whiff of green herbs and, in this case, horseradish. In the mouth, this is fairly full bodied, with tomatoey acidity. Spicy, herbal flavors complement dark plum fruit, while the finish is fresh but grabby.
+##                          designation     points      price
+## 1                      VulkÃ  Bianco -0.4760746         NA
+## 2                           Avidagos -0.4760746 -0.4963990
+## 3                                    -0.4760746 -0.5207761
+## 4               Reserve Late Harvest -0.4760746 -0.5451531
+## 5 Vintner&#39;s Reserve Wild Child Block -0.4760746  0.7224527
+## 6                       Ars In Vitro -0.4760746 -0.4963990
+##            province            region_1          region_2
+## 1 Sicily &amp; Sardinia                Etna                  
+## 2             Douro                                      
+## 3            Oregon   Willamette Valley Willamette Valley
+## 4          Michigan Lake Michigan Shore                  
+## 5            Oregon   Willamette Valley Willamette Valley
+## 6    Northern Spain             Navarra                  
+##          taster_name taster_twitter_handle
+## 1    Kerin Oâ\200\231Keefe          @kerinokeefe
+## 2         Roger Voss            @vossroger
+## 3       Paul Gregutt          @paulgwineÂ 
+## 4 Alexander Peartree                      
+## 5       Paul Gregutt          @paulgwineÂ 
+## 6  Michael Schachner           @wineschach
+##                                                                                 title
+## 1                                                  Nicosia 2013 VulkÃ  Bianco  (Etna)
+## 2                                       Quinta dos Avidagos 2011 Avidagos Red (Douro)
+## 3                                       Rainstorm 2013 Pinot Gris (Willamette Valley)
+## 4                 St. Julian 2013 Reserve Late Harvest Riesling (Lake Michigan Shore)
+## 5 Sweet Cheeks 2012 Vintner&#39;s Reserve Wild Child Block Pinot Noir (Willamette Valley)
+## 6                               Tandem 2011 Ars In Vitro Tempranillo-Merlot (Navarra)
+##              variety              winery
+## 1        White Blend             Nicosia
+## 2     Portuguese Red Quinta dos Avidagos
+## 3         Pinot Gris           Rainstorm
+## 4           Riesling          St. Julian
+## 5         Pinot Noir        Sweet Cheeks
+## 6 Tempranillo-Merlot              Tandem</code></pre>
+</div>
+<div id="predicate-functionals" class="section level3">
+<h3>Predicate functionals</h3>
+<p>The <code>purrr</code> package provides us with some additional neat functions. The ones presented now are predicate functionals. In these functionals, the first argument is always the list or the data frame, and the second argument the function.</p>
+<div id="detect-detect_index" class="section level4">
+<h4>detect(), detect_index()</h4>
+<p>The first two that we’ll be showing are <code>detect()</code> and <code>detect_index()</code>. The <code>detect()</code> as the name implies detects the first match of the function that we use as second argument. In the example below, its output corresponds to the values of our first character variable present in the data set. The <code>detect_index()</code> function output gives us the index position of our first numeric variable.</p>
+<pre class="r"><code># detect
+detect(wine_total, is.character) %&gt;%
+  head()</code></pre>
+<pre><code>## [1] &quot;Italy&quot;    &quot;Portugal&quot; &quot;US&quot;       &quot;US&quot;       &quot;US&quot;       &quot;Spain&quot;</code></pre>
+<pre class="r"><code># check detect_index
+detect_index(wine_total, is.numeric) %&gt;% 
+  head()</code></pre>
+<pre><code>## [1] 4</code></pre>
+</div>
+<div id="keep-and-discard" class="section level4">
+<h4>keep() and discard()</h4>
+<p>The next two are: <code>keep()</code> and <code>discard()</code>. As both names imply, <code>keep()</code> keeps all the elements matching the function used as second argument, and <code>discard()</code> discards all the matched elements. Using the second argument <code>is.numeric</code> with the <code>keep()</code> function only the numeric variables are maintained, while with <code>discard()</code>all variables, but the numeric ones are kept</p>
+<pre class="r"><code># keep and discard
+glimpse(purrr::keep(wine_total, is.numeric))</code></pre>
+<pre><code>## Observations: 129,971
+## Variables: 2
+## $ points &lt;int&gt; 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,...
+## $ price  &lt;int&gt; NA, 15, 14, 13, 65, 15, 16, 24, 12, 27, 19, 30, 34, NA,...</code></pre>
+<pre class="r"><code>glimpse(purrr::discard(wine_total, is.numeric))</code></pre>
+<pre><code>## Observations: 129,971
+## Variables: 11
+## $ country               &lt;chr&gt; &quot;Italy&quot;, &quot;Portugal&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;...
+## $ description           &lt;chr&gt; &quot;Aromas include tropical fruit, broom, b...
+## $ designation           &lt;chr&gt; &quot;VulkÃ  Bianco&quot;, &quot;Avidagos&quot;, &quot;&quot;, &quot;Reserv...
+## $ province              &lt;chr&gt; &quot;Sicily &amp; Sardinia&quot;, &quot;Douro&quot;, &quot;Oregon&quot;, ...
+## $ region_1              &lt;chr&gt; &quot;Etna&quot;, &quot;&quot;, &quot;Willamette Valley&quot;, &quot;Lake M...
+## $ region_2              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;Willamette Valley&quot;, &quot;&quot;, &quot;Willam...
+## $ taster_name           &lt;chr&gt; &quot;Kerin Oâ\200\231Keefe&quot;, &quot;Roger Voss&quot;, &quot;...
+## $ taster_twitter_handle &lt;chr&gt; &quot;@kerinokeefe&quot;, &quot;@vossroger&quot;, &quot;@paulgwin...
+## $ title                 &lt;chr&gt; &quot;Nicosia 2013 VulkÃ  Bianco  (Etna)&quot;, &quot;Q...
+## $ variety               &lt;chr&gt; &quot;White Blend&quot;, &quot;Portuguese Red&quot;, &quot;Pinot ...
+## $ winery                &lt;chr&gt; &quot;Nicosia&quot;, &quot;Quinta dos Avidagos&quot;, &quot;Rains...</code></pre>
+<p>These functions are also useful when you want to keep or discard columns with a certain value. In the examples, we want to keep or discard only columns that have the value “Portugal”.</p>
+<pre class="r"><code># with keep() we keep only the columns that have the input &quot;Portugal&quot;
+glimpse(purrr::keep(wine_total, ~any(.x == &quot;Portugal&quot;, na.rm = TRUE)))</code></pre>
+<pre><code>## Observations: 129,971
+## Variables: 2
+## $ country  &lt;chr&gt; &quot;Italy&quot;, &quot;Portugal&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;Spain&quot;, &quot;Ital...
+## $ province &lt;chr&gt; &quot;Sicily &amp; Sardinia&quot;, &quot;Douro&quot;, &quot;Oregon&quot;, &quot;Michigan&quot;, &quot;...</code></pre>
+<pre class="r"><code># with discard() we remove the columns that have the input &quot;Portugal&quot;
+glimpse(purrr::discard(wine_total, ~any(.x == &quot;Portugal&quot;, na.rm = TRUE)))</code></pre>
+<pre><code>## Observations: 129,971
+## Variables: 11
+## $ description           &lt;chr&gt; &quot;Aromas include tropical fruit, broom, b...
+## $ designation           &lt;chr&gt; &quot;VulkÃ  Bianco&quot;, &quot;Avidagos&quot;, &quot;&quot;, &quot;Reserv...
+## $ points                &lt;int&gt; 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, ...
+## $ price                 &lt;int&gt; NA, 15, 14, 13, 65, 15, 16, 24, 12, 27, ...
+## $ region_1              &lt;chr&gt; &quot;Etna&quot;, &quot;&quot;, &quot;Willamette Valley&quot;, &quot;Lake M...
+## $ region_2              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;Willamette Valley&quot;, &quot;&quot;, &quot;Willam...
+## $ taster_name           &lt;chr&gt; &quot;Kerin Oâ\200\231Keefe&quot;, &quot;Roger Voss&quot;, &quot;...
+## $ taster_twitter_handle &lt;chr&gt; &quot;@kerinokeefe&quot;, &quot;@vossroger&quot;, &quot;@paulgwin...
+## $ title                 &lt;chr&gt; &quot;Nicosia 2013 VulkÃ  Bianco  (Etna)&quot;, &quot;Q...
+## $ variety               &lt;chr&gt; &quot;White Blend&quot;, &quot;Portuguese Red&quot;, &quot;Pinot ...
+## $ winery                &lt;chr&gt; &quot;Nicosia&quot;, &quot;Quinta dos Avidagos&quot;, &quot;Rains...</code></pre>
+</div>
+<div id="some-and-every" class="section level4">
+<h4>some() and every()</h4>
+<p>Finally, some() and every() functions return either some or every element matching the second argument. In the code below, the output is either a character variable in our data frame, or every variable as numeric.</p>
+<pre class="r"><code># some and every
+some(wine_total, is.character)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>every(wine_total, is.numeric)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+</div>
+</div>
+<div id="imap" class="section level3">
+<h3>imap()</h3>
+<p>The <code>imap()</code> functions enables you to iterate with an index. In the first example, it returns the twentieth value present in each column. In the second example, we create a new column (new_col) in each data frame from our list. The values of this new column correspond to the name of each data frame (wine1, wine2, and wine3).</p>
+<pre class="r"><code># first example
+# iterate over an index. It returns the 20th value of each variable  
+imap(wine_total, ~ paste0(&quot;The twentieth value of &quot;, .y, &quot; is &quot;, .x[[20]]))</code></pre>
+<pre><code>## $country
+## [1] &quot;The twentieth value of country is US&quot;
+## 
+## $description
+## [1] &quot;The twentieth value of description is Red fruit aromas pervade on the nose, with cigar box and menthol notes riding in the back. The palate is slightly restrained on entry, but opens up to riper notes of cherry and plum specked with crushed pepper. This blend of Merlot, Cabernet Sauvignon and Cabernet Franc is approachable now and ready to be enjoyed.&quot;
+## 
+## $designation
+## [1] &quot;The twentieth value of designation is &quot;
+## 
+## $points
+## [1] &quot;The twentieth value of points is 87&quot;
+## 
+## $price
+## [1] &quot;The twentieth value of price is 32&quot;
+## 
+## $province
+## [1] &quot;The twentieth value of province is Virginia&quot;
+## 
+## $region_1
+## [1] &quot;The twentieth value of region_1 is Virginia&quot;
+## 
+## $region_2
+## [1] &quot;The twentieth value of region_2 is &quot;
+## 
+## $taster_name
+## [1] &quot;The twentieth value of taster_name is Alexander Peartree&quot;
+## 
+## $taster_twitter_handle
+## [1] &quot;The twentieth value of taster_twitter_handle is &quot;
+## 
+## $title
+## [1] &quot;The twentieth value of title is QuiÃ©vremont 2012 Meritage (Virginia)&quot;
+## 
+## $variety
+## [1] &quot;The twentieth value of variety is Meritage&quot;
+## 
+## $winery
+## [1] &quot;The twentieth value of winery is QuiÃ©vremont&quot;</code></pre>
+<pre class="r"><code># second example
+# iterate over a list by creating a new column in each data frame present in the list
+wine_imap_list &lt;- imap(wine_list_purrr, ~mutate(.x, new_col = .y))
+
+glimpse(wine_imap_list)</code></pre>
+<pre><code>## List of 3
+##  $ wine1:&#39;data.frame&#39;:   129971 obs. of  7 variables:
+##   ..$ country    : chr [1:129971] &quot;Italy&quot; &quot;Portugal&quot; &quot;US&quot; &quot;US&quot; ...
+##   ..$ description: chr [1:129971] &quot;Aromas include tropical fruit, broom, brimstone and dried herb. The palate isn&#39;t overly expressive, offering un&quot;| __truncated__ &quot;This is ripe and fruity, a wine that is smooth while still structured. Firm tannins are filled out with juicy r&quot;| __truncated__ &quot;Tart and snappy, the flavors of lime flesh and rind dominate. Some green pineapple pokes through, with crisp ac&quot;| __truncated__ &quot;Pineapple rind, lemon pith and orange blossom start off the aromas. The palate is a bit more opulent, with note&quot;| __truncated__ ...
+##   ..$ designation: chr [1:129971] &quot;VulkÃ  Bianco&quot; &quot;Avidagos&quot; &quot;&quot; &quot;Reserve Late Harvest&quot; ...
+##   ..$ points     : int [1:129971] 87 87 87 87 87 87 87 87 87 87 ...
+##   ..$ price      : int [1:129971] NA 15 14 13 65 15 16 24 12 27 ...
+##   ..$ province   : chr [1:129971] &quot;Sicily &amp; Sardinia&quot; &quot;Douro&quot; &quot;Oregon&quot; &quot;Michigan&quot; ...
+##   ..$ new_col    : chr [1:129971] &quot;wine1&quot; &quot;wine1&quot; &quot;wine1&quot; &quot;wine1&quot; ...
+##  $ wine2:&#39;data.frame&#39;:   129971 obs. of  5 variables:
+##   ..$ region_1             : chr [1:129971] &quot;Etna&quot; &quot;&quot; &quot;Willamette Valley&quot; &quot;Lake Michigan Shore&quot; ...
+##   ..$ region_2             : chr [1:129971] &quot;&quot; &quot;&quot; &quot;Willamette Valley&quot; &quot;&quot; ...
+##   ..$ taster_name          : chr [1:129971] &quot;Kerin Oâ\200\231Keefe&quot; &quot;Roger Voss&quot; &quot;Paul Gregutt&quot; &quot;Alexander Peartree&quot; ...
+##   ..$ taster_twitter_handle: chr [1:129971] &quot;@kerinokeefe&quot; &quot;@vossroger&quot; &quot;@paulgwineÂ &quot; &quot;&quot; ...
+##   ..$ new_col              : chr [1:129971] &quot;wine2&quot; &quot;wine2&quot; &quot;wine2&quot; &quot;wine2&quot; ...
+##  $ wine3:&#39;data.frame&#39;:   129971 obs. of  4 variables:
+##   ..$ title  : chr [1:129971] &quot;Nicosia 2013 VulkÃ  Bianco  (Etna)&quot; &quot;Quinta dos Avidagos 2011 Avidagos Red (Douro)&quot; &quot;Rainstorm 2013 Pinot Gris (Willamette Valley)&quot; &quot;St. Julian 2013 Reserve Late Harvest Riesling (Lake Michigan Shore)&quot; ...
+##   ..$ variety: chr [1:129971] &quot;White Blend&quot; &quot;Portuguese Red&quot; &quot;Pinot Gris&quot; &quot;Riesling&quot; ...
+##   ..$ winery : chr [1:129971] &quot;Nicosia&quot; &quot;Quinta dos Avidagos&quot; &quot;Rainstorm&quot; &quot;St. Julian&quot; ...
+##   ..$ new_col: chr [1:129971] &quot;wine3&quot; &quot;wine3&quot; &quot;wine3&quot; &quot;wine3&quot; ...</code></pre>
+</div>
+<div id="create-and-change-functions-compose-and-partial" class="section level3">
+<h3>Create and Change functions: compose() and partial()</h3>
+<p>To finalize with this <code>purrr</code> tutorial, we’ll describe two functions: <code>compose()</code> and <code>partial()</code>. With <code>compose</code> we can create functions. For instance, in the example below, we’re composing a function that is exactly as <code>sum(is.na())</code>.</p>
+<pre class="r"><code>#compose new function
+sum_na &lt;- purrr::compose(sum, is.na)
+
+# check if the new function is equivalent
+sum_na(wine_total) == sum(is.na(wine_total))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>With <code>partial</code> we can change how certain functions work. For instance, in R when we want to compute averages of a variable(s) containing missing values we must put the argument <code>na.rm = TRUE</code> to get an output that is not NA. This is displayed in the first case below in which <code>na.rm  = TRUE</code> was not applied, whereas in the second example we get a numeric output by using the argument.</p>
+<pre class="r"><code>mean(wine_total$price)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>mean(wine_total$price, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 35.36339</code></pre>
+<p>With <code>partial()</code> we could simply change the <code>mean()</code> function by using <code>na.rm = TRUE</code> as the second argument. In that case, we can compute variables with missing values without adding the argument <code>na.rm</code> .</p>
+<pre class="r"><code># partial
+mean_without_rm &lt;- partial(mean, na.rm = TRUE)
+
+mean_without_rm(wine_total$price)</code></pre>
+<pre><code>## [1] 35.36339</code></pre>
+<p>These are just two simple examples, though they show the potential of functions such as <code>compose()</code> and <code>partial()</code>.</p>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>This post tried its best to highlight some of the most important <code>purrr</code> functions. I really hope you enjoyed how powerful this package can be. Keep learning and coding!!</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="../../../tags/purrr/">purrr</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/tidytuesday/">tidytuesday</a>
+
+  <a class="tag tag--primary tag--small" href="../../../tags/tidyverse/">tidyverse</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2019/05/factors-in-r-forcats-to-help/" data-tooltip="Factors in R: Forcats to help">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2019/06/iteration-made-easier-a-case-study-with-purrr/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2019/06/iteration-made-easier-a-case-study-with-purrr/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Hugo Toscano. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2019/05/factors-in-r-forcats-to-help/" data-tooltip="Factors in R: Forcats to help">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://toscano84.github.io/2019/06/iteration-made-easier-a-case-study-with-purrr/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://toscano84.github.io/2019/06/iteration-made-easier-a-case-study-with-purrr/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoscano84.github.io%2F2019%2F06%2Fiteration-made-easier-a-case-study-with-purrr%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftoscano84.github.io%2F2019%2F06%2Fiteration-made-easier-a-case-study-with-purrr%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://res.cloudinary.com/dabczf7ag/image/upload/v1528704790/foto1.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Hugo Toscano</h4>
+    
+      <div id="about-card-bio">Contact: hugo_toscano@outlook.com</div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Stuttgart, Germany
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/06/iteration-made-easier-a-case-study-with-purrr/">
+                <h3 class="media-heading">Iteration made easier: A case study with purrr</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. I have written this because sometimes I keep forgetting about the purrr functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/05/factors-in-r-forcats-to-help/">
+                <h3 class="media-heading">Factors in R: Forcats to help</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post I’ll work with this dataset from Kaggle which is related to the number of suicides in several countries across many years. However, I won’t make any kind of inferential analysis about the data. My main goal is to make a tutorial about how to work with factors in R by showing the powerful tidyverse package called forcats. I will explore some variables that can be turned into factors and show you the main functions of forcats to help you wrangle data.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/04/working-with-strings-in-r-seattle-pet-names/">
+                <h3 class="media-heading">Working with Strings in R: Seattle Pet Names</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to the blog. In this new post I’ll do a short tutorial on how to work with strings in R. I’ll show you some of the main functions of the stringr package and the amazing power of the rebus package. The data frame I will be using is from the week 13 of TidyTuesday. This data frame seemed to be the perfect opportunity to build this tutorial given the importance of strings for its understanding.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/04/euro-vs-dollar-working-with-lubridate-and-some-other-packages/">
+                <h3 class="media-heading">Euro vs Dollar: Working with Lubridate and some other packages</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to this new post about the Euro versus Dollar historical exchange rate since 1999 to the present day. This post will deal with dates, so I will use mainly the lubridate package and some of its most important functions. I will do my best to show you the power and simplicity of this truly magnificent tool within the R universe. Nevertheless, I won’t be restricted only to lubridate and will use some other packages to deal with this type of data.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/03/clustering-the-pharmaceutical-industry-stocks/">
+                <h3 class="media-heading">Clustering the Pharmaceutical Industry Stocks</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post I will use two of the most popular clustering methods, hierarchical clustering and k-means clustering, to analyse a data frame related to the financial variables of some pharmaceutical companies. Clustering is an unsupervised learning technique where we segment the data and identify meaningful groups that have similar characteristics. In our case, the goal will be to find these groups within the pharmaceutical companies data. Like we did in the previous posts we will start by loading the required packages to our analysis.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/12/text-mining-crime-and-punishment-and-anna-karenina-a-tidytext-approach/">
+                <h3 class="media-heading">Text Mining Crime and Punishment &amp; Anna Karenina: A Tidytext Approach</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Welcome to a new exciting post! Today I have decided to bring you text mining applied to two of my favorite novels: Crime and Punishment by Dostoyevsky and Anna Karenina by Tolstoy. We will use mainly the incredible tidytext package developed by Julia Silge and David Robinson. You can read more about this package in the book of the same authors Text Mining with R: A Tidytext Approach.
+Let us start the analysis of “Crime and Punishment” and “Anna Karenina” by loading the required packages.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/11/creating-a-model-to-increase-the-personal-loans-in-banks/">
+                <h3 class="media-heading">Creating a Model to Predict if a Bank Customer accepts Personal Loans</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post, we will fit a multiple logistic regression model to predict the probability of a bank customer accepting a personal loan based on multiple variables to be described later. Logistic regression is a supervised learning algorithm were the independent variable has a qualitative nature. In this case, corresponding to the acceptance or rejection of a personal loan. This tutorial will build multiple logistic regression models and assess them.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/11/german-elections-in-the-21st-century/">
+                <h3 class="media-heading">German Elections in the 21st Century</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this blogpost, we will come back to the subject of the German Elections. We will try to show, mostly visually, the changes in election results during the 21st century. Thus, we will use data from the elections in 2002 to the last ones in 2017. The main focus will be mapping the results of the parties represented in the current Bundestag (German Parliament) during this time span. Let’s start our coding.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/predicting-airfares-on-new-routes/">
+                <h3 class="media-heading">Predicting Airfares on New Routes a Supervised Learning Approach With Multiple Linear Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will talk about multiple linear regression in the context of machine learning. Linear regression is one of the simplest and most used approaches for supervised learning. This tutorial will try to help you in how to use the linear regression algorithm. I am also new to the machine learning approach, but I’m very interested in this area given the predictive ability that you can gain from this. Let’s hope I can help you.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2018/10/hints-to-deal-with-missing-values-in-r/">
+                <h3 class="media-heading">Hints to deal with Missing Values in R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In R missing values are usually, but not always, represented by letters NA. How to deal with missing values is very important in the data analytics world. Missing data can be sometimes tricky while analyzing a data frame, since it should be handled correctly for our statistical analysis. Before diving into more complex details about missing data, the first question that should be asked in any exploratory data analysis is: Do I have missing values in my database?</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         15 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/dabczf7ag/image/upload/v1533024537/cover_new2.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="../../../js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/toscano84.github.io\/2019\/06\/iteration-made-easier-a-case-study-with-purrr\/';
+          
+            this.page.identifier = '\/2019\/06\/iteration-made-easier-a-case-study-with-purrr\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'toscano84';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
