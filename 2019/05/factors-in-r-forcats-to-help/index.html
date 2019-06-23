@@ -602,12 +602,12 @@ suicides_tbl %&gt;%
 ## # Groups:   generation [6]
 ##   generation     n
 ##   &lt;fct&gt;      &lt;int&gt;
-## 1 1           1470
+## 1 1           2744
 ## 2 2           5844
-## 3 3           2744
-## 4 4           6408
-## 5 5           4990
-## 6 6           6364</code></pre>
+## 3 3           6408
+## 4 4           6364
+## 5 5           1470
+## 6 6           4990</code></pre>
 </div>
 <div id="fct_shift" class="section level3">
 <h3>fct_shift</h3>
@@ -637,8 +637,8 @@ suicides_tbl %&gt;%
   mutate(generation = as.factor(generation) %&gt;% fct_shuffle()) %&gt;%
   pull(generation) %&gt;%
   levels()</code></pre>
-<pre><code>## [1] &quot;Generation X&quot;    &quot;Boomers&quot;         &quot;Silent&quot;          &quot;G.I. Generation&quot;
-## [5] &quot;Millenials&quot;      &quot;Generation Z&quot;</code></pre>
+<pre><code>## [1] &quot;Boomers&quot;         &quot;Generation X&quot;    &quot;Generation Z&quot;    &quot;Silent&quot;         
+## [5] &quot;G.I. Generation&quot; &quot;Millenials&quot;</code></pre>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
@@ -673,7 +673,7 @@ suicides_tbl %&gt;%
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2019/06/iteration-made-easier-a-case-study-with-purrr/" data-tooltip="Iteration made easier: A case study with purrr">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -753,7 +753,7 @@ suicides_tbl %&gt;%
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2019/06/iteration-made-easier-a-case-study-with-purrr/" data-tooltip="Iteration made easier: A case study with purrr">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -872,6 +872,23 @@ suicides_tbl %&gt;%
       <div class="no-result text-color-light text-center">no post found</div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://toscano84.github.io/2019/06/iteration-made-easier-a-case-study-with-purrr/">
+                <h3 class="media-heading">Iteration made easier: A case study with purrr</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed. Moreover, it’s very detailed in regard to critical reviews and information about critics.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -1027,24 +1044,6 @@ Let us start the analysis of “Crime and Punishment” and “Anna Karenina” 
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://toscano84.github.io/2018/09/combine-data-frames-in-r/">
-                <h3 class="media-heading">Combine Data frames in R</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Sep 9, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Sometimes, before we start to explore our data, we need to put them together. For instance, we might have them stored in different data frames and we have to join variables from two or more data frames in one. This post will talk about the different functions we can use to achieve that goal. We will be using the dplyr package to combine different data frames.
-Firstly, we will show examples related to what is called mutating joins.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -1052,7 +1051,7 @@ Firstly, we will show examples related to what is called mutating joins.</div>
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         14 posts found
+         15 posts found
       </p>
     </div>
   </div>

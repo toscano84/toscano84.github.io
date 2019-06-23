@@ -28,15 +28,15 @@
     
 
     
-    <meta name="description" content="This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. I have written this because sometimes I keep forgetting about the purrr functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed.">
-    <meta property="og:description" content="This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. I have written this because sometimes I keep forgetting about the purrr functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed.">
+    <meta name="description" content="This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed. Moreover, it’s very detailed in regard to critical reviews and information about critics.">
+    <meta property="og:description" content="This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed. Moreover, it’s very detailed in regard to critical reviews and information about critics.">
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Iteration made easier: A case study with purrr">
     <meta property="og:url" content="/2019/06/iteration-made-easier-a-case-study-with-purrr/">
     <meta property="og:site_name" content="Hugo Toscano">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Hugo Toscano">
-    <meta name="twitter:description" content="This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. I have written this because sometimes I keep forgetting about the purrr functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed.">
+    <meta name="twitter:description" content="This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed. Moreover, it’s very detailed in regard to critical reviews and information about critics.">
     
     
 
@@ -230,9 +230,9 @@ if (!doNotTrack) {
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-06-21T00:00:00Z">
+      <time itemprop="datePublished" datetime="2019-06-23T00:00:00Z">
         
-  June 21, 2019
+  June 23, 2019
 
       </time>
     
@@ -251,7 +251,7 @@ if (!doNotTrack) {
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the <code>purrr</code> package. I have written this because sometimes I keep forgetting about the <code>purrr</code> functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a> and it’s called <code>Wine Ratings</code>. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed. Moreover, it’s very detailed in regard to critical reviews and information about critics.</p>
+              <p>This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the <code>purrr</code> package. Feedback is welcomed. The dataset I will manipulate is from the week 22 of <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a> and it’s called <code>Wine Ratings</code>. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed. Moreover, it’s very detailed in regard to critical reviews and information about critics.</p>
 <p>To begin, let’s load the libraries that we’ll use for this post.</p>
 <pre class="r"><code>library(tidyverse) # manipulate, iterate, and visualize data
 library(fs) # create directory
@@ -261,7 +261,8 @@ library(ggdark) # ggplot2 theme
 library(extrafont) # add fonts
 library(hrbrthemes) # add fonts in this case</code></pre>
 <p>Now, we’ll open our dataset.</p>
-<pre class="r"><code>wine_ratings &lt;- fread(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-28/winemag-data-130k-v2.csv&quot;)</code></pre>
+<pre class="r"><code># open dataset
+wine_ratings &lt;- fread(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-28/winemag-data-130k-v2.csv&quot;)</code></pre>
 <p>For tutorial purposes, let’s create 3 different datasets based on the <code>wine_ratings</code> dataset and put them together as a list, called <code>wine_list</code>.</p>
 <pre class="r"><code># create 3 datasets
 # wine1 with colums 2 to 7 of wine_new 
@@ -384,12 +385,13 @@ head(wine_list)</code></pre>
 <div id="saving-and-opening-multiple-files-map" class="section level3">
 <h3>Saving and Opening multiple files: map()</h3>
 <p>So, now that we have a list with 3 datasets, how can we save these 3 files separately in our computer. Here comes into play the amazing <code>map()</code> function from the <code>purrr</code> package. Using <code>map()</code> together with the function <code>fwrite</code> from the <code>data.table</code> package, we can iterate the process of saving files in a simpler way. In our case, we can separately save the 3 datasets from our list.</p>
-<pre class="r"><code>wine &lt;- wine_list %&gt;%
+<pre class="r"><code># save files in a directory
+wine &lt;- wine_list %&gt;%
   names(.) %&gt;%
   map(~fwrite(wine_list[[.]], str_c(&quot;C:/Users/Diana/Downloads/hugoblog/wine/&quot;, ., &quot;.csv&quot;)))</code></pre>
 <p>Let’s now do the reverse. Open together the 3 files. First, we create a directory path.</p>
-<pre class="r"><code># create a path
-path_wine &lt;- fs::dir_info(path = &quot;C:/Users/Diana/Downloads/hugoblog/wine/&quot;)</code></pre>
+<pre class="r"><code># create a path by adding the subdirectory to the here function
+path_wine &lt;- fs::dir_info(path = here::here(&quot;wine&quot;))</code></pre>
 <p>Then, we <code>pull</code> the path and use <code>map()</code> together with <code>fread</code> to open the 3 datasets.</p>
 <pre class="r"><code># pull the path 
 wine &lt;- path_wine %&gt;% 
@@ -738,7 +740,7 @@ plots &lt;- map2(wine_split[1:6], # two lists added because it&#39;s map2() -
   theme(plot.title = element_text(family = &quot;Cooper Black&quot;, face = &quot;bold&quot;,
                                   size = 40, hjust = 0.5),
         plot.subtitle = element_text(family = &quot;Cooper Black&quot;, face = &quot;bold&quot;,
-                                     size = 10, hjust = 0.5),
+                                     size = 18, hjust = 0.5),
         plot.background = element_rect(fill = &quot;grey10&quot;),
         panel.background = element_blank(),
         panel.grid.major = element_line(color = &quot;grey30&quot;, size = 0.2),
@@ -789,7 +791,8 @@ head(wine_total_scale)</code></pre>
 ## 4 -0.5451531 -0.4760746
 ## 5  0.7224527 -0.4760746
 ## 6 -0.4963990 -0.4760746</code></pre>
-<pre class="r"><code>wine_total_scale2 &lt;- wine_total %&gt;%
+<pre class="r"><code># modify_if
+wine_total_scale2 &lt;- wine_total %&gt;%
   modify_if(is.numeric, ~ scale(.x))
 
 
@@ -854,14 +857,14 @@ head(wine_total_scale2)</code></pre>
 detect(wine_total, is.character) %&gt;%
   head()</code></pre>
 <pre><code>## [1] &quot;Italy&quot;    &quot;Portugal&quot; &quot;US&quot;       &quot;US&quot;       &quot;US&quot;       &quot;Spain&quot;</code></pre>
-<pre class="r"><code># check detect_index
+<pre class="r"><code># detect_index
 detect_index(wine_total, is.numeric) %&gt;% 
   head()</code></pre>
 <pre><code>## [1] 4</code></pre>
 </div>
 <div id="keep-and-discard" class="section level4">
 <h4>keep() and discard()</h4>
-<p>The next two are: <code>keep()</code> and <code>discard()</code>. As both names imply, <code>keep()</code> keeps all the elements matching the function used as second argument, and <code>discard()</code> discards all the matched elements. Using the second argument <code>is.numeric</code> with the <code>keep()</code> function only the numeric variables are maintained, while with <code>discard()</code>all variables, but the numeric ones are kept</p>
+<p>The next two are: <code>keep()</code> and <code>discard()</code>. As both names imply, <code>keep()</code> keeps all the elements matching the function used as second argument, and <code>discard()</code> discards all the matched elements. Using the second argument <code>is.numeric</code> with the <code>keep()</code> function only the numeric variables are maintained, while with <code>discard()</code>all variables, but the numeric ones are kept.</p>
 <pre class="r"><code># keep and discard
 glimpse(purrr::keep(wine_total, is.numeric))</code></pre>
 <pre><code>## Observations: 129,971
@@ -884,13 +887,13 @@ glimpse(purrr::keep(wine_total, is.numeric))</code></pre>
 ## $ winery                &lt;chr&gt; &quot;Nicosia&quot;, &quot;Quinta dos Avidagos&quot;, &quot;Rains...</code></pre>
 <p>These functions are also useful when you want to keep or discard columns with a certain value. In the examples, we want to keep or discard only columns that have the value “Portugal”.</p>
 <pre class="r"><code># with keep() we keep only the columns that have the input &quot;Portugal&quot;
-glimpse(purrr::keep(wine_total, ~any(.x == &quot;Portugal&quot;, na.rm = TRUE)))</code></pre>
+glimpse(purrr::keep(wine_total, ~any(.x == &quot;Portugal&quot;)))</code></pre>
 <pre><code>## Observations: 129,971
 ## Variables: 2
 ## $ country  &lt;chr&gt; &quot;Italy&quot;, &quot;Portugal&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;Spain&quot;, &quot;Ital...
 ## $ province &lt;chr&gt; &quot;Sicily &amp; Sardinia&quot;, &quot;Douro&quot;, &quot;Oregon&quot;, &quot;Michigan&quot;, &quot;...</code></pre>
 <pre class="r"><code># with discard() we remove the columns that have the input &quot;Portugal&quot;
-glimpse(purrr::discard(wine_total, ~any(.x == &quot;Portugal&quot;, na.rm = TRUE)))</code></pre>
+glimpse(purrr::discard(wine_total, ~any(.x == &quot;Portugal&quot;)))</code></pre>
 <pre><code>## Observations: 129,971
 ## Variables: 11
 ## $ description           &lt;chr&gt; &quot;Aromas include tropical fruit, broom, b...
@@ -920,7 +923,7 @@ some(wine_total, is.character)</code></pre>
 <p>The <code>imap()</code> functions enables you to iterate with an index. In the first example, it returns the twentieth value present in each column. In the second example, we create a new column (new_col) in each data frame from our list. The values of this new column correspond to the name of each data frame (wine1, wine2, and wine3).</p>
 <pre class="r"><code># first example
 # iterate over an index. It returns the 20th value of each variable  
-imap(wine_total, ~ paste0(&quot;The twentieth value of &quot;, .y, &quot; is &quot;, .x[[20]]))</code></pre>
+head(imap(wine_total, ~ paste0(&quot;The twentieth value of &quot;, .y, &quot; is &quot;, .x[[20]])))</code></pre>
 <pre><code>## $country
 ## [1] &quot;The twentieth value of country is US&quot;
 ## 
@@ -937,28 +940,7 @@ imap(wine_total, ~ paste0(&quot;The twentieth value of &quot;, .y, &quot; is &qu
 ## [1] &quot;The twentieth value of price is 32&quot;
 ## 
 ## $province
-## [1] &quot;The twentieth value of province is Virginia&quot;
-## 
-## $region_1
-## [1] &quot;The twentieth value of region_1 is Virginia&quot;
-## 
-## $region_2
-## [1] &quot;The twentieth value of region_2 is &quot;
-## 
-## $taster_name
-## [1] &quot;The twentieth value of taster_name is Alexander Peartree&quot;
-## 
-## $taster_twitter_handle
-## [1] &quot;The twentieth value of taster_twitter_handle is &quot;
-## 
-## $title
-## [1] &quot;The twentieth value of title is QuiÃ©vremont 2012 Meritage (Virginia)&quot;
-## 
-## $variety
-## [1] &quot;The twentieth value of variety is Meritage&quot;
-## 
-## $winery
-## [1] &quot;The twentieth value of winery is QuiÃ©vremont&quot;</code></pre>
+## [1] &quot;The twentieth value of province is Virginia&quot;</code></pre>
 <pre class="r"><code># second example
 # iterate over a list by creating a new column in each data frame present in the list
 wine_imap_list &lt;- imap(wine_list_purrr, ~mutate(.x, new_col = .y))
@@ -1252,7 +1234,7 @@ mean_without_rm(wine_total$price)</code></pre>
                   Jun 6, 2019
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. I have written this because sometimes I keep forgetting about the purrr functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed.</div>
+              <div class="media-content hide-xs font-merryweather">This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed. Moreover, it’s very detailed in regard to critical reviews and information about critics.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>

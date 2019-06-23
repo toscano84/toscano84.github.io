@@ -6,7 +6,7 @@
     <description>Recent content in Purrr on Hugo Toscano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 21 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 23 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://toscano84.github.io/tags/purrr/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,10 +14,10 @@
     <item>
       <title>Iteration made easier: A case study with purrr</title>
       <link>https://toscano84.github.io/2019/06/iteration-made-easier-a-case-study-with-purrr/</link>
-      <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 23 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>https://toscano84.github.io/2019/06/iteration-made-easier-a-case-study-with-purrr/</guid>
-      <description>This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. I have written this because sometimes I keep forgetting about the purrr functions. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed.</description>
+      <description>This tutorial will be about iteration in R. More specifically, I’ll focus on some functions of the purrr package. Feedback is welcomed. The dataset I will manipulate is from the week 22 of TidyTuesday and it’s called Wine Ratings. This dataset is very informative about types of wines and its origins as well as the respective prices and points attributed. Moreover, it’s very detailed in regard to critical reviews and information about critics.</description>
     </item>
     
   </channel>
